@@ -50,6 +50,26 @@ const mobileDropdowns = {
         { label: "EAA", href: "/spor/amino/eaa" },
         { label: "Arginine", href: "/spor/amino/arginine" },
         { label: "Taurine", href: "/spor/amino/taurine" },
+        { label: "Betaine", href: "/spor/amino/betaine" },
+      ],
+    },
+    {
+      title: "KARBONHİDRATLAR",
+      links: [
+        { label: "Pirinç Kreması", href: "/spor/karbonhidrat/pirinc-kremasi" },
+        { label: "Mass Gainer", href: "/spor/karbonhidrat/mass-gainer" },
+        { label: "Maltodekstrin", href: "/spor/karbonhidrat/maltodekstrin" },
+        { label: "Dekstroz", href: "/spor/karbonhidrat/dekstroz" },
+        { label: "Vegan Gainer", href: "/spor/karbonhidrat/vegan-gainer" },
+      ],
+    },
+    {
+      title: "PREWORKOUT",
+      links: [
+        { label: "Preworkout", href: "/spor/preworkout/preworkout" },
+        { label: "Pump", href: "/spor/preworkout/pump" },
+        { label: "NO Booster", href: "/spor/preworkout/no-booster" },
+        { label: "Kafein", href: "/spor/preworkout/kafein" },
       ],
     },
     {
