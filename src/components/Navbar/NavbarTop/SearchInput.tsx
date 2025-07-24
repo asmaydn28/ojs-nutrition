@@ -10,7 +10,7 @@ function SearchInput() {
         />
         <button
           type="submit"
-          className="bg-gray-500 px-6 text-white hover:bg-gray-400 transition"
+          className="bg-[#919191] px-6 text-white hover:bg-gray-400 transition"
         >
           ARA
         </button>

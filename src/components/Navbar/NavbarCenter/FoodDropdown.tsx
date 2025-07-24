@@ -4,102 +4,49 @@ function FoodDropdown() {
   return (
     <div className="relative group">
       <button className="px-4 py-2">GIDA</button>
-      <div className="fixed left-1/2 top-[129px] transform -translate-x-1/2 w-full max-w-[1200px] bg-white shadow-lg hidden group-hover:flex hover:flex items-stretch z-50 text-black rounded">
+      <div className="fixed left-1/2 top-[129px] transform -translate-x-1/2
+        w-[99vw] sm:w-[95vw] md:w-[90vw] lg:w-[1200px]
+        max-w-[99vw] sm:max-w-[95vw] md:max-w-[900px] lg:max-w-[1200px]
+        min-w-0 bg-white shadow-2xl hidden group-hover:flex hover:flex z-50 text-black rounded-2xl flex-col md:flex-row p-2 md:p-6 transition-all duration-200 overflow-x-auto border border-gray-200 font-sans">
         {/* Sol: En Çok Satanlar */}
-        <div className="flex flex-col p-4 w-[300px] rounded-s bg-gray-200 h-auto">
-          <h3 className="font-bold mb-4">EN ÇOK SATANLAR</h3>
-          <ul className="flex flex-col gap-2 flex-1 h-auto">
-            {/* 1. Ürün */}
-            <li className="flex items-center gap-3 cursor-pointer flex-none">
-              <img
-                src="https://cdn.myikas.com/images/00b6c111-71dc-4400-932f-8db87e5da64c/5bc3a9e3-33db-4a58-b660-ee16b2a54ea8/3840/creamofrice.webp"
-                alt="Cream of Rice"
-                className="w-14 h-14 object-contain rounded"
-              />
-              <div>
-                <div className="font-bold text-xs">CREAM OF RICE</div>
-                <div className="flex items-center text-yellow-400 text-sm">
-                  ★★★★★
-                  <span className="text-gray-700 ml-2 text-xs">8902 Yorum</span>
+        <div className="flex flex-col p-2 md:p-4 md:w-[260px] rounded-xl bg-gray-100 min-w-0 border border-gray-200 shadow-sm">
+          <h3 className="font-extrabold mb-2 md:mb-4 text-xs md:text-base text-gray-900 tracking-tight font-sans">EN ÇOK SATANLAR</h3>
+          <ul className="flex flex-col gap-2">
+            {[1,2,3,4,5].map((_, i) => (
+              <li key={i} className="flex items-center gap-2 md:gap-3 cursor-pointer flex-none min-w-0">
+                <img
+                  src="https://cdn.myikas.com/images/00b6c111-71dc-4400-932f-8db87e5da64c/5bc3a9e3-33db-4a58-b660-ee16b2a54ea8/3840/creamofrice.webp"
+                  alt="Ürün"
+                  className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 object-contain rounded flex-shrink-0 border border-gray-200 bg-white"
+                />
+                <div className="min-w-0">
+                  <div className="font-semibold text-xs md:text-sm truncate text-gray-800 font-sans">CREAM OF RICE</div>
+                  <div className="flex items-center text-yellow-400 text-xs md:text-sm">
+                    ★★★★★
+                    <span className="text-gray-400 ml-2 text-xs truncate font-sans">8902 Yorum</span>
+                  </div>
                 </div>
-              </div>
-            </li>
-            {/* 2. Ürün */}
-            <li className="flex-1 flex items-center gap-3 cursor-pointer">
-              <img
-                src="https://cdn.myikas.com/images/00b6c111-71dc-4400-932f-8db87e5da64c/5bc3a9e3-33db-4a58-b660-ee16b2a54ea8/3840/proteinbar.webp"
-                alt="Protein Bar"
-                className="w-14 h-14 object-contain rounded"
-              />
-              <div>
-                <div className="font-bold text-xs">PROTEIN BAR</div>
-                <div className="flex items-center text-yellow-400 text-sm">
-                  ★★★★★
-                  <span className="text-gray-700 ml-2 text-xs">1919 Yorum</span>
-                </div>
-              </div>
-            </li>
-            {/* 3. Ürün */}
-            <li className="flex-1 flex items-center gap-3 cursor-pointer">
-              <img
-                src="https://cdn.myikas.com/images/00b6c111-71dc-4400-932f-8db87e5da64c/5bc3a9e3-33db-4a58-b660-ee16b2a54ea8/3840/fistikezmesi.webp"
-                alt="Fıstık Ezmesi"
-                className="w-14 h-14 object-contain rounded"
-              />
-              <div>
-                <div className="font-bold text-xs">FISTIK EZMESİ</div>
-                <div className="flex items-center text-yellow-400 text-sm">
-                  ★★★★★
-                  <span className="text-gray-700 ml-2 text-xs">2135 Yorum</span>
-                </div>
-              </div>
-            </li>
-            {/* 4. Ürün */}
-            <li className="flex-1 flex items-center gap-3 cursor-pointer">
-              <img
-                src="https://cdn.myikas.com/images/00b6c111-71dc-4400-932f-8db87e5da64c/5bc3a9e3-33db-4a58-b660-ee16b2a54ea8/3840/ketcap.webp"
-                alt="Ketçap"
-                className="w-14 h-14 object-contain rounded"
-              />
-              <div>
-                <div className="font-bold text-xs">KETÇAP</div>
-                <div className="flex items-center text-yellow-400 text-sm">
-                  ★★★★★
-                  <span className="text-gray-700 ml-2 text-xs">2847 Yorum</span>
-                </div>
-              </div>
-            </li>
-            {/* 5. Ürün */}
-            <li className="flex-1 flex items-center gap-3 cursor-pointer">
-              <img
-                src="https://cdn.myikas.com/images/00b6c111-71dc-4400-932f-8db87e5da64c/5bc3a9e3-33db-4a58-b660-ee16b2a54ea8/3840/flavorpowder.webp"
-                alt="Flavor Powder"
-                className="w-14 h-14 object-contain rounded"
-              />
-              <div>
-                <div className="font-bold text-xs">FLAVOR POWDER</div>
-                <div className="flex items-center text-yellow-400 text-sm">
-                  ★★★★★
-                  <span className="text-gray-700 ml-2 text-xs">1264 Yorum</span>
-                </div>
-              </div>
-            </li>
+              </li>
+            ))}
           </ul>
         </div>
         {/* Sağ: İçerik */}
-        <div className="flex-1 flex flex-col p-4">
-          <h3 className="font-bold text-lg mb-4">GIDA</h3>
-          <div>
-            <h3 className="font-bold mb-2">GIDA ÜRÜNLERİ</h3>
-            <ul className="space-y-1">
-              <li><a href="#" className="cursor-pointer">Pirinç Kreması</a></li>
-              <li><a href="#" className="cursor-pointer">Protein Bar</a></li>
-              <li><a href="#" className="cursor-pointer">Fıstık Ezmeleri</a></li>
-              <li><a href="#" className="cursor-pointer">Düşük Kalorili Soslar</a></li>
-              <li><a href="#" className="cursor-pointer">Baharatlar</a></li>
-              <li><a href="#" className="cursor-pointer">Tatlandırıcılar</a></li>
-              <li><a href="#" className="cursor-pointer">Sprey Zeytinyağı</a></li>
-            </ul>
+        <div className="flex-1 min-w-0 flex flex-col p-2 md:p-4">
+          <h3 className="font-extrabold text-base md:text-xl mb-2 md:mb-4 text-gray-900 tracking-tight font-sans">GIDA</h3>
+          <div className="flex flex-col md:flex-row gap-4 md:gap-12 min-w-0">
+            {/* GIDA ÜRÜNLERİ */}
+            <div className="flex-1 min-w-0">
+              <h3 className="font-bold mb-1 md:mb-2 text-xs md:text-sm text-gray-800 font-sans opacity-90">GIDA ÜRÜNLERİ</h3>
+              <ul className="space-y-1">
+                <li><a href="#" className="cursor-pointer text-xs md:text-sm truncate text-gray-500 hover:text-black transition-colors duration-150 font-sans">Pirinç Kreması</a></li>
+                <li><a href="#" className="cursor-pointer text-xs md:text-sm truncate text-gray-500 hover:text-black transition-colors duration-150 font-sans">Protein Bar</a></li>
+                <li><a href="#" className="cursor-pointer text-xs md:text-sm truncate text-gray-500 hover:text-black transition-colors duration-150 font-sans">Fıstık Ezmeleri</a></li>
+                <li><a href="#" className="cursor-pointer text-xs md:text-sm truncate text-gray-500 hover:text-black transition-colors duration-150 font-sans">Düşük Kalorili Soslar</a></li>
+                <li><a href="#" className="cursor-pointer text-xs md:text-sm truncate text-gray-500 hover:text-black transition-colors duration-150 font-sans">Baharatlar</a></li>
+                <li><a href="#" className="cursor-pointer text-xs md:text-sm truncate text-gray-500 hover:text-black transition-colors duration-150 font-sans">Tatlandırıcılar</a></li>
+                <li><a href="#" className="cursor-pointer text-xs md:text-sm truncate text-gray-500 hover:text-black transition-colors duration-150 font-sans">Sprey Zeytinyağı</a></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@
 function NavbarBottom() {
   return (
     <>
-      <div className="w-[1200px] h-full flex items-center justify-between">
+      <div className="w-[1200px] h-full flex items-center justify-center">
           {/* 1. Bilgi */}
           <div className="flex items-center gap-2 w-1/3 justify-center">
             {/* İkon */}
