@@ -9,7 +9,7 @@ function HomePage() {
       {/*Ana sayfadaki büyük resim */}
       <div className="-mt-0.5 flex justify-center overflow-hidden">
         <img
-          src="../../public/Header/OJS nutrition slider banner 2.png"
+          src="/Header/OJS nutrition slider banner 2.png"
           className="w-full h-full object-center md:object-cover transition-transform duration-700 md:scale-100 scale-125"
           alt="ojs"
         />
@@ -24,7 +24,6 @@ function HomePage() {
               title={product.title}
               img={product.img}
               bgColor={product.bgColor}
-              left={product.left}
             />
         ))}
       </div>

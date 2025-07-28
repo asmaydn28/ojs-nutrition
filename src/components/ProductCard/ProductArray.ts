@@ -1,14 +1,4 @@
 export interface Product {
-   /*  id: number;
-    ProductName: string;
-    Title: string;
-    img: string;
-    ShortDescription: string;
-    CommentNumber: number;
-    Stars: number;
-    Price: string;
-    DiscountedPrice?: string; */
-
     id: number;
     ProductName: string;
     img: string;
@@ -23,7 +13,7 @@ export const products: Product[] = [
     {
       id: 1,
       ProductName: "WHEY PROTEIN",
-      img: "/public/Header/whey-protein.png",
+      img: "/Header/whey-protein.png",
       ShortDescription: "EN ÇOK TERCİH EDİLEN PROTEİN TAKVİYESİ",
       CommentNumber: 10869,
       Stars: 5,
@@ -33,7 +23,7 @@ export const products: Product[] = [
     {
       id: 2,
       ProductName: "CREATINE",
-      img: "/public/Header/whey-protein.png",
+      img: "/Header/whey-protein.png",
       ShortDescription: "GÜÇ VE PERFORMANS ARTIRICI",
       CommentNumber: 7562,
       Stars: 4,
@@ -43,7 +33,7 @@ export const products: Product[] = [
     {
       id: 3,
       ProductName: "BCAA",
-      img: "/public/Header/whey-protein.png",
+      img: "/Header/whey-protein.png",
       ShortDescription: "KAS YORGUNLUĞUNU AZALTIR",
       CommentNumber: 4321,
       Stars: 5,
@@ -52,7 +42,7 @@ export const products: Product[] = [
     {
       id: 4,
       ProductName: "VITAMIN D",
-      img: "/public/Header/whey-protein.png",
+      img: "/Header/whey-protein.png",
       ShortDescription: "BAĞIŞIKLIK SİSTEMİ DESTEĞİ",
       CommentNumber: 3214,
       Stars: 4,
@@ -62,7 +52,7 @@ export const products: Product[] = [
     {
       id: 5,
       ProductName: "OMEGA 3",
-      img: "/public/Header/whey-protein.png",
+      img: "/Header/whey-protein.png",
       ShortDescription: "KALP SAĞLIĞI İÇİN",
       CommentNumber: 5678,
       Stars: 5,
@@ -71,7 +61,7 @@ export const products: Product[] = [
     {
       id: 6,
       ProductName: "MULTIVITAMIN",
-      img: "/public/Header/whey-protein.png",
+      img: "/Header/whey-protein.png",
       ShortDescription: "GÜNLÜK VİTAMİN İHTİYACI",
       CommentNumber: 2345,
       Stars: 4,
