@@ -13,7 +13,7 @@ export const products: Product[] = [
     {
       id: 1,
       ProductName: "WHEY PROTEIN",
-      img: "/Header/whey-protein.png",
+      img: "/ProductCard/whey-protein.png",
       ShortDescription: "EN ÇOK TERCİH EDİLEN PROTEİN TAKVİYESİ",
       CommentNumber: 10869,
       Stars: 5,
@@ -22,9 +22,9 @@ export const products: Product[] = [
     },
     {
       id: 2,
-      ProductName: "CREATINE",
-      img: "/Header/whey-protein.png",
-      ShortDescription: "GÜÇ VE PERFORMANS ARTIRICI",
+      ProductName: "FITNESS PAKETİ",
+      img: "/ProductCard/fitness-paketi.png",
+      ShortDescription: "EN POPÜLER ÜRÜNLER BİR ARADA",
       CommentNumber: 7562,
       Stars: 4,
       Price: "299 TL",
@@ -33,8 +33,8 @@ export const products: Product[] = [
     {
       id: 3,
       ProductName: "BCAA",
-      img: "/Header/whey-protein.png",
-      ShortDescription: "KAS YORGUNLUĞUNU AZALTIR",
+      img: "/ProductCard/günlük-vitamin.png",
+      ShortDescription: "EN SIK TÜKETİLEN TAKVİYELER",
       CommentNumber: 4321,
       Stars: 5,
       Price: "199 TL"
@@ -42,8 +42,8 @@ export const products: Product[] = [
     {
       id: 4,
       ProductName: "VITAMIN D",
-      img: "/Header/whey-protein.png",
-      ShortDescription: "BAĞIŞIKLIK SİSTEMİ DESTEĞİ",
+      img: "/ProductCard/pre-workout.png",
+      ShortDescription: "ANTRENMAN ÖNCESİ TAKVİYESİ",
       CommentNumber: 3214,
       Stars: 4,
       Price: "89 TL",
@@ -52,8 +52,8 @@ export const products: Product[] = [
     {
       id: 5,
       ProductName: "OMEGA 3",
-      img: "/Header/whey-protein.png",
-      ShortDescription: "KALP SAĞLIĞI İÇİN",
+      img: "/ProductCard/cream.png",
+      ShortDescription: "EN LEZZETLİ PİRİNÇ KREMASI",
       CommentNumber: 5678,
       Stars: 5,
       Price: "159 TL"
@@ -61,8 +61,8 @@ export const products: Product[] = [
     {
       id: 6,
       ProductName: "MULTIVITAMIN",
-      img: "/Header/whey-protein.png",
-      ShortDescription: "GÜNLÜK VİTAMİN İHTİYACI",
+      img: "/ProductCard/creatine.png",
+      ShortDescription: "EN POPÜLER SPORCU TAKVİYESİ",
       CommentNumber: 2345,
       Stars: 4,
       Price: "129 TL",

@@ -191,7 +191,7 @@ function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [submenu, setSubmenu] = useState<SubmenuKey>(null);
   return (
-    <header className="fixed top-0 left-0 w-full bg-white font-inter border-b border-[#F1F1F1] z-50">
+    <header className="fixed top-0 left-0 w-full bg-white font-inter z-50">
       {/* Overlay ve Drawer */}
       {mobileOpen && (
         <>
