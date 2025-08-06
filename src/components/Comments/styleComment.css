@@ -1,0 +1,179 @@
+/* Comments Component Styles */
+
+/* Header Styles - Figma Design */
+.comments-header {
+  position: relative;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #E3E3E3;
+  padding-bottom: 15px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 20px 0;
+}
+
+.header-left {
+  flex: 1;
+}
+
+.header-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #333;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.header-center {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  justify-content: center;
+}
+
+.stars {
+  font-size: 16px;
+  color: #FFD700;
+}
+
+.comment-link-text {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 13.125px;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
+  text-decoration-line: underline;
+  color: #6A6C77;
+  transition: color 0.3s ease;
+}
+
+.comment-link-text:hover {
+  color: #56575F;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.nav-button {
+  position: relative;
+  width: 17.5px;
+  height: 17px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.nav-button:hover {
+  transform: scale(1.1);
+  background-color: #f5f5f5;
+}
+
+.nav-icon {
+  width: 17.5px;
+  height: 17px;
+  color: #56575F;
+  transition: color 0.3s ease;
+}
+
+.nav-button:hover .nav-icon {
+  color: #333;
+}
+
+/* Animation Styles */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideLeftStaggered {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideRightStaggered {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(50%);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-slideLeft {
+  animation: slideLeft 0.9s ease-in-out;
+}
+
+.animate-slideRight {
+  animation: slideRight 0.9s ease-in-out;
+}
+
+.animate-slideLeftStaggered {
+  animation: slideLeftStaggered 0.9s ease-in-out;
+}
+
+.animate-slideRightStaggered {
+  animation: slideRightStaggered 0.9s ease-in-out;
+} 
