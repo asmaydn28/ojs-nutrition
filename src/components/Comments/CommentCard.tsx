@@ -1,5 +1,3 @@
-import React from 'react';
-
 type CommentCardProps = {
   comment: any;
   slideDirection: 'left' | 'right' | null;
