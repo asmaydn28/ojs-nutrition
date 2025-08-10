@@ -282,11 +282,11 @@ function Navbar() {
           {/* Logo (tam ortada, absolute) */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
             <img
-              src="/Header/LOGO_Siyah.png"
+              src="/Header/logo-black.svg"
               alt="OJS Nutrition Logo"
               className="h-[30px] w-auto max-w-[141px]"
             />
-          </div>
+        </div>
           {/* Cart Icon (sadece ikon ve kırmızı 0) */}
           <button className="w-9 h-9 flex items-center justify-center">
             {/* Modern ve şık sepet ikonu (ör. Lucide/Tabler) */}
@@ -301,7 +301,7 @@ function Navbar() {
         {/* Masaüstü/Tablet Header */}
         <div className="hidden md:flex w-full items-center">
           <div className="flex-shrink-0 md:mr-8 flex justify-center md:justify-start w-full md:w-auto py-2 md:py-0">
-            <img src="/Header/LOGO_Siyah.png" alt="Logo" className="h-[38px] w-auto" style={{width:171}} />
+            <img src="/Header/logo-black.svg" alt="Logo" className="h-[38px] w-auto" style={{width:171}} />
           </div>
           <div className="flex flex-col md:flex-row flex-1 items-center gap-2 md:gap-2 justify-end w-full">
             <div className="w-full max-w-[350px] md:mr-2">

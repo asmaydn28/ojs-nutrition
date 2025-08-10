@@ -4,6 +4,8 @@ import ProductImage from "@/components/ProductImg/ProductImage";
 import { productimg } from "@/components/ProductImg/ProductImgArray";
 import Comments from "@/components/Comments/Comments";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Footer from "@/components/Footer/Footer";
+
 
 function HomePage() {
   return (
@@ -70,7 +72,7 @@ function HomePage() {
       >
         <div className="2xl:ml-[20%] xl:ml-[17%] lg:ml-[12%] md:ml-[5%] md:mx-0 mx-auto md:mt-0 mt-55">
           <img
-            src="/Header/logo.svg"
+            src="/Header/logo-white.svg"
             alt="OJS Nutrition Logo"
             className="object-contain md:w-[253px] md:h-[58px] w-[360px] h-[82px]"
           />
@@ -122,6 +124,8 @@ function HomePage() {
         </div>
         <Comments/>
       </div>
+
+      <Footer/>
     </>
   );
 }
