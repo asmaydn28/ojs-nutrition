@@ -10,6 +10,7 @@ import Dropdown from "./NavbarTop/Dropdowns";
 import CartButton from "./NavbarTop/CartButton";
 import { useState } from 'react';
 import { Menu, X, ChevronRight, ChevronLeft } from 'lucide-react';
+import { Link, useLocation } from 'react-router';
 
 // mobileDropdowns verisini dosya içine ekliyorum
 const mobileDropdowns = {
@@ -190,6 +191,8 @@ function Navbar() {
   type SubmenuKey = keyof typeof mobileDropdowns | null | string;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [submenu, setSubmenu] = useState<SubmenuKey>(null);
+  const location = useLocation();
+
   return (
     <header className="fixed top-0 left-0 w-full bg-white font-inter z-50">
       {/* Overlay ve Drawer */}
@@ -281,11 +284,13 @@ function Navbar() {
           </button>
           {/* Logo (tam ortada, absolute) */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-            <img
-              src="/Header/logo-black.svg"
-              alt="OJS Nutrition Logo"
-              className="h-[30px] w-auto max-w-[141px]"
-            />
+            <Link to="/">
+              <img
+                src="/Header/logo-black.svg"
+                alt="OJS Nutrition Logo"
+                className="h-[30px] w-auto max-w-[141px]"
+              />
+            </Link>
         </div>
           {/* Cart Icon (sadece ikon ve kırmızı 0) */}
           <button className="w-9 h-9 flex items-center justify-center">
@@ -301,7 +306,9 @@ function Navbar() {
         {/* Masaüstü/Tablet Header */}
         <div className="hidden md:flex w-full items-center">
           <div className="flex-shrink-0 md:mr-8 flex justify-center md:justify-start w-full md:w-auto py-2 md:py-0">
-            <img src="/Header/logo-black.svg" alt="Logo" className="h-[38px] w-auto" style={{width:171}} />
+            <Link to="/">
+              <img src="/Header/logo-black.svg" alt="Logo" className="h-[38px] w-auto" style={{width:171}} />
+            </Link>
           </div>
           <div className="flex flex-col md:flex-row flex-1 items-center gap-2 md:gap-2 justify-end w-full">
             <div className="w-full max-w-[350px] md:mr-2">
@@ -344,11 +351,13 @@ function Navbar() {
         </div>
       </nav>
       {/* Alt Banner */}
-      <div className="w-full bg-[#F7F7F7] md:block hidden">
-        <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-center h-[40px] px-2 sm:px-4 md:px-8">
-          <NavbarBottom />
-        </div>
+      {!location.pathname.startsWith('/product/') && (
+        <div className="w-full bg-[#F7F7F7] md:block hidden">
+          <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-center h-[40px] px-2 sm:px-4 md:px-8">
+            <NavbarBottom />
       </div>
+    </div>
+      )}
     </header>
   );
 }

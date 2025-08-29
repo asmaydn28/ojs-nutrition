@@ -1,6 +1,7 @@
 import type { Product } from "./ProductArray";
 
 function ProductCard({
+  id,
   ProductName,
   img,
   ShortDescription,
@@ -11,41 +12,41 @@ function ProductCard({
 }: Product) {
   return (
     <>
-        <a href="#" className="block cursor-pointer">
+        <a href={`/product/${id}`} className="block cursor-pointer">
           <div className="lg:w-[200px] md:w-[242px] w-[179px] h-[320px]
           rounded-xl flex flex-col items-center mx-auto my-9 group relative">
             {/* İndirim Badge'i - Sadece indirimli ürünlerde görünür */}
             {DiscountedPrice && (
-              <div className="absolute lg:-top-13 lg:right-4 -top-8 w-[60px] h-[50px] bg-[#ED2727] text-white text-xs font-bold flex flex-col items-center justify-center z-10 group-hover:scale-85 duration-200 transition-transform">
+              <div className="absolute -top-6 right-0 w-[60px] h-[50px] bg-[#ED2727] text-white text-xs font-bold flex flex-col items-center justify-center z-10 group-hover:scale-85 duration-200 transition-transform">
                 <span>%{Math.round(((parseFloat(Price.toString().replace(' TL', '')) - parseFloat(DiscountedPrice.toString().replace(' TL', ''))) / parseFloat(Price.toString().replace(' TL', ''))) * 100)}</span>
                 <span>İNDİRİM</span>
               </div>
             )}
             {/* Ürün görseli */}
-          <div className="w-[168px] h-[168px] overflow-hidden mb-4 group-hover:scale-105 duration-200 transition-transform">
+          <div className="w-[168px] h-[168px] overflow-hidden mb-4 group-hover:scale-105 duration-200 transition-transform flex items-center justify-center">
             <img
               src={img}
               alt={ProductName}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           </div>
 
           {/* Ürün ismi */}
-          <div className="w-full flex justify-center mb-1">
+          <div className="w-full h-9 flex justify-center items-center mb-1">
             <span className="font-inter font-semibold text-[16px] leading-[18px] text-black text-center">
               {ProductName}
             </span>
           </div>
 
           {/* Kısa açıklama */}
-          <div className="w-full flex justify-center mb-2">
+          <div className="w-full h-8 flex justify-center items-center mb-2">
             <span className="font-inter font-medium text-[11px] leading-[16px] text-gray-500 text-center">
               {ShortDescription}
             </span>
           </div>
 
           {/* Yıldızlar */}
-          <div className="flex justify-center mb-2">
+          <div className="flex justify-center items-center h-7 mb-2">
             {[...Array(5)].map((_, i) => (
               <svg
                 key={i}

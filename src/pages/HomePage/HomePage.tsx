@@ -1,10 +1,10 @@
-import ProductCard from "@/components/ProductCard/ProductCard";
-import { products } from "../components/ProductCard/ProductArray";
-import ProductImage from "@/components/ProductImg/ProductImage";
-import { productimg } from "@/components/ProductImg/ProductImgArray";
-import Comments from "@/components/Comments/Comments";
+import ProductCard from "../../components/ProductCard/ProductCard";
+import { products } from "../../components/ProductCard/ProductArray";
+import ProductImage from "../../components/ProductImg/ProductImage";
+import { productimg } from "../../components/ProductImg/ProductImgArray";
+import Comments from "../../components/Comments/Comments";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Footer from "@/components/Footer/Footer";
+import Footer from "../../components/Footer/Footer";
 
 
 function HomePage() {
@@ -43,8 +43,7 @@ function HomePage() {
 
       {/* PRODUCT CARDLAR */}
       <div
-        className="grid lg:grid-cols-6  md:grid-cols-3 grid-cols-2 my-5
-      xl:w-[1200px] lg:w-[1024px] md:w-[728px] mx-auto"
+        className="grid lg:grid-cols-6  md:grid-cols-3 grid-cols-2 my-5 max-w-7xl gap-4 mx-auto"
       >
         {products.map((product) => (
           <ProductCard
