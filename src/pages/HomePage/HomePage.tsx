@@ -124,6 +124,55 @@ function HomePage() {
         <Comments/>
       </div>
 
+      {/* Footer üstü bilgilendirme */}
+      <div className="bg-[#222222] text-white -mb-11 px-5 pb-5">
+        <div className="max-w-6xl mx-auto px-4 py-12 md:py-20 grid grid-cols-1 gap-8 md:gap-10">
+          {/* Üst: yalnızca yıldızlar (cols-1) */}
+          <div className="flex items-center justify-start">
+            {[...Array(5)].map((_, i) => (
+              <svg
+                key={i}
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="inline-block"
+              >
+                <path
+                  d="M12 2L15.09 8.26L22 9L17 14.14L18.18 21L12 17.77L5.82 21L7 14.14L2 9L8.91 8.26L12 2Z"
+                  fill="#FFD700"
+                />
+              </svg>
+            ))}
+            <span className="font-inter font-light text-[18px] md:text-[20.31px] leading-[28px] md:leading-[37.5px] text-white ml-2">(140.000+)</span>
+          </div>
+
+          {/* Alt: içerikler (cols-2) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-start">
+            {/* Sol: başlıklar */}
+            <div className="space-y-2 text-left">
+              <h3 className="font-inter font-medium text-[20px] md:text-[31.17px] leading-[28px] md:leading-[42.7px] tracking-[0.5px] md:tracking-[1px] uppercase">
+                LABORATUVAR TESTLİ ÜRÜNLER
+              </h3>
+              <h3 className="font-inter font-medium text-[20px] md:text-[31.17px] leading-[28px] md:leading-[42.7px] tracking-[0.5px] md:tracking-[1px] uppercase">
+                AYNI GÜN & ÜCRETSİZ KARGO
+              </h3>
+              <h3 className="font-inter font-medium text-[20px] md:text-[31.17px] leading-[28px] md:leading-[42.7px] tracking-[0.5px] md:tracking-[1px] uppercase">
+                MEMNUNİYET GARANTİSİ
+              </h3>
+            </div>
+
+            {/* Sağ: paragraf */}
+            <div className="flex items-start">
+              <p className="font-inter font-light text-[16px] md:text-[20.31px] leading-[28px] md:leading-[37.5px] text-white md:max-w-xl text-left">
+                200.000'den fazla ürün yorumumuza dayanarak, ürünlerimizi seveceğinize eminiz. Eğer herhangi bir sebeple memnun kalmazsan, bizimle iletişime geçtiğinde çözüme kavuşturacağız.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <Footer/>
     </>
   );

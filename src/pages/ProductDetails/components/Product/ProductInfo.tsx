@@ -1,4 +1,4 @@
-import { type Product } from "../../../components/ProductCard/ProductArray";
+import { type Product } from "../../../../components/ProductCard/ProductArray";
 
 interface ProductInfoProps {
   product: Product;

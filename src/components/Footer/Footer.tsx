@@ -6,58 +6,11 @@ function Footer() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
   return (
-    <div className="bg-[#222222] text-white">
-      <div className="grid grid-cols-1 gap-4 p-4 md:p-6 max-w-5xl mx-auto">
-        {/* Stars and Rating - Top Section */}
-        <div className="flex items-center justify-center md:justify-start">
-          {[...Array(5)].map((_, i) => (
-            <svg
-              key={i}
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="inline-block"
-            >
-              <path
-                d="M12 2L15.09 8.26L22 9L17 14.14L18.18 21L12 17.77L5.82 21L7 14.14L2 9L8.91 8.26L12 2Z"
-                fill="#FFD700"
-              />
-            </svg>
-          ))}
-          <span className="font-inter font-light text-[20.31px] leading-[37.5px] align-middle text-white ml-1">(140.000+)</span>
-        </div>
-
-        {/* Content Section - Headings and Paragraph side by side */}
-        <div className="flex flex-col md:flex-row justify-between gap-4 md:gap-8">
-          {/* Main Headings */}
-          <div className="space-y-2 text-center md:text-left">
-            <h3 className="font-inter font-medium text-[20px] md:text-[31.17px] leading-[28px] md:leading-[42.7px] tracking-[0.5px] md:tracking-[1px] uppercase align-middle">
-              LABORATUVAR TESTLİ ÜRÜNLER
-            </h3>
-            <h3 className="font-inter font-medium text-[20px] md:text-[31.17px] leading-[28px] md:leading-[42.7px] tracking-[0.5px] md:tracking-[1px] uppercase align-middle">
-              AYNI GÜN & ÜCRETSİZ KARGO
-            </h3>
-            <h3 className="font-inter font-medium text-[20px] md:text-[31.17px] leading-[28px] md:leading-[42.7px] tracking-[0.5px] md:tracking-[1px] uppercase align-middle">
-              MEMNUNİYET GARANTİSİ
-            </h3>
-          </div>
-
-          {/* Paragraph Text */}
-          <div className="flex items-start justify-center md:justify-start">
-            <p className="font-inter font-light text-[16px] md:text-[20.31px] leading-[28px] md:leading-[37.5px] tracking-[0px] align-middle text-white max-w-sm md:max-w-md text-center md:text-left">
-              200.000'den fazla ürün yorumumuza dayanarak,<br className="hidden md:block" />
-              ürünlerimizi seveceğinize eminiz. Eğer herhangi<br className="hidden md:block" />
-              bir sebeple memnun kalmazsan, bizimle iletişime<br className="hidden md:block" />
-              geçtiğinde çözüme kavuşturacağız.
-            </p>
-          </div>
-        </div>
-      </div>
+    <div className="bg-[#222222] text-white pt-3">
+      
 
       {/* Mobile accordion (only visible below md) */}
-      <div className="md:hidden max-w-md px-4 pb-6" aria-label="Footer mobile accordions">
+      <div className="md:hidden max-w-md px-4 py-6" aria-label="Footer mobile accordions">
         {/* Logo on top */}
         <div className="w-full flex justify-start pt-2 pb-4">
           <img src="/Header/logo-white.svg" alt="OJS Nutrition" className="h-6" />
@@ -191,7 +144,7 @@ function Footer() {
       </div>
 
       {/* Bottom copyright bar */}
-      <div className="max-w-5xl mx-auto px-4 md:px-6 py-4 text-center">
+      <div className="max-w-5xl mx-auto px-4 md:px-6 py-6 text-center">
         <p className="font-inter font-normal text-white/70 text-[10.13px] leading-[16px] tracking-[0] align-middle">
           © {new Date().getFullYear()} Tüm hakları saklıdır 
           <a
