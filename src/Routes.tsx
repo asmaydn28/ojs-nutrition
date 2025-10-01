@@ -1,7 +1,9 @@
 import { createBrowserRouter, type RouteObject } from "react-router";
 import HomePage from "./pages/HomePage/HomePage";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
+import ProductList from "./pages/ProductList/ProductList";
 import RootLayout from "./Root";
+
 
 const routes: RouteObject[] = [
     {
@@ -15,6 +17,10 @@ const routes: RouteObject[] = [
             {
                 path: "/product/:id",
                 element: <ProductDetails/>
+            },
+            {
+                path: "/products/:category",
+                element: <ProductList/>
             }
         ]
     }

@@ -1,10 +1,10 @@
 import type { ProductImg } from "./ProductImgArray";
-
+import { Link } from "react-router";
 
 function ProductImage({title, img, bgColor}: ProductImg) {
   return (
     <>
-      <a href="#" className="hover:scale-105 duration-300">
+      <Link to={`/products/${encodeURIComponent(title.toLowerCase())}`} className="hover:scale-105 duration-300">
       <div style={{backgroundColor: bgColor}} className="flex rounded-[10px] relative
       xl:w-[385px] lg:w-[330px] md:w-[245px] sm:w-[300px] w-auto mx-2 sm:mx-0 h-[157px]
       "> 
@@ -35,7 +35,7 @@ function ProductImage({title, img, bgColor}: ProductImg) {
           ">İNCELE</div>
         </div>
       </div>
-      </a>
+      </Link>
       
     </>
   );
