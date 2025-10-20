@@ -2,9 +2,16 @@ import { ShoppingCart } from "lucide-react";
 import { useState } from 'react'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle, TransitionChild } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { useCartStore, selectCartCount, selectCartTotal } from '../../../store/cart'
 
 function CartButton() {
   const [open, setOpen] = useState(false)
+  const count = useCartStore(selectCartCount)
+  const items = useCartStore(s => s.items)
+  const increment = useCartStore(s => s.increment)
+  const decrement = useCartStore(s => s.decrement)
+  const removeItem = useCartStore(s => s.removeItem)
+  const total = useCartStore(selectCartTotal)
   return (
     <>
      
@@ -12,13 +19,13 @@ function CartButton() {
       <div>
       <button
         onClick={() => setOpen(true)}
-        className="relative flex gap-2 px-4 h-[46px] rounded-md bg-[#919191] hover:bg-gray-400 transition text-white min-w-[110px] justify-center items-center"
+        className="relative flex gap-1 h-[46px] rounded-md md:bg-[#919191] md:hover:bg-gray-400 transition text-white md:min-w-[110px] justify-center items-center"
       >
-        <ShoppingCart className="w-5 h-5" />
+        <ShoppingCart className="w-4 h-4 md:text-white text-black" />
         <span className="font-medium">SEPET</span>
         {/* Red badge */}
-        <span className="absolute -top-2 -right-2 bg-[#ED2727] text-white text-xs font-bold rounded-full px-1.5 py-0.5 border-2 border-white">
-          0
+        <span className="absolute md:-top-2 md:-right-2 bg-[#ED2727] text-white text-xs font-bold rounded-full px-1.5 py-0.5 border-2 border-white">
+          {count}
         </span>
       </button>
       <Dialog open={open} onClose={setOpen} className="relative z-100">
@@ -47,11 +54,44 @@ function CartButton() {
                     </button>
                   </div>
                 </TransitionChild>
-                <div className="relative flex h-full flex-col overflow-y-auto bg-white py-6 shadow-xl">
+                <div className="relative flex h-full flex-col bg-white py-6 shadow-xl">
                   <div className="px-4 sm:px-6">
                     <DialogTitle className="text-base font-semibold text-gray-900 text-center">SEPETİM</DialogTitle>
                   </div>
-                  <div className="relative mt-6 flex-1 px-4 sm:px-6">{/* Your content */}</div>
+                  <div className="relative mt-6 flex-1 px-4 sm:px-6 overflow-y-auto">
+                    {items.length === 0 ? (
+                      <div className="text-center text-gray-500">Sepetiniz boş</div>
+                    ) : (
+                      <ul className="space-y-4">
+                        {items.map(item => (
+                          <li key={item.id} className="flex items-center justify-between bg-gray-50 rounded-lg p-3 border">
+                            <div className="flex items-center gap-3">
+                              <img src={item.image} alt={item.name} className="w-14 h-14 object-contain bg-white rounded border" />
+                              <div>
+                                <div className="font-semibold">{item.name}</div>
+                                <div className="text-sm text-gray-500">{item.price} TL</div>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <button onClick={() => decrement(item.id)} className="w-8 h-8 grid place-items-center border rounded">-</button>
+                              <div className="min-w-[24px] text-center">{item.quantity}</div>
+                              <button onClick={() => increment(item.id)} className="w-8 h-8 grid place-items-center border rounded">+</button>
+                              <button onClick={() => removeItem(item.id)} className="ml-2 w-8 h-8 grid place-items-center border rounded" aria-label="remove">🗑️</button>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                  <div className="px-4 sm:px-6 mt-4">
+                    <div className="flex items-center justify-between text-xs text-gray-500">
+                      <span>TOPLAM</span>
+                      <span>{Math.round(total)} TL</span>
+                    </div>
+                    <button className="mt-3 w-full bg-black text-white h-[44px] rounded-lg font-bold">
+                      DEVAM ET
+                    </button>
+                  </div>
                 </div>
               </DialogPanel>
             </div>

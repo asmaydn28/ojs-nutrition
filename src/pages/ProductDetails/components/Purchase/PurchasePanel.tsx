@@ -1,4 +1,5 @@
 import { type Product } from "../../../../components/ProductCard/ProductArray";
+import { useCartStore } from "../../../../store/cart";
 
 interface PurchasePanelProps {
   product: Product;
@@ -7,6 +8,7 @@ interface PurchasePanelProps {
 }
 
 const PurchasePanel = ({ product, quantity, setQuantity }: PurchasePanelProps) => {
+  const addItem = useCartStore(s => s.addItem);
   return (
     <div className="mt-8">
       {/* Fiyat ve Servis Ücreti */}
@@ -47,7 +49,20 @@ const PurchasePanel = ({ product, quantity, setQuantity }: PurchasePanelProps) =
         </div>
 
         {/* Sepete Ekle Butonu */}
-        <button className="bg-black text-white h-[55px] px-7 rounded-lg font-inter font-bold text-lg uppercase flex items-center justify-center gap-3 hover:bg-gray-800 transition-colors flex-1">
+        <button
+          onClick={() =>
+            addItem(
+              {
+                id: product.id,
+                name: product.ProductName,
+                price: parseFloat((product.DiscountedPrice ?? product.Price).toString().replace(" TL", "")),
+                image: product.img,
+              },
+              quantity
+            )
+          }
+          className="bg-black text-white h-[55px] px-7 rounded-lg font-inter font-bold text-lg uppercase flex items-center justify-center gap-3 hover:bg-gray-800 transition-colors flex-1"
+        >
           <svg
             className="w-5 h-5"
             viewBox="0 0 24 24"

@@ -1,8 +1,8 @@
 
 function SearchInput() {
   return (
-    <div>
-      <form className="flex max-w-md rounded-[4px] border border-gray-400 bg-white">
+    <div className="hidden md:block">
+      <form className="flex max-w-md rounded-[4px] ml-3 border border-gray-400 bg-white">
         <input
           type="text"
           placeholder="Aradığınız ürünü yazınız"

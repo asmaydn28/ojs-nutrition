@@ -17,7 +17,7 @@ function Dropdown() {
   };
 
   return (
-    <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div className="relative hidden md:block" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {/* Dropdown Button */}
       <button
         type="button"
