@@ -34,7 +34,7 @@ export default function NavbarMobile({
 
       <div
         className={`overflow-hidden transition-[max-height,opacity] duration-300 ${
-          isOpen ? 'max-h-[70vh] opacity-100' : 'max-h-0 opacity-0'
+          isOpen ? 'max-h-[100vh] opacity-100' : 'max-h-0 opacity-0'
         } overflow-y-auto pr-1 overscroll-contain touch-pan-y`}
       >
         {sections.map((section, idx) => (

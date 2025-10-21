@@ -1,6 +1,7 @@
 
 import { useState } from 'react'
 import { PlusIcon, MinusIcon } from '@heroicons/react/24/outline'
+import { Link } from 'react-router';
 
 function Footer() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
@@ -9,7 +10,7 @@ function Footer() {
     <div className="bg-[#222222] text-white pt-3">
       
 
-      {/* Mobile accordion (only visible below md) */}
+      {/* Mobile link tasarımı md altı */}
       <div className="md:hidden max-w-md px-4 py-6" aria-label="Footer mobile accordions">
         {/* Logo on top */}
         <div className="w-full flex justify-start pt-2 pb-4">
@@ -37,11 +38,11 @@ function Footer() {
           >
             <div className="pb-3">
               <ul className="space-y-1">
-                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Hakkımızda</a></li>
+                <li><Link to="/contact" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">İletişim</Link></li>
                 <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Kalite Politikamız</a></li>
                 <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Kariyer</a></li>
                 <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Basın Bültenleri</a></li>
-                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">İletişim</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Hakkımızda</a></li>
               </ul>
             </div>
           </div>
@@ -106,17 +107,18 @@ function Footer() {
         </div>
       </div>
 
+      {/* Desktop md üstünde */}
       <div className="hidden md:grid w-full md:grid-cols-3 md:gap-x-12 lg:gap-x-20 xl:gap-x-24 md:gap-y-0 max-w-5xl mx-auto mt-6 md:mt-8 lg:mt-10 px-4 md:px-6" aria-label="Footer link columns">
         <div className="space-y-2 md:space-y-3">
           <div className="flex items-center md:h-5 lg:h-6">
             <img src="/Header/logo-white.svg" alt="OJS Nutrition" className="md:h-5 lg:h-6" />
           </div>
           <ul className="md:space-y-1.5 lg:space-y-2">
-            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Hakkımızda</a></li>
+            <li><Link to="/contact" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">İletişim</Link></li>
             <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Kalite Politikamız</a></li>
             <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Kariyer</a></li>
             <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Basın Bültenleri</a></li>
-            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">İletişim</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Hakkımızda</a></li>
           </ul>
         </div>
 

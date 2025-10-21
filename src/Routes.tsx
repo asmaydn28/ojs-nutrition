@@ -3,6 +3,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import ProductList from "./pages/ProductList/ProductList";
 import RootLayout from "./Root";
+import Contact from "./pages/Contact/Contact";
 
 
 const routes: RouteObject[] = [
@@ -21,6 +22,10 @@ const routes: RouteObject[] = [
             {
                 path: "/products/:category",
                 element: <ProductList/>
+            },
+            {
+                path: "/contact",
+                element: <Contact/>
             }
         ]
     }
