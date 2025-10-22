@@ -39,10 +39,14 @@ function Footer() {
             <div className="pb-3">
               <ul className="space-y-1">
                 <li><Link to="/contact" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">İletişim</Link></li>
-                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Kalite Politikamız</a></li>
-                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Kariyer</a></li>
-                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Basın Bültenleri</a></li>
-                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Hakkımızda</a></li>
+                <li><Link to="/" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Hakkımızda</Link></li>
+                <li><Link to="/faq" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Sıkça Sorulan Sorular</Link></li>
+                <li><Link to="/" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">KVKK</Link></li>
+                <li><Link to="/" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Çalışma İlkelerimiz</Link></li>
+                <li><Link to="/" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Satış Sözleşmesi</Link></li>
+                <li><Link to="/" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Garanti ve İade Koşulları</Link></li>
+                <li><Link to="/" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Gerçek Müşteri Yorumları</Link></li>
+                <li><Link to="/" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Blog</Link></li>
               </ul>
             </div>
           </div>
@@ -59,7 +63,7 @@ function Footer() {
             ) : (
               <PlusIcon className="h-[18px] w-[18px] text-white" />
             )}
-            <span className="font-inter font-medium uppercase text-white text-[17.97px] leading-[28px] tracking-[0] align-middle">MÜŞTERİ HİZMETLERİ</span>
+            <span className="font-inter font-medium uppercase text-white text-[17.97px] leading-[28px] tracking-[0] align-middle">KATEGORİLER</span>
           </button>
           <div
             aria-hidden={activeIndex !== 1}
@@ -67,11 +71,15 @@ function Footer() {
           >
             <div className="pb-3">
               <ul className="space-y-1">
-                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Siparişlerim</a></li>
-                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Kargo Takip</a></li>
-                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">İade & Değişim</a></li>
-                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Sıkça Sorulan Sorular</a></li>
-                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Ödeme Seçenekleri</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Protein</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Spor Gıdaları</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Sağlık</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Gıda</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Vitamin</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Aksesuar</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Tüm Ürünler</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Paketler</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Lansmana Özel Fİyatlar</a></li>
               </ul>
             </div>
           </div>
@@ -88,7 +96,7 @@ function Footer() {
             ) : (
               <PlusIcon className="h-[18px] w-[18px] text-white" />
             )}
-            <span className="font-inter font-medium uppercase text-white text-[17.97px] leading-[28px] tracking-[0] align-middle">POPÜLER KATEGORİLER</span>
+            <span className="font-inter font-medium uppercase text-white text-[17.97px] leading-[28px] tracking-[0] align-middle">POPÜLER ÜRÜNLER</span>
           </button>
           <div
             aria-hidden={activeIndex !== 2}
@@ -96,11 +104,15 @@ function Footer() {
           >
             <div className="pb-3">
               <ul className="space-y-1">
-                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Protein Tozları</a></li>
-                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Amino Asit</a></li>
-                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Kreatin</a></li>
-                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Vitamin & Mineral</a></li>
-                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Sporcu Aksesuarları</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Whey Protein</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Cream of Rice</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Creatine</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">BCAA</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Pre-Workout</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Fitness Paketi</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Collagen</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Günlük Vitamin Paketi</a></li>
+                <li><a href="#" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">ZMA</a></li>
               </ul>
             </div>
           </div>
@@ -115,32 +127,44 @@ function Footer() {
           </div>
           <ul className="md:space-y-1.5 lg:space-y-2">
             <li><Link to="/contact" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">İletişim</Link></li>
-            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Kalite Politikamız</a></li>
-            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Kariyer</a></li>
-            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Basın Bültenleri</a></li>
-            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Hakkımızda</a></li>
+            <li><Link to="/" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Hakkımızda</Link></li>
+            <li><Link to="/faq" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Sıkça Sorulan Sorular</Link></li>
+            <li><Link to="/" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">KVKK</Link></li>
+            <li><Link to="/" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Çalışma İlkelerimiz</Link></li>
+            <li><Link to="/" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Satış Sözleşmesi</Link></li>
+            <li><Link to="/" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Garanti ve İade Koşulları</Link></li>
+            <li><Link to="/" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Gerçek Müşteri Yorumları</Link></li>
+            <li><Link to="/" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Blog</Link></li>
           </ul>
         </div>
 
         <div className="space-y-2 md:space-y-3">
           <h4 className="font-inter font-medium uppercase text-white/90 md:text-[12px] md:leading-[20px] md:tracking-[1px] lg:text-[14px] lg:leading-[24px] lg:tracking-[1.2px]">KATEGORİLER</h4>
           <ul className="md:space-y-1.5 lg:space-y-2">
-            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Siparişlerim</a></li>
-            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Kargo Takip</a></li>
-            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">İade & Değişim</a></li>
-            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Sıkça Sorulan Sorular</a></li>
-            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Ödeme Seçenekleri</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Protein</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Spor Gıdaları</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Sağlık</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Gıda</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Vitamin</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Aksesuar</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Tüm Ürünler</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Paketler</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Lansmana Özel Fırsatlar</a></li>
           </ul>
         </div>
 
         <div className="space-y-2 md:space-y-3">
           <h4 className="font-inter font-medium uppercase text-white/90 md:text-[12px] md:leading-[20px] md:tracking-[1px] lg:text-[14px] lg:leading-[24px] lg:tracking-[1.2px]">POPÜLER ÜRÜNLER</h4>
           <ul className="md:space-y-1.5 lg:space-y-2">
-            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Protein Tozları</a></li>
-            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Amino Asit</a></li>
-            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Kreatin</a></li>
-            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Vitamin & Mineral</a></li>
-            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Sporcu Aksesuarları</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Whey Protein</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Cream of Rice</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Creatine</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">BCAA</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Pre-Workout</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Fitness Paketi</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Collagen</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Günlük Vitamin Paketi</a></li>
+            <li><a href="#" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">ZMA</a></li>
           </ul>
         </div>
       </div>

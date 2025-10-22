@@ -4,6 +4,7 @@ import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import ProductList from "./pages/ProductList/ProductList";
 import RootLayout from "./Root";
 import Contact from "./pages/Contact/Contact";
+import Faq from "./pages/Faq/Faq";
 
 
 const routes: RouteObject[] = [
@@ -26,6 +27,10 @@ const routes: RouteObject[] = [
             {
                 path: "/contact",
                 element: <Contact/>
+            },
+            {
+                path: "/faq",
+                element: <Faq/>
             }
         ]
     }
