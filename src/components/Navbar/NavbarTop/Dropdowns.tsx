@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { ChevronDown, User, UserPlus } from 'lucide-react';
 
@@ -37,8 +38,8 @@ function Dropdown() {
           <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white border-l border-t border-gray-200 rotate-45"></div>
           {/* Menu Items */}
           <div className="py-2">
-            <a
-              href="/giris"
+            <Link
+              to="/auth?form=login"
               className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group"
             >
               <User className="w-5 h-5 text-gray-400 group-hover:text-blue-500" />
@@ -46,10 +47,10 @@ function Dropdown() {
                 <span className="font-medium">Üye Girişi</span>
                 <span className="text-xs text-gray-500">Hesabınıza giriş yapın</span>
               </div>
-            </a>
+            </Link>
             <div className="h-px bg-gray-100 mx-2"></div>
-            <a
-              href="/uye-ol"
+            <Link
+              to="/auth?form=register"
               className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-150 group"
             >
               <UserPlus className="w-5 h-5 text-gray-400 group-hover:text-green-500" />
@@ -57,7 +58,7 @@ function Dropdown() {
                 <span className="font-medium">Üye Ol</span>
                 <span className="text-xs text-gray-500">Yeni hesap oluşturun</span>
               </div>
-            </a>
+            </Link>
           </div>
         </div>
       )}

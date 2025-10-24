@@ -1,6 +1,7 @@
 import { X } from 'lucide-react';
 import MobileAccordionItem from './NavbarMobile';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface NavbarDrawer {
   isOpen: boolean;
@@ -322,9 +323,9 @@ export default function MobileDrawer({ isOpen, onClose }: NavbarDrawer) {
 
               {/* Alt gri alan */}
               <li className="mt-2 bg-gray-100 rounded">
-                <a className="block px-3 py-3" href="#" onClick={onClose}>HESABIM</a>
-                <a className="block px-3 py-3" href="#" onClick={onClose}>MÜŞTERİ YORUMLARI</a>
-                <a className="block px-3 py-3" href="#" onClick={onClose}>İLETİŞİM</a>
+                <Link to="/" className="block px-3 py-3" onClick={onClose}>HESABIM</Link>
+                <Link to="/" className="block px-3 py-3" onClick={onClose}>MÜŞTERİ YORUMLARI</Link>
+                <Link to="/contact" className="block px-3 py-3" onClick={onClose}>İLETİŞİM</Link>
               </li>
             </ul>
             </div>
@@ -334,4 +335,3 @@ export default function MobileDrawer({ isOpen, onClose }: NavbarDrawer) {
     </>
   );
 }
-

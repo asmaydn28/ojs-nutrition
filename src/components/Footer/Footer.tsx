@@ -1,7 +1,7 @@
 
 import { useState } from 'react'
 import { PlusIcon, MinusIcon } from '@heroicons/react/24/outline'
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 function Footer() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)

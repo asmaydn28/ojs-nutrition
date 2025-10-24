@@ -8,7 +8,7 @@ import NavbarBottom from "./NavbarBottom/NavbarBottom.tsx";
 import SearchInput from "./NavbarTop/SearchInput.tsx";
 import Dropdown from "./NavbarTop/Dropdowns";
 import CartButton from "./NavbarTop/CartButton";
-import { Link, useLocation } from 'react-router';
+import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
 import NavbarLink from "./NavbarMobile/NavbarLink.tsx"

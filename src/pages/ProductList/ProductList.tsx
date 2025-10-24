@@ -1,5 +1,5 @@
 
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import { fixedProducts } from "./ProductListArray";
 import Footer from "../../components/Footer/Footer";
