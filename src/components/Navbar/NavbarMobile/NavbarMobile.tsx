@@ -33,31 +33,32 @@ export default function NavbarMobile({
       </button>
 
       <div
-        className={`overflow-hidden transition-[max-height,opacity] duration-300 ${
-          isOpen ? 'max-h-[100vh] opacity-100' : 'max-h-0 opacity-0'
-        } overflow-y-auto pr-1 overscroll-contain touch-pan-y`}
-      >
-        {sections.map((section, idx) => (
-          <div key={idx} className={`py-2 ${idx > 0 ? 'border-t' : ''}`}>
-            {section.header && (
-              <div className="text-xs font-semibold text-gray-500 mb-2">
-                {section.header}
+        className={`grid transition-[grid-template-rows] duration-300 ${
+          isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+        }`}>
+        <div className="overflow-hidden">
+          {sections.map((section, idx) => (
+            <div key={idx} className={`py-2 ${idx > 0 ? 'border-t' : ''}`}>
+              {section.header && (
+                <div className="text-xs font-semibold text-gray-500 mb-2">
+                  {section.header}
+                </div>
+              )}
+              <div className="flex flex-col gap-2">
+                {section.links.map((l, i) => (
+                  <Link
+                    key={i}
+                    to={l.to}
+                    onClick={onNavigate}
+                    className="text-[14px]"
+                  >
+                    {l.label}
+                  </Link>
+                ))}
               </div>
-            )}
-            <div className="flex flex-col gap-2">
-              {section.links.map((l, i) => (
-                <Link
-                  key={i}
-                  to={l.to}
-                  onClick={onNavigate}
-                  className="text-[14px]"
-                >
-                  {l.label}
-                </Link>
-              ))}
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </li>
   );
