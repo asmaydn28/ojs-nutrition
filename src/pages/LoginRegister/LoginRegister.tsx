@@ -4,7 +4,7 @@ import Register from "./Register";
 import { useSearchParams } from "react-router-dom";
 
 const LoginRegister = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const formType = searchParams.get("form");
 
   // URL'deki parametreye göre başlangıç durumunu ayarla
@@ -26,14 +26,14 @@ const LoginRegister = () => {
         {/* Sekmeler */}
         <div className="flex border-b border-gray-200">
           <button
-            onClick={() => setIsLoginView(true)}
+            onClick={() => setSearchParams({ form: 'login' })}
             className={`w-1/2 py-4 text-center text-lg font-medium focus:outline-none transition-colors duration-150 ease-in-out 
               ${isLoginView ? activeTabClasses : inactiveTabClasses}`}
           >
             Giriş Yap
           </button>
           <button
-            onClick={() => setIsLoginView(false)}
+            onClick={() => setSearchParams({ form: 'register' })}
             className={`w-1/2 py-4 text-center text-lg font-medium focus:outline-none transition-colors duration-150 ease-in-out 
               ${!isLoginView ? activeTabClasses : inactiveTabClasses}`}
           >

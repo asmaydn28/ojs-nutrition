@@ -36,8 +36,8 @@ export default function MobileDrawer({ isOpen, onClose }: NavbarDrawer) {
             </div>
 
             {/* Menu Items */}
-            <div className="p-4 flex-1 overflow-y-auto overscroll-contain touch-pan-y">
-            <ul className="space-y-2">
+            <div className="p-4 flex-1 overflow-y-auto overscroll-contain touch-pan-y flex flex-col">
+            <ul className="space-y-2 flex-grow">
               {/* PROTEİN */}
               <MobileAccordionItem
                 title="PROTEİN"
@@ -320,14 +320,18 @@ export default function MobileDrawer({ isOpen, onClose }: NavbarDrawer) {
                   TÜM ÜRÜNLER
                 </a>
               </li>
-
-              {/* Alt gri alan */}
-              <li className="mt-2 bg-gray-100 rounded">
-                <Link to="/" className="block px-3 py-3" onClick={onClose}>HESABIM</Link>
-                <Link to="/" className="block px-3 py-3" onClick={onClose}>MÜŞTERİ YORUMLARI</Link>
-                <Link to="/contact" className="block px-3 py-3" onClick={onClose}>İLETİŞİM</Link>
-              </li>
             </ul>
+            </div>
+
+            {/* Alt gri alan */}
+            <div className="mt-auto bg-gray-100 p-4">
+                <Link to="/" className="block py-2" onClick={onClose}>HESABIM</Link>
+                <Link to="/" className="block py-2" onClick={onClose}>MÜŞTERİ YORUMLARI</Link>
+                <Link to="/contact" className="block py-2" onClick={onClose}>İLETİŞİM</Link>
+                <div className="flex gap-2 mt-4">
+                    <Link to="/auth?form=register" onClick={onClose} className="flex-1 bg-black text-white text-center py-2 rounded hover:bg-gray-800 transition-colors">Üye Ol</Link>
+                    <Link to="/auth?form=login" onClick={onClose} className="flex-1 bg-black text-white text-center py-2 rounded hover:bg-gray-800 transition-colors">Üye Girişi</Link>
+                </div>
             </div>
           </div>
         </>
