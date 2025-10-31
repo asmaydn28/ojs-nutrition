@@ -30,26 +30,26 @@ function MyAccount() {
         <div className="text-center md:text-left mb-5 md:mb-0">
             <h1 className="font-bold mb-5 text-4xl leading-10">Hesabım</h1>
 
-            <button 
-              className={`md:block mx-5 md:mx-0 mb-5 font-semibold leading-6 text-[14px] hover:text-red-500 active:text-red-700 ${activeTab === "hesap-bilgilerim" ? "text-black" : "text-gray"}`} onClick={() => handleTabClick("hesap-bilgilerim")}>
+            <button
+              className={`group block mb-5 font-semibold leading-6 text-[14.25px] hover:text-red-500 active:text-red-700 focus:text-gray-500 ${activeTab === "hesap-bilgilerim" ? "text-black" : "text-gray"}`} onClick={() => handleTabClick("hesap-bilgilerim")}>
                 <span className="flex">
-                  <img alt="hesap" src="../../../public/MyAccount/Group.svg" className="mr-2" /> Hesap Bilgilerim
+                  <img alt="hesap" src="/MyAccount/Group.svg" className="mr-2" /> Hesap Bilgilerim
                 </span>
             </button>
 
-            <button 
-              className={`md:block mx-5 md:mx-0 mb-5 font-semibold leading-6 text-[14px]
-              hover:text-red-500 active:text-red-700 ${activeTab === "siparislerim" ? "text-black" : "text-gray"}`} onClick={() => handleTabClick("siparislerim")}>
+            <button
+              className={`block mb-5 font-semibold leading-6 text-[14.25px]
+              hover:text-red-500 active:text-red-700 focus:text-gray-500 ${activeTab === "siparislerim" ? "text-black" : "text-gray"}`} onClick={() => handleTabClick("siparislerim")}>
                 <span className="flex">
-                  <img alt="hesap" src="../../../public/MyAccount/SVG.svg" className="mr-2" /> Siparişlerim
+                  <img alt="hesap" src="/MyAccount/SVG.svg" className="mr-2" /> Siparişlerim
                 </span>
             </button>
 
-            <button 
-              className={`md:block mx-5 md:mx-0 font-semibold leading-6 text-[14px]
-              hover:text-red-500 active:text-red-700 ${activeTab === "adreslerim" ? "text-black" : "text-gray"}`} onClick={() => handleTabClick("adreslerim")}>
+            <button
+              className={`block font-semibold leading-6 text-[14.25px]
+              hover:text-red-500 active:text-red-700 focus:text-gray-500 ${activeTab === "adreslerim" ? "text-black" : "text-gray"}`} onClick={() => handleTabClick("adreslerim")}>
                 <span className="flex">
-                  <img alt="hesap" src="../../../public/MyAccount/SVG (1).svg" className="mr-2" /> Adreslerim
+                  <img alt="hesap" src="/MyAccount/SVG (1).svg" className="mr-2" /> Adreslerim
                 </span>
             </button>
         </div>
