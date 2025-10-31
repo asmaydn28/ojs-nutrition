@@ -37,7 +37,7 @@ export default function MobileDrawer({ isOpen, onClose }: NavbarDrawer) {
 
             {/* Menu Items */}
             <div className="p-4 flex-1 overflow-y-auto overscroll-contain touch-pan-y flex flex-col">
-            <ul className="space-y-2 flex-grow">
+            <ul className="space-y-2">
               {/* PROTEİN */}
               <MobileAccordionItem
                 title="PROTEİN"
@@ -325,7 +325,7 @@ export default function MobileDrawer({ isOpen, onClose }: NavbarDrawer) {
 
             {/* Alt gri alan */}
             <div className="mt-auto bg-gray-100 p-4">
-                <Link to="/" className="block py-2" onClick={onClose}>HESABIM</Link>
+                <Link to="/account" className="block py-2" onClick={onClose}>HESABIM</Link>
                 <Link to="/" className="block py-2" onClick={onClose}>MÜŞTERİ YORUMLARI</Link>
                 <Link to="/contact" className="block py-2" onClick={onClose}>İLETİŞİM</Link>
                 <div className="flex gap-2 mt-4">

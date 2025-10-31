@@ -6,6 +6,7 @@ import RootLayout from "./Root";
 import Contact from "./pages/Contact/Contact";
 import Faq from "./pages/Faq/Faq";
 import LoginRegister from "./pages/LoginRegister/LoginRegister";
+import MyAccount from "./pages/MyAccount/MyAccount";
 
 
 const routes: RouteObject[] = [
@@ -36,6 +37,10 @@ const routes: RouteObject[] = [
             {
                 path: "/auth",
                 element: <LoginRegister/>
+            },
+            {
+                path: "/account",
+                element: <MyAccount/>
             }
         ]
     }

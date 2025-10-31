@@ -59,6 +59,17 @@ function Dropdown() {
                 <span className="text-xs text-gray-500">Yeni hesap oluşturun</span>
               </div>
             </Link>
+            <div className="h-px bg-gray-100 mx-2"></div>
+            <Link
+              to="/account"
+              className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-red-600 transition-colors duration-150 group"
+            >
+              <UserPlus className="w-5 h-5 text-gray-400 group-hover:text-red-500" />
+              <div className="flex flex-col">
+                <span className="font-medium">Benim Hesabım</span>
+                <span className="text-xs text-gray-500">Hesap Bilgilerini Güncelle</span>
+              </div>
+            </Link>
           </div>
         </div>
       )}
