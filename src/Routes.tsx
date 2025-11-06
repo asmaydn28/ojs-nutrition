@@ -7,6 +7,7 @@ import Contact from "./pages/Contact/Contact";
 import Faq from "./pages/Faq/Faq";
 import LoginRegister from "./pages/LoginRegister/LoginRegister";
 import MyAccount from "./pages/MyAccount/MyAccount";
+import AboutUs from "./pages/AboutUs/AboutUs";
 
 
 const routes: RouteObject[] = [
@@ -41,6 +42,10 @@ const routes: RouteObject[] = [
             {
                 path: "/account",
                 element: <MyAccount/>
+            },
+            {
+                path: "/aboutus",
+                element: <AboutUs/>
             }
         ]
     }

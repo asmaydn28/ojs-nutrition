@@ -39,7 +39,7 @@ function Footer() {
             <div className="pb-3">
               <ul className="space-y-1">
                 <li><Link to="/contact" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">İletişim</Link></li>
-                <li><Link to="/" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Hakkımızda</Link></li>
+                <li><Link to="/aboutus" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Hakkımızda</Link></li>
                 <li><Link to="/faq" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Sıkça Sorulan Sorular</Link></li>
                 <li><Link to="/" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">KVKK</Link></li>
                 <li><Link to="/" className="text-white/80 hover:text-white transition-colors text-[13px] leading-[20px]">Çalışma İlkelerimiz</Link></li>
@@ -127,7 +127,7 @@ function Footer() {
           </div>
           <ul className="md:space-y-1.5 lg:space-y-2">
             <li><Link to="/contact" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">İletişim</Link></li>
-            <li><Link to="/" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Hakkımızda</Link></li>
+            <li><Link to="/aboutus" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Hakkımızda</Link></li>
             <li><Link to="/faq" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Sıkça Sorulan Sorular</Link></li>
             <li><Link to="/" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">KVKK</Link></li>
             <li><Link to="/" className="text-white/80 hover:text-white transition-colors md:text-[12px] md:leading-[20px] lg:text-[14px] lg:leading-[24px]">Çalışma İlkelerimiz</Link></li>

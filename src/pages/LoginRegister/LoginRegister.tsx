@@ -21,7 +21,7 @@ const LoginRegister = () => {
   const inactiveTabClasses = "bg-gray-100 text-gray-500 hover:bg-gray-200";
 
   return (
-    <div className="flex min-h-screen flex-col justify-center items-center bg-white px-4 md:mt-20">
+    <div className="flex min-h-screen flex-col justify-center items-center bg-white px-4 md:mt-20 mt-25">
       <div className="w-full max-w-lg mx-auto">
         {/* Sekmeler */}
         <div className="flex border-b border-gray-200">
