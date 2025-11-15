@@ -1,4 +1,5 @@
 import Footer from "@/components/Footer/Footer"
+import Comments from "@/components/Comments/Comments"
 
 function AboutUs() {
   return (
@@ -71,6 +72,9 @@ function AboutUs() {
                         ÜRÜN İNCELEMELERİ
                     </div>
                 </div>
+            </div>
+            <div>
+                <Comments variant="aboutus" />
             </div>
         </div>
         

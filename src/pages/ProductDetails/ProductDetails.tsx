@@ -12,8 +12,7 @@ import ProductAccordion from "./components/Accordion/ProductAccordion";
 import { aromas } from "./components/Selectors/aromaData";
 import { sizes } from "./components/Selectors/sizeData";
 import ProductCard from "@/components/ProductCard/ProductCard";
-import ProductComments from "./components/ProductComments/ProductComments";
-import { commentsData } from "./components/ProductComments/CommentsData";
+import Comments from "@/components/Comments/Comments";
 import Footer from "@/components/Footer/Footer";
 
 function ProductDetails() {
@@ -92,7 +91,7 @@ function ProductDetails() {
       </div>
 
       {/* YORUMLAR BÖLÜMÜ */}
-      <ProductComments comments={commentsData} />
+      <Comments variant="product" />
 
       {/* ÇOK SATANLAR Başlığı */}
       <div className="text-center mt-20">

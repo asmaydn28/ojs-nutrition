@@ -118,3 +118,44 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Comments Component Animations - Tailwind'e dönüştürüldü */
+@keyframes slideLeftStaggered {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideRightStaggered {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(50%);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@layer utilities {
+  .animate-slideLeftStaggered {
+    animation: slideLeftStaggered 0.9s ease-in-out;
+  }
+  
+  .animate-slideRightStaggered {
+    animation: slideRightStaggered 0.9s ease-in-out;
+  }
+}

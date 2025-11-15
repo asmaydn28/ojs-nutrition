@@ -1,12 +1,7 @@
-export interface Comment  {
-  id: number;
-  starCount: number;
-  name: string;
-  title: string;
-  content: string;
-  date: string;
-}
+import type { Comment } from './types';
 
+// Merkezi yorum verisi - Backend'den gelecek şekilde hazır
+// Şimdilik mock data, backend entegrasyonunda bu dosya API çağrısı ile değiştirilecek
 export const commentsData: Comment[] = [
   {
     id: 1,
@@ -14,7 +9,10 @@ export const commentsData: Comment[] = [
     name: "Ahmet Yılmaz",
     title: "Mükemmel ürün!",
     content: "Gerçekten çok kaliteli bir ürün. Tavsiye ederim. Hızlı teslimat ve güvenilir satıcı.",
-    date: "2024-01-15"
+    date: "15/01/2025",
+    isVerified: true,
+    productName: "L carnitine",
+    productLink: "#"
   },
   {
     id: 2,
@@ -22,7 +20,10 @@ export const commentsData: Comment[] = [
     name: "Ayşe Demir",
     title: "İyi ama fiyat biraz yüksek",
     content: "Ürün kalitesi güzel ama fiyat biraz pahalı. Yine de memnunum.",
-    date: "2024-01-14"
+    date: "12/01/2025",
+    isVerified: false,
+    productName: "Whey Protein",
+    productLink: "#"
   },
   {
     id: 3,
@@ -30,7 +31,10 @@ export const commentsData: Comment[] = [
     name: "Mehmet Kaya",
     title: "Harika!",
     content: "Beklentilerimi aştı. Çok memnun kaldım. Tekrar alacağım.",
-    date: "2024-01-13"
+    date: "08/01/2025",
+    isVerified: true,
+    productName: "BCAA",
+    productLink: "#"
   },
   {
     id: 4,
@@ -38,7 +42,10 @@ export const commentsData: Comment[] = [
     name: "Fatma Özkan",
     title: "Orta seviye",
     content: "Ürün fena değil ama daha iyi olabilirdi. Fiyat performans orta.",
-    date: "2024-01-12"
+    date: "05/01/2025",
+    isVerified: false,
+    productName: "Creatine",
+    productLink: "#"
   },
   {
     id: 5,
@@ -46,7 +53,10 @@ export const commentsData: Comment[] = [
     name: "Ali Çelik",
     title: "Süper kalite",
     content: "Gerçekten kaliteli ürün. Paketleme de çok güzel. Teşekkürler.",
-    date: "2024-01-11"
+    date: "02/01/2025",
+    isVerified: true,
+    productName: "Vitamin D3",
+    productLink: "#"
   },
   {
     id: 6,
@@ -54,7 +64,10 @@ export const commentsData: Comment[] = [
     name: "Zeynep Arslan",
     title: "Hayal kırıklığı",
     content: "Beklediğim gibi değildi. Kalite düşük geldi bana.",
-    date: "2024-01-10"
+    date: "28/12/2024",
+    isVerified: false,
+    productName: "Omega 3",
+    productLink: "#"
   },
   {
     id: 7,
@@ -62,7 +75,10 @@ export const commentsData: Comment[] = [
     name: "Mustafa Şahin",
     title: "Güzel ürün",
     content: "Genel olarak memnunum. Hızlı kargo ve güvenilir.",
-    date: "2024-01-09"
+    date: "25/12/2024",
+    isVerified: true,
+    productName: "Multivitamin",
+    productLink: "#"
   },
   {
     id: 8,
@@ -70,7 +86,10 @@ export const commentsData: Comment[] = [
     name: "Elif Yıldız",
     title: "Mükemmel!",
     content: "Çok beğendim. Kalite çok iyi. Herkese tavsiye ederim.",
-    date: "2024-01-08"
+    date: "22/12/2024",
+    isVerified: true,
+    productName: "L carnitine",
+    productLink: "#"
   },
   {
     id: 9,
@@ -78,7 +97,10 @@ export const commentsData: Comment[] = [
     name: "Okan Bulut",
     title: "İdare eder",
     content: "Fena değil ama daha iyi olabilirdi. Fiyat biraz yüksek.",
-    date: "2024-01-07"
+    date: "20/12/2024",
+    isVerified: false,
+    productName: "Glutamine",
+    productLink: "#"
   },
   {
     id: 10,
@@ -86,7 +108,10 @@ export const commentsData: Comment[] = [
     name: "Selin Aktaş",
     title: "İyi ürün",
     content: "Kaliteli ve güvenilir. Hızlı teslimat. Memnunum.",
-    date: "2024-01-06"
+    date: "18/12/2024",
+    isVerified: true,
+    productName: "ZMA",
+    productLink: "#"
   },
   {
     id: 11,
@@ -94,7 +119,10 @@ export const commentsData: Comment[] = [
     name: "Burak Özdemir",
     title: "Harika kalite",
     content: "Gerçekten çok kaliteli. Beklentilerimi aştı. Teşekkürler.",
-    date: "2024-01-05"
+    date: "15/12/2024",
+    isVerified: true,
+    productName: "Pre Workout",
+    productLink: "#"
   },
   {
     id: 12,
@@ -102,7 +130,10 @@ export const commentsData: Comment[] = [
     name: "Gamze Kılıç",
     title: "Çok kötü",
     content: "Hiç beğenmedim. Kalite çok düşük. Para kaybı.",
-    date: "2024-01-04"
+    date: "12/12/2024",
+    isVerified: false,
+    productName: "Casein Protein",
+    productLink: "#"
   },
   {
     id: 13,
@@ -110,7 +141,10 @@ export const commentsData: Comment[] = [
     name: "Emre Doğan",
     title: "Güzel ürün",
     content: "Genel olarak iyi. Hızlı kargo. Memnunum.",
-    date: "2024-01-03"
+    date: "10/12/2024",
+    isVerified: false,
+    productName: "L carnitine",
+    productLink: "#"
   },
   {
     id: 14,
@@ -118,7 +152,10 @@ export const commentsData: Comment[] = [
     name: "Deniz Yılmaz",
     title: "Süper!",
     content: "Mükemmel kalite. Çok memnun kaldım. Tekrar alacağım.",
-    date: "2024-01-02"
+    date: "08/12/2024",
+    isVerified: true,
+    productName: "Whey Protein",
+    productLink: "#"
   },
   {
     id: 15,
@@ -126,7 +163,10 @@ export const commentsData: Comment[] = [
     name: "Cem Öztürk",
     title: "Orta",
     content: "Fena değil ama daha iyi olabilirdi. Fiyat performans orta.",
-    date: "2024-01-01"
+    date: "05/12/2024",
+    isVerified: false,
+    productName: "BCAA",
+    productLink: "#"
   },
   {
     id: 16,
@@ -134,7 +174,10 @@ export const commentsData: Comment[] = [
     name: "Pınar Aydın",
     title: "İyi kalite",
     content: "Kaliteli ürün. Hızlı teslimat. Güvenilir satıcı.",
-    date: "2023-12-31"
+    date: "02/12/2024",
+    isVerified: true,
+    productName: "Creatine",
+    productLink: "#"
   },
   {
     id: 17,
@@ -142,7 +185,10 @@ export const commentsData: Comment[] = [
     name: "Tolga Korkmaz",
     title: "Mükemmel ürün",
     content: "Gerçekten çok kaliteli. Paketleme de güzel. Teşekkürler.",
-    date: "2023-12-30"
+    date: "30/11/2024",
+    isVerified: true,
+    productName: "Vitamin D3",
+    productLink: "#"
   },
   {
     id: 18,
@@ -150,7 +196,10 @@ export const commentsData: Comment[] = [
     name: "Seda Yıldırım",
     title: "Hayal kırıklığı",
     content: "Beklediğim gibi değildi. Kalite düşük. Memnun değilim.",
-    date: "2023-12-29"
+    date: "28/11/2024",
+    isVerified: false,
+    productName: "Omega 3",
+    productLink: "#"
   },
   {
     id: 19,
@@ -158,7 +207,10 @@ export const commentsData: Comment[] = [
     name: "Kemal Güneş",
     title: "Güzel",
     content: "İyi ürün. Hızlı kargo. Genel olarak memnunum.",
-    date: "2023-12-28"
+    date: "25/11/2024",
+    isVerified: false,
+    productName: "Multivitamin",
+    productLink: "#"
   },
   {
     id: 20,
@@ -166,14 +218,21 @@ export const commentsData: Comment[] = [
     name: "Nurcan Erdoğan",
     title: "Harika!",
     content: "Çok beğendim. Kalite mükemmel. Herkese tavsiye ederim.",
-    date: "2023-12-27"
+    date: "22/11/2024",
+    isVerified: true,
+    productName: "L carnitine",
+    productLink: "#"
   },
   {
     id: 21,
-    starCount: 3,
-    name: "Hakan Çakır",
-    title: "İdare eder",
-    content: "Fena değil ama daha iyi olabilirdi. Fiyat biraz yüksek.",
-    date: "2023-12-26"
+    starCount: 5,
+    name: "Mustafa Ü.",
+    title: "Gayet şeffaf ve güzel kargoyla geldi çok memnun kaldım",
+    content: "Gayet şeffaf ve güzel kargoyla geldi çok memnun kaldım",
+    date: "06/05/24",
+    isVerified: true,
+    productName: "L carnitine",
+    productLink: "#"
   }
 ];
+
