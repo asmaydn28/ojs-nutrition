@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useCartStore } from "../../store/cart";
 import type { Country } from "../MyAccount/MyAccount";
 
@@ -296,9 +297,9 @@ function Payment() {
             {/* Header with Logo and User Info */}
             <div className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-3 sm:py-4 relative">
               {/* Logo */}
-              <div>
-                <img src="/Header/logo-black.svg" alt="OJS Nutrition" className="h-6 sm:h-7 md:h-8 lg:h-[32px] xl:h-[38px] w-auto" />
-              </div>
+              <Link to="/" className="inline-block">
+                <img src="/Header/logo-black.svg" alt="OJS Nutrition" className="h-6 sm:h-7 md:h-8 lg:h-[32px] xl:h-[38px] w-auto cursor-pointer hover:opacity-80 transition-opacity" />
+              </Link>
 
               {/* User Info - Right Aligned */}
               <div className="absolute top-3 sm:top-4 right-4 sm:right-6 md:right-8 lg:right-12 xl:right-16 2xl:right-20 text-right">
