@@ -59,6 +59,7 @@ function ProductDetails() {
             product={product}
             quantity={quantity}
             setQuantity={setQuantity}
+            selectedSize={selectedSize}
           />
         </div>
 

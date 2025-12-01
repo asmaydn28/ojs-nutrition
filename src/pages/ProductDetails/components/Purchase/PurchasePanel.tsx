@@ -1,23 +1,37 @@
 import { type Product } from "../../../../components/ProductCard/ProductArray";
 import { useCartStore } from "../../../../store/cart";
+import { sizes } from "../Selectors/sizeData";
 
 interface PurchasePanelProps {
   product: Product;
   quantity: number;
   setQuantity: (quantity: number) => void;
+  selectedSize: string;
 }
 
-const PurchasePanel = ({ product, quantity, setQuantity }: PurchasePanelProps) => {
+const PurchasePanel = ({ product, quantity, setQuantity, selectedSize }: PurchasePanelProps) => {
   const addItem = useCartStore(s => s.addItem);
+  
+  // Seçili boyuta göre fiyat hesaplama
+  const selectedSizeData = sizes.find(s => s.id === selectedSize);
+  const basePrice = parseFloat((product.DiscountedPrice ?? product.Price).toString().replace(" TL", ""));
+  const sizeMultiplier = selectedSizeData?.priceMultiplier ?? 1;
+  const calculatedPrice = basePrice * sizeMultiplier;
+  const formattedPrice = `${calculatedPrice.toFixed(2)} TL`;
+  
+  // Servis başına fiyat hesaplama
+  const servingCount = selectedSizeData?.serving ? parseInt(selectedSizeData.serving.split(" ")[0]) : 16;
+  const pricePerServing = (calculatedPrice / servingCount).toFixed(2);
+  
   return (
     <div className="mt-8">
       {/* Fiyat ve Servis Ücreti */}
       <div className="flex justify-between items-center mb-6">
         <div className="text-4xl font-inter font-bold text-black">
-          {product.DiscountedPrice ?? product.Price}
+          {formattedPrice}
         </div>
         <div className="font-inter font-semibold text-[16.92px] leading-[28.5px] tracking-[0] align-middle capitalize text-black">
-          34.31 TL /Servis
+          {pricePerServing} TL /Servis
         </div>
       </div>
 
@@ -53,9 +67,11 @@ const PurchasePanel = ({ product, quantity, setQuantity }: PurchasePanelProps) =
           onClick={() =>
             addItem(
               {
-                id: product.id,
-                name: product.ProductName,
-                price: parseFloat((product.DiscountedPrice ?? product.Price).toString().replace(" TL", "")),
+                // Farklı boyutlar için unique ID: ürün ID * 100 + boyut numeric ID
+                // Örnek: Ürün ID 1, 400G (numericId: 1) => 101, 1.6KG (numericId: 2) => 102
+                id: product.id * 100 + (selectedSizeData?.numericId ?? 1),
+                name: `${product.ProductName} (${selectedSizeData?.name ?? ""})`,
+                price: calculatedPrice,
                 image: product.img,
               },
               quantity

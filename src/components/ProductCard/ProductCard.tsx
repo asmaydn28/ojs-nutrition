@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { Product } from "./ProductArray";
 
 function ProductCard({
@@ -12,7 +13,7 @@ function ProductCard({
 }: Product) {
   return (
     <>
-        <a href={`/product/${id}`} className="block cursor-pointer">
+        <Link to={`/product/${id}`} className="block cursor-pointer">
           <div className="lg:w-[200px] md:w-[242px] w-[179px] h-[320px]
           rounded-xl flex flex-col items-center mx-auto my-9 group relative">
             {/* İndirim Badge'i - Sadece indirimli ürünlerde görünür */}
@@ -88,7 +89,7 @@ function ProductCard({
             )}
           </div>
         </div>
-        </a>
+        </Link>
     </>
   );
 }
