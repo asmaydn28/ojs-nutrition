@@ -8,6 +8,7 @@ import Faq from "./pages/Faq/Faq";
 import LoginRegister from "./pages/LoginRegister/LoginRegister";
 import MyAccount from "./pages/MyAccount/MyAccount";
 import AboutUs from "./pages/AboutUs/AboutUs";
+import Payment from "./pages/Payment/Payment";
 
 
 const routes: RouteObject[] = [
@@ -48,6 +49,11 @@ const routes: RouteObject[] = [
                 element: <AboutUs/>
             }
         ]
+    }
+,
+    {
+        path: "/checkout",
+        element: <Payment/>
     }
 ]
 
