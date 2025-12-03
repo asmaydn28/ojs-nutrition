@@ -300,7 +300,7 @@ function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
           </div>
 
           {/* Sayfalama */}
-          <div className="flex items-center justify-center mt-8 gap-2">
+          <div className="flex items-center justify-center my-8 gap-2">
             {/* Sol ok */}
             <button
               onClick={goToPreviousPage}

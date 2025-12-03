@@ -39,7 +39,7 @@ function Dropdown() {
           {/* Menu Items */}
           <div className="py-2">
             <Link
-              to="/auth?form=login"
+              to="/giris-yap"
               className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 group"
             >
               <User className="w-5 h-5 text-gray-400 group-hover:text-blue-500" />
@@ -50,7 +50,7 @@ function Dropdown() {
             </Link>
             <div className="h-px bg-gray-100 mx-2"></div>
             <Link
-              to="/auth?form=register"
+              to="/kayit-ol"
               className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-150 group"
             >
               <UserPlus className="w-5 h-5 text-gray-400 group-hover:text-green-500" />
@@ -61,7 +61,7 @@ function Dropdown() {
             </Link>
             <div className="h-px bg-gray-100 mx-2"></div>
             <Link
-              to="/account"
+              to="/hesabım"
               className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-red-600 transition-colors duration-150 group"
             >
               <UserPlus className="w-5 h-5 text-gray-400 group-hover:text-red-500" />

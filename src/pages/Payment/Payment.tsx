@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCartStore } from "../../store/cart";
 import type { Country } from "../MyAccount/MyAccount";
+import { FREE_SHIPPING_THRESHOLD, SHIPPING_COST, TAX_RATE, DISCOUNT_RATE } from "@/utils/constants";
 
 interface Address {
   id: number;
@@ -68,9 +69,9 @@ function Payment() {
 
   const selectedCountryData = countries.find(country => country.code === selectedCountry);
 
-  const shippingCost = cartTotal >= 500 ? 0 : 50;
-  const tax = Math.round(cartTotal * 0.01);
-  const discount = Math.round(cartTotal * 0.071);
+  const shippingCost = cartTotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
+  const tax = Math.round(cartTotal * TAX_RATE);
+  const discount = Math.round(cartTotal * DISCOUNT_RATE);
   const finalTotal = cartTotal - discount + shippingCost + tax;
 
   const handleCountryChange = (country: string) => {
@@ -485,7 +486,7 @@ function Payment() {
                               {item.name}
                             </h3>
                             <p className="text-[10px] sm:text-[11px] md:text-[12px] font-normal leading-4 sm:leading-5 text-[#8A8B94]">
-                              {item.name.includes("WHEY") ? "Çilek / 400g" : "120g"}
+                              {[item.aroma, item.size].filter(Boolean).join(" / ")}
                             </p>
                           </div>
                           <div className="text-xs sm:text-sm md:text-[14px] font-normal leading-5 sm:leading-[21px] text-[#272727] whitespace-nowrap shrink-0">

@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
 import Login from "./Login";
 import Register from "./Register";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LoginRegister = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const formType = searchParams.get("form");
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  // URL path'ine göre form tipini belirle
+  // /kayit-ol ise register, /giris-yap ise login
+  const isRegisterPath = location.pathname === "/kayit-ol";
+  const [isLoginView, setIsLoginView] = useState(!isRegisterPath);
 
-  // URL'deki parametreye göre başlangıç durumunu ayarla
-  // ?form=register ise Üye Ol, değilse Giriş Yap formu gösterilir.
-  const [isLoginView, setIsLoginView] = useState(formType !== 'register');
-
-  // URL parametresi değiştiğinde state'i güncelle
+  // URL path değiştiğinde state'i güncelle
   useEffect(() => {
-    setIsLoginView(searchParams.get("form") !== 'register');
-  }, [searchParams]);
+    setIsLoginView(location.pathname === "/giris-yap");
+  }, [location.pathname]);
 
   // Aktif ve pasif sekme için Tailwind sınıfları
   const activeTabClasses = "bg-white text-blue-700 border-b-white";
@@ -26,14 +27,14 @@ const LoginRegister = () => {
         {/* Sekmeler */}
         <div className="flex border-b border-gray-200">
           <button
-            onClick={() => setSearchParams({ form: 'login' })}
+            onClick={() => navigate("/giris-yap")}
             className={`w-1/2 py-4 text-center text-lg font-medium focus:outline-none transition-colors duration-150 ease-in-out 
               ${isLoginView ? activeTabClasses : inactiveTabClasses}`}
           >
             Giriş Yap
           </button>
           <button
-            onClick={() => setSearchParams({ form: 'register' })}
+            onClick={() => navigate("/kayit-ol")}
             className={`w-1/2 py-4 text-center text-lg font-medium focus:outline-none transition-colors duration-150 ease-in-out 
               ${!isLoginView ? activeTabClasses : inactiveTabClasses}`}
           >

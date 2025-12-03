@@ -11,9 +11,7 @@ import CartButton from "./NavbarTop/CartButton";
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
-import NavbarLink from "./NavbarMobile/NavbarLink.tsx"
-
-
+import NavbarLink from "./NavbarMobile/NavbarLink.tsx";
 
 function Navbar() {
   const location = useLocation();
@@ -22,7 +20,7 @@ function Navbar() {
   return (
     <header className="fixed top-0 left-0 w-full bg-white font-inter z-50">
       {/* Desktop Header */}
-      <div className="max-w-[1200px] flex items-center justify-between mx-auto md:h-[94px] h-[55px] md:px-8">
+      <div className="max-w-[1200px] flex items-center justify-between mx-auto md:h-[94px] h-[55px] px-4 md:px-8">
         {/* Hamburger Button - Sadece Mobile'da Görünür */}
           <button 
             className="md:hidden p-2 mr-2"

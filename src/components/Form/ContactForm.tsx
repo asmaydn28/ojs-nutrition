@@ -20,7 +20,7 @@ const ContactForm = () => {
       return;
     }
     alert('Mesajınız başarıyla gönderildi!');
-    console.log('Form Data:', formData);
+    // Form verileri backend'e gönderilecek
     setFormData({ name: '', surname: '', email: '', message: '' });
   };
 

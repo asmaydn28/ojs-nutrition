@@ -325,12 +325,12 @@ export default function MobileDrawer({ isOpen, onClose }: NavbarDrawer) {
 
             {/* Alt gri alan */}
             <div className="mt-auto bg-gray-100 p-4">
-                <Link to="/account" className="block py-2" onClick={onClose}>HESABIM</Link>
+                <Link to="/hesabım" className="block py-2" onClick={onClose}>HESABIM</Link>
                 <Link to="/" className="block py-2" onClick={onClose}>MÜŞTERİ YORUMLARI</Link>
-                <Link to="/contact" className="block py-2" onClick={onClose}>İLETİŞİM</Link>
+                <Link to="/iletisim" className="block py-2" onClick={onClose}>İLETİŞİM</Link>
                 <div className="flex gap-2 mt-4">
-                    <Link to="/auth?form=register" onClick={onClose} className="flex-1 bg-black text-white text-center py-2 rounded hover:bg-gray-800 transition-colors">Üye Ol</Link>
-                    <Link to="/auth?form=login" onClick={onClose} className="flex-1 bg-black text-white text-center py-2 rounded hover:bg-gray-800 transition-colors">Üye Girişi</Link>
+                    <Link to="/kayit-ol" onClick={onClose} className="flex-1 bg-black text-white text-center py-2 rounded hover:bg-gray-800 transition-colors">Üye Ol</Link>
+                    <Link to="/giris-yap" onClick={onClose} className="flex-1 bg-black text-white text-center py-2 rounded hover:bg-gray-800 transition-colors">Üye Girişi</Link>
                 </div>
             </div>
           </div>

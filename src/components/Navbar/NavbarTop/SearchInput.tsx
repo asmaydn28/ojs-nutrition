@@ -1,4 +1,3 @@
-
 function SearchInput() {
   return (
     <div className="hidden md:block">
