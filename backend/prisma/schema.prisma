@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  firstName String   @map("first_name")
+  lastName  String   @map("last_name")
+  fullName  String   @map("full_name")
+  username  String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  comments ProductComment[]
+
+  @@map("users")
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  order     Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  products Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id                String   @id @default(uuid())
+  categoryId        String   @map("category_id")
+  name              String
+  slug              String   @unique
+  shortExplanation  String?  @map("short_explanation")
+  longExplanation   String?  @map("long_explanation")
+  price             Decimal  @db.Decimal(10, 2)
+  primaryPhotoUrl   String?  @map("primary_photo_url")
+  commentCount      Int      @default(0) @map("comment_count")
+  averageStar       Decimal? @default(0) @db.Decimal(3, 2) @map("average_star")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  category Category         @relation(fields: [categoryId], references: [id])
+  photos   ProductPhoto[]
+  comments ProductComment[]
+
+  @@map("products")
+}
+
+model ProductPhoto {
+  id        String   @id @default(uuid())
+  productId String   @map("product_id")
+  isPrimary Boolean  @default(false) @map("is_primary")
+  url       String
+  size      Int
+  order     Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_photos")
+}
+
+model ProductComment {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  productId String   @map("product_id")
+  title     String?
+  content   String?
+  rating    Int      @db.SmallInt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_comments")
+}
