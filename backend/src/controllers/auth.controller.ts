@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { register, login, getUserById } from '../services/auth.service';
+import { register, login, getUserById, logout, logoutAll } from '../services/auth.service';
 import { verifyRefreshToken, generateAccessToken, generateRefreshToken } from '../utils/jwt.utils';
 import { TokenPayload } from '../types/auth.types';
 
@@ -119,6 +119,44 @@ export const getMeController = async (req: Request, res: Response): Promise<void
     res.status(404).json({
       success: false,
       message
+    });
+  }
+};
+
+
+// LOGOUT CONTROLLER - POST /api/auth/logout
+export const logoutController = async (req: Request, res: Response): Promise<void> => {
+  try {
+    await logout();
+
+    res.status(200).json({
+      success: true,
+      message: 'Oturum başarıyla sonlandırıldı'
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'Çıkış işlemi başarısız'
+    });
+  }
+};
+
+
+// LOGOUT ALL CONTROLLER - POST /api/auth/logout-all
+export const logoutAllController = async (req: Request, res: Response): Promise<void> => {
+  try {
+    await logoutAll();
+
+    res.status(200).json({
+      success: true,
+      message: 'Tüm oturumlar başarıyla sonlandırıldı'
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'Çıkış işlemi başarısız'
     });
   }
 };

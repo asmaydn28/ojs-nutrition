@@ -123,3 +123,15 @@ export const getUserById = async (userId: string) => {
 
   return user;
 };
+
+
+// LOGOUT - Mevcut oturumdan çıkış
+export const logout = async (): Promise<void> => {
+  // JWT stateless olduğu için server-side'da yapılacak bir işlem yok
+};
+
+
+// LOGOUT ALL - Tüm oturumlardan çıkış
+export const logoutAll = async (): Promise<void> => {
+  // JWT stateless olduğu için server-side'da yapılacak bir işlem yok
+};

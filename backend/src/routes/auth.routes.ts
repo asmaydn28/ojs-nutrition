@@ -3,7 +3,9 @@ import {
   registerController,
   loginController,
   refreshTokenController,
-  getMeController
+  getMeController,
+  logoutController,
+  logoutAllController
 } from '../controllers/auth.controller';
 import { authMiddleware } from '../middleware/auth.middleware';
 
@@ -23,5 +25,11 @@ router.post('/refresh', refreshTokenController);
 // PROTECTED ROUTES - Token gerektiren
 // GET /api/auth/me - Giriş yapan kullanıcı bilgisi
 router.get('/me', authMiddleware, getMeController);
+
+// POST /api/auth/logout - Mevcut oturumdan çıkış
+router.post('/logout', authMiddleware, logoutController);
+
+// POST /api/auth/logout-all - Tüm oturumlardan çıkış
+router.post('/logout-all', authMiddleware, logoutAllController);
 
 export default router;
