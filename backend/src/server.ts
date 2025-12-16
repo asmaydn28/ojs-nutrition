@@ -7,7 +7,9 @@ import categoryRoutes from './routes/category.routes'
 import productRoutes from './routes/product.routes'
 import productPhotoRoutes from './routes/productPhoto.routes'      
 import productCommentRoutes from './routes/productComment.routes'
-import userRoutes from './routes/user.routes'  
+import userRoutes from './routes/user.routes'
+import cartItemRoutes from './routes/cartItem.routes'
+import orderRoutes from './routes/order.routes'  
 
 dotenv.config();
 
@@ -25,9 +27,9 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/product-photos', productPhotoRoutes);      
 app.use('/api/comments', productCommentRoutes);
-app.use('/api/users', userRoutes);    
-
-
+app.use('/api/users', userRoutes);
+app.use('/api/cart-items', cartItemRoutes);
+app.use('/api/orders', orderRoutes);    
 
 app.get('/health', (req: Request, res: Response) => {
     res.json({ 

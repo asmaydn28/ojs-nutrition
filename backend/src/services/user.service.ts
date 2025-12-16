@@ -1,5 +1,6 @@
 import prisma from '../config/prisma';
 import bcrypt from 'bcryptjs';
+import { $Enums } from '@prisma/client';
 import { UpdateUserInput, UserResponse } from '../types/user.types';
 
 // GET ALL - Tüm kullanıcıları getir
@@ -12,6 +13,7 @@ export const getAllUsers = async (): Promise<UserResponse[]> => {
       fullName: true,
       username: true,
       email: true,
+      role: true,
       createdAt: true,
       updatedAt: true
     },
@@ -32,6 +34,7 @@ export const getUserById = async (id: string): Promise<UserResponse> => {
       fullName: true,
       username: true,
       email: true,
+      role: true,
       createdAt: true,
       updatedAt: true
     }
@@ -83,6 +86,7 @@ export const updateUser = async (id: string, input: UpdateUserInput): Promise<Us
     username?: string;
     email?: string;
     password?: string;
+    role?: $Enums.UserRole;
   } = { ...input };
   
   if (input.password) {
@@ -106,6 +110,7 @@ export const updateUser = async (id: string, input: UpdateUserInput): Promise<Us
       fullName: true,
       username: true,
       email: true,
+      role: true,
       createdAt: true,
       updatedAt: true
     }

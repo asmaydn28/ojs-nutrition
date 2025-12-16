@@ -52,7 +52,8 @@ export const register = async (input: RegisterInput): Promise<AuthResponse> => {
       lastName: user.lastName,
       fullName: user.fullName,
       username: user.username,
-      email: user.email
+      email: user.email,
+      role: user.role
     },
     accessToken,
     refreshToken
@@ -95,7 +96,8 @@ export const login = async (input: LoginInput): Promise<AuthResponse> => {
       lastName: user.lastName,
       fullName: user.fullName,
       username: user.username,
-      email: user.email
+      email: user.email,
+      role: user.role
     },
     accessToken,
     refreshToken
@@ -113,6 +115,7 @@ export const getUserById = async (userId: string) => {
       fullName: true,
       username: true,
       email: true,
+      role: true,
       createdAt: true
     }
   });

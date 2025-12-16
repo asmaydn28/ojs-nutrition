@@ -7,6 +7,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  ADMIN
+  MODERATOR
+  USER
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
 model User {
   id        String   @id @default(uuid())
   firstName String   @map("first_name")
@@ -15,10 +29,13 @@ model User {
   username  String   @unique
   email     String   @unique
   password  String
+  role      UserRole @default(USER) @map("role")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  comments ProductComment[]
+  comments  ProductComment[]
+  cartItems CartItem[]
+  orders    Order[]
 
   @@map("users")
 }
@@ -47,12 +64,15 @@ model Product {
   primaryPhotoUrl   String?  @map("primary_photo_url")
   commentCount      Int      @default(0) @map("comment_count")
   averageStar       Decimal? @default(0) @db.Decimal(3, 2) @map("average_star")
+  stockQuantity     Int      @default(0) @map("stock_quantity")
   createdAt         DateTime @default(now()) @map("created_at")
-  updatedAt        DateTime @updatedAt @map("updated_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
 
-  category Category         @relation(fields: [categoryId], references: [id])
-  photos   ProductPhoto[]
-  comments ProductComment[]
+  category   Category      @relation(fields: [categoryId], references: [id])
+  photos     ProductPhoto[]
+  comments   ProductComment[]
+  cartItems  CartItem[]
+  orderItems OrderItem[]
 
   @@map("products")
 }
@@ -86,4 +106,48 @@ model ProductComment {
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@map("product_comments")
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  productId String   @map("product_id")
+  quantity  Int
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@map("cart_items")
+}
+
+model Order {
+  id         String      @id @default(uuid())
+  userId     String      @map("user_id")
+  totalPrice Decimal     @db.Decimal(10, 2) @map("total_price")
+  status     OrderStatus @default(PENDING)
+  createdAt  DateTime    @default(now()) @map("created_at")
+  updatedAt  DateTime    @updatedAt @map("updated_at")
+
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderItems OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String   @map("order_id")
+  productId String   @map("product_id")
+  quantity  Int
+  unitPrice Decimal  @db.Decimal(10, 2) @map("unit_price")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("order_items")
 }

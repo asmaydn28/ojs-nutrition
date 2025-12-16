@@ -31,13 +31,17 @@ export const createProductController = async (req: Request, res: Response): Prom
 export const getAllProductsController = async (req: Request, res: Response): Promise<void> => {
   try {
     // Query parametrelerini al
-    const { categoryId, search, page, limit } = req.query;
+    const { categoryId, search, page, limit, min_price, max_price, min_rating, sort } = req.query;
 
     const result = await getAllProducts({
       categoryId: categoryId as string,
       search: search as string,
       page: page ? Number(page) : undefined,
-      limit: limit ? Number(limit) : undefined
+      limit: limit ? Number(limit) : undefined,
+      min_price: min_price ? Number(min_price) : undefined,
+      max_price: max_price ? Number(max_price) : undefined,
+      min_rating: min_rating ? Number(min_rating) : undefined,
+      sort: sort as string
     });
 
     res.status(200).json({

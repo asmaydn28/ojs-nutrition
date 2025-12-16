@@ -14,6 +14,7 @@ const formatProduct = (product: {
   primaryPhotoUrl: string | null;
   commentCount: number;
   averageStar: Decimal | null;
+  stockQuantity: number;
   createdAt: Date;
   updatedAt: Date;
 }) => ({
@@ -51,7 +52,8 @@ export const createProduct = async (input: CreateProductInput) => {
       shortExplanation: input.shortExplanation,
       longExplanation: input.longExplanation,
       price: input.price,
-      primaryPhotoUrl: input.primaryPhotoUrl
+      primaryPhotoUrl: input.primaryPhotoUrl,
+      stockQuantity: input.stockQuantity ?? 0
     }
   });
 
@@ -60,13 +62,15 @@ export const createProduct = async (input: CreateProductInput) => {
 
 // GET ALL - Tüm ürünleri getir (filtreleme ve sayfalama)
 export const getAllProducts = async (params: ProductQueryParams) => {
-  const { categoryId, search, page = 1, limit = 10 } = params;
+  const { categoryId, search, page = 1, limit = 10, min_price, max_price, min_rating, sort } = params;
   const skip = (page - 1) * limit;
 
   // Where koşullarını oluştur
   const where: {
     categoryId?: string;
     name?: { contains: string; mode: 'insensitive' };
+    price?: { gte?: number; lte?: number };
+    averageStar?: { gte?: number };
   } = {};
 
   if (categoryId) {
@@ -77,15 +81,47 @@ export const getAllProducts = async (params: ProductQueryParams) => {
     where.name = { contains: search, mode: 'insensitive' };
   }
 
+  // Fiyat filtreleme
+  if (min_price !== undefined || max_price !== undefined) {
+    where.price = {};
+    if (min_price !== undefined) {
+      where.price.gte = min_price;
+    }
+    if (max_price !== undefined) {
+      where.price.lte = max_price;
+    }
+  }
+
+  // Ortalama puan filtreleme
+  if (min_rating !== undefined) {
+    where.averageStar = { gte: min_rating };
+  }
+
   // Toplam sayıyı al
   const total = await prisma.product.count({ where });
+
+  // Sıralama belirleme
+  let orderBy: { price?: 'asc' | 'desc'; averageStar?: 'asc' | 'desc'; createdAt?: 'asc' | 'desc' } = { createdAt: 'desc' };
+
+  if (sort) {
+    const [field, direction] = sort.split(':');
+    const orderDirection = direction === 'asc' ? 'asc' : 'desc';
+
+    if (field === 'price') {
+      orderBy = { price: orderDirection };
+    } else if (field === 'rating') {
+      orderBy = { averageStar: orderDirection };
+    } else if (field === 'createdAt') {
+      orderBy = { createdAt: orderDirection };
+    }
+  }
 
   // Ürünleri getir
   const products = await prisma.product.findMany({
     where,
     skip,
     take: limit,
-    orderBy: { createdAt: 'desc' },
+    orderBy,
     include: {
       category: {
         select: { id: true, name: true, slug: true }
