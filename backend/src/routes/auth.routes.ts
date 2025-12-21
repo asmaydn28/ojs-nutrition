@@ -7,6 +7,7 @@ import {
   logoutController,
   logoutAllController
 } from '../controllers/auth.controller';
+import { getMyPermissionsController } from '../controllers/role.controller';
 import { authMiddleware } from '../middleware/auth.middleware';
 
 const router: Router = Router();
@@ -25,6 +26,9 @@ router.post('/refresh', refreshTokenController);
 // PROTECTED ROUTES - Token gerektiren
 // GET /api/auth/me - Giriş yapan kullanıcı bilgisi
 router.get('/me', authMiddleware, getMeController);
+
+// GET /api/auth/permissions - Giriş yapan kullanıcının yetkileri
+router.get('/permissions', authMiddleware, getMyPermissionsController);
 
 // POST /api/auth/logout - Mevcut oturumdan çıkış
 router.post('/logout', authMiddleware, logoutController);

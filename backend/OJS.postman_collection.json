@@ -1,1374 +1,1459 @@
 {
-	"info": {
-		"_postman_id": "ojs-backend-api",
-		"name": "OJS",
-		"description": "OJS E-commerce Backend API Collection",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Auth",
-			"item": [
-				{
-					"name": "Register",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"username\": \"johndoe\",\n  \"email\": \"test@example.com\",\n  \"password\": \"123456\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/auth/register",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"auth",
-								"register"
-							]
-						},
-						"description": "Register a new user"
-					},
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"if (pm.response.code === 201) {",
-									"    const response = pm.response.json();",
-									"    if (response.data && response.data.accessToken) {",
-									"        pm.collectionVariables.set('accessToken', response.data.accessToken);",
-									"        pm.collectionVariables.set('refreshToken', response.data.refreshToken);",
-									"    }",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					]
-				},
-				{
-					"name": "Login",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"password123\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/auth/login",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"auth",
-								"login"
-							]
-						},
-						"description": "Login user and get access token"
-					},
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"if (pm.response.code === 200) {",
-									"    const response = pm.response.json();",
-									"    if (response.data && response.data.accessToken) {",
-									"        pm.collectionVariables.set('accessToken', response.data.accessToken);",
-									"        pm.collectionVariables.set('refreshToken', response.data.refreshToken);",
-									"    }",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					]
-				},
-				{
-					"name": "Refresh Token",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/auth/refresh",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"auth",
-								"refresh"
-							]
-						},
-						"description": "Refresh access token using refresh token"
-					},
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"if (pm.response.code === 200) {",
-									"    const response = pm.response.json();",
-									"    if (response.data && response.data.accessToken) {",
-									"        pm.collectionVariables.set('accessToken', response.data.accessToken);",
-									"        pm.collectionVariables.set('refreshToken', response.data.refreshToken);",
-									"    }",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					]
-				},
-				{
-					"name": "Get Me",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/auth/me",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"auth",
-								"me"
-							]
-						},
-						"description": "Get current authenticated user information"
-					}
-				},
-				{
-					"name": "Logout",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/auth/logout",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"auth",
-								"logout"
-							]
-						},
-						"description": "Logout from current session"
-					}
-				},
-				{
-					"name": "Logout All",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/auth/logout-all",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"auth",
-								"logout-all"
-							]
-						},
-						"description": "Logout from all sessions"
-					}
-				}
-			],
-			"description": "Authentication endpoints"
-		},
-		{
-			"name": "Users",
-			"item": [
-				{
-					"name": "Get All Users",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/users",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"users"
-							]
-						},
-						"description": "Get all users"
-					}
-				},
-				{
-					"name": "Get User By ID",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/users/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"users",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "User ID"
-								}
-							]
-						},
-						"description": "Get user by ID"
-					}
-				},
-				{
-					"name": "Update User",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"username\": \"johndoe\",\n  \"email\": \"john.doe@example.com\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/users/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"users",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "User ID"
-								}
-							]
-						},
-						"description": "Update user information"
-					}
-				}
-			],
-			"description": "User management endpoints"
-		},
-		{
-			"name": "Category",
-			"item": [
-				{
-					"name": "Get All Categories",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/categories",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"categories"
-							]
-						},
-						"description": "Get all categories (ordered by order field)"
-					}
-				},
-				{
-					"name": "Get Category By ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/categories/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"categories",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Category ID"
-								}
-							]
-						},
-						"description": "Get category by ID"
-					}
-				},
-				{
-					"name": "Create Category",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"Electronics\",\n  \"slug\": \"electronics\",\n  \"order\": 1\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/categories",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"categories"
-							]
-						},
-						"description": "Create a new category"
-					}
-				},
-				{
-					"name": "Update Category",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"Electronics Updated\",\n  \"slug\": \"electronics-updated\",\n  \"order\": 2\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/categories/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"categories",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Category ID"
-								}
-							]
-						},
-						"description": "Update category"
-					}
-				},
-				{
-					"name": "Delete Category",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/categories/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"categories",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Category ID"
-								}
-							]
-						},
-						"description": "Delete category"
-					}
-				}
-			],
-			"description": "Category management endpoints"
-		},
-		{
-			"name": "Product",
-			"item": [
-				{
-					"name": "Get All Products",
-					"request": {
-						"method": "GET",
-						"header": [],
-					"url": {
-						"raw": "{{baseUrl}}/api/products?categoryId=&search=&page=1&limit=10&min_price=&max_price=&min_rating=&sort=",
-						"host": [
-							"{{baseUrl}}"
-						],
-						"path": [
-							"api",
-							"products"
-						],
-						"query": [
-							{
-								"key": "categoryId",
-								"value": "",
-								"description": "Filter by category ID",
-								"disabled": true
-							},
-							{
-								"key": "search",
-								"value": "",
-								"description": "Search in product name",
-								"disabled": true
-							},
-							{
-								"key": "page",
-								"value": "1",
-								"description": "Page number",
-								"disabled": true
-							},
-							{
-								"key": "limit",
-								"value": "10",
-								"description": "Items per page",
-								"disabled": true
-							},
-							{
-								"key": "min_price",
-								"value": "",
-								"description": "Minimum price filter",
-								"disabled": true
-							},
-							{
-								"key": "max_price",
-								"value": "",
-								"description": "Maximum price filter",
-								"disabled": true
-							},
-							{
-								"key": "min_rating",
-								"value": "",
-								"description": "Minimum rating filter (1-5)",
-								"disabled": true
-							},
-							{
-								"key": "sort",
-								"value": "",
-								"description": "Sort by: price:asc, price:desc, rating:asc, rating:desc, createdAt:asc, createdAt:desc",
-								"disabled": true
-							}
-						]
-					},
-					"description": "Get all products with filtering, sorting and pagination"
-					}
-				},
-				{
-					"name": "Get Product By ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/products/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"products",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Product ID"
-								}
-							]
-						},
-						"description": "Get product by ID"
-					}
-				},
-				{
-					"name": "Get Product By Slug",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/products/slug/:slug",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"products",
-								"slug",
-								":slug"
-							],
-							"variable": [
-								{
-									"key": "slug",
-									"value": "",
-									"description": "Product slug"
-								}
-							]
-						},
-						"description": "Get product by slug"
-					}
-				},
-				{
-					"name": "Create Product",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"categoryId\": \"category-id-here\",\n  \"name\": \"Product Name\",\n  \"slug\": \"product-name\",\n  \"shortExplanation\": \"Short description\",\n  \"longExplanation\": \"Long detailed description\",\n  \"price\": 99.99,\n  \"primaryPhotoUrl\": \"https://example.com/photo.jpg\",\n  \"stockQuantity\": 100\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/products",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"products"
-							]
-						},
-						"description": "Create a new product"
-					}
-				},
-				{
-					"name": "Update Product",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"Updated Product Name\",\n  \"slug\": \"updated-product-name\",\n  \"price\": 149.99\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/products/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"products",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Product ID"
-								}
-							]
-						},
-						"description": "Update product"
-					}
-				},
-				{
-					"name": "Delete Product",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/products/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"products",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Product ID"
-								}
-							]
-						},
-						"description": "Delete product"
-					}
-				}
-			],
-			"description": "Product management endpoints"
-		},
-		{
-			"name": "Product Photos",
-			"item": [
-				{
-					"name": "Create Product Photo",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"productId\": \"product-id-here\",\n  \"url\": \"https://picsum.photos/800/600\",\n  \"size\": 102400,\n  \"isPrimary\": false\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/product-photos",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"product-photos"
-							]
-						},
-						"description": "Add photo to product (order is automatically assigned)"
-					}
-				},
-				{
-					"name": "Get Product Photo By ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/product-photos/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"product-photos",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Product Photo ID"
-								}
-							]
-						},
-						"description": "Get product photo by ID"
-					}
-				},
-				{
-					"name": "Update Product Photo",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"isPrimary\": true,\n  \"order\": 1\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/product-photos/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"product-photos",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Product Photo ID"
-								}
-							]
-						},
-						"description": "Update product photo (only order and isPrimary can be changed)"
-					}
-				},
-				{
-					"name": "Delete Product Photo",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/product-photos/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"product-photos",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Product Photo ID"
-								}
-							]
-						},
-						"description": "Delete product photo"
-					}
-				}
-			],
-			"description": "Product photo management endpoints"
-		},
-		{
-			"name": "Comments",
-			"item": [
-				{
-					"name": "Get All Comments",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/comments?product_id=&rating=",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"comments"
-							],
-							"query": [
-								{
-									"key": "product_id",
-									"value": "",
-									"description": "Filter by product ID",
-									"disabled": true
-								},
-								{
-									"key": "rating",
-									"value": "",
-									"description": "Filter by rating (1-5)",
-									"disabled": true
-								}
-							]
-						},
-						"description": "Get all comments with optional filtering"
-					}
-				},
-				{
-					"name": "Get Comment By ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/comments/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"comments",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Comment ID"
-								}
-							]
-						},
-						"description": "Get comment by ID"
-					}
-				},
-				{
-					"name": "Create Comment",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"productId\": \"product-id-here\",\n  \"title\": \"Great Product!\",\n  \"content\": \"This product is amazing. Highly recommended!\",\n  \"rating\": 5\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/comments",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"comments"
-							]
-						},
-						"description": "Create a new product comment"
-					}
-				},
-				{
-					"name": "Update Comment",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"title\": \"Updated Title\",\n  \"content\": \"Updated content\",\n  \"rating\": 4\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/comments/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"comments",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Comment ID"
-								}
-							]
-						},
-						"description": "Update comment (owner only)"
-					}
-				},
-				{
-					"name": "Delete Comment",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/comments/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"comments",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Comment ID"
-								}
-							]
-						},
-						"description": "Delete comment (owner only)"
-					}
-				}
-			],
-			"description": "Product comment management endpoints"
-		},
-		{
-			"name": "Cart Items",
-			"item": [
-				{
-					"name": "Add to Cart",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"productId\": \"product-id-here\",\n  \"quantity\": 2\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/cart-items",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"cart-items"
-							]
-						},
-						"description": "Add product to cart (if same product exists, quantity will be increased)"
-					}
-				},
-				{
-					"name": "Get All Cart Items",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/cart-items",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"cart-items"
-							]
-						},
-						"description": "Get all cart items for authenticated user"
-					}
-				},
-				{
-					"name": "Get Cart Item By ID",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/cart-items/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"cart-items",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Cart Item ID"
-								}
-							]
-						},
-						"description": "Get cart item by ID"
-					}
-				},
-				{
-					"name": "Update Cart Item",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"quantity\": 5\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/cart-items/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"cart-items",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Cart Item ID"
-								}
-							]
-						},
-						"description": "Update cart item quantity"
-					}
-				},
-				{
-					"name": "Delete Cart Item",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/cart-items/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"cart-items",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Cart Item ID"
-								}
-							]
-						},
-						"description": "Delete cart item by ID"
-					}
-				},
-				{
-					"name": "Clear Cart",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/cart-items",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"cart-items"
-							]
-						},
-						"description": "Clear all cart items for authenticated user"
-					}
-				}
-			],
-			"description": "Shopping cart management endpoints"
-		},
-		{
-			"name": "Orders",
-			"item": [
-				{
-					"name": "Create Order",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/orders",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"orders"
-							]
-						},
-						"description": "Create order from cart items. Cart will be cleared and stock will be decreased automatically."
-					}
-				},
-				{
-					"name": "Get All Orders",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/orders",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"orders"
-							]
-						},
-						"description": "Get all orders for authenticated user"
-					}
-				},
-				{
-					"name": "Get Order By ID",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/orders/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"orders",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Order ID"
-								}
-							]
-						},
-						"description": "Get order by ID (user can only access their own orders)"
-					}
-				},
-				{
-					"name": "Update Order Status",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"status\": \"PAID\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/orders/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"orders",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Order ID"
-								}
-							]
-						},
-						"description": "Update order status (PENDING, PAID, SHIPPED, DELIVERED, CANCELLED). User can only update their own orders."
-					}
-				}
-			],
-			"description": "Order management endpoints"
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					"// Auto-add Authorization header if accessToken exists",
-					"const accessToken = pm.collectionVariables.get('accessToken');",
-					"if (accessToken && !pm.request.headers.has('Authorization')) {",
-					"    pm.request.headers.add({",
-					"        key: 'Authorization',",
-					"        value: 'Bearer ' + accessToken",
-					"    });",
-					"}"
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					"// Auto-refresh token on 401 errors",
-					"if (pm.response.code === 401) {",
-					"    const refreshToken = pm.collectionVariables.get('refreshToken');",
-					"    if (refreshToken) {",
-					"        pm.sendRequest({",
-					"            url: pm.collectionVariables.get('baseUrl') + '/api/auth/refresh',",
-					"            method: 'POST',",
-					"            header: {",
-					"                'Content-Type': 'application/json'",
-					"            },",
-					"            body: {",
-					"                mode: 'raw',",
-					"                raw: JSON.stringify({ refreshToken: refreshToken })",
-					"            }",
-					"        }, function (err, res) {",
-					"            if (!err && res.code === 200) {",
-					"                const response = res.json();",
-					"                if (response.data && response.data.accessToken) {",
-					"                    pm.collectionVariables.set('accessToken', response.data.accessToken);",
-					"                    pm.collectionVariables.set('refreshToken', response.data.refreshToken);",
-					"                }",
-					"            }",
-					"        });",
-					"    }",
-					"}"
-				]
-			}
-		}
-	],
-	"variable": [
-		{
-			"key": "baseUrl",
-			"value": "http://localhost:3000",
-			"type": "string"
-		},
-		{
-			"key": "accessToken",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"key": "refreshToken",
-			"value": "",
-			"type": "string"
-		}
-	]
+  "info": {
+    "_postman_id": "ojs-nutrition-api",
+    "name": "OJS Nutrition API",
+    "description": "OJS Nutrition E-Commerce Backend API\n\n## Özellikler\n- JWT Authentication (Access + Refresh Token)\n- CBAC (Claims-Based Access Control) Yetkilendirme\n- Otomatik Token Yönetimi\n- Otomatik ID Yönetimi\n\n## Roller\n- **ADMIN**: Tüm yetkiler\n- **MODERATOR**: Ürün/kategori yönetimi, sipariş görüntüleme\n- **USER**: Kendi profili, sepeti, siparişleri\n\n## Kullanım\n1. Register veya Login ile giriş yapın\n2. Token'lar otomatik kaydedilir\n3. Diğer isteklerde otomatik kullanılır",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refreshToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "categoryId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "productId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "productSlug",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "photoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "commentId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "cartItemId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "orderId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "roleId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "🔐 Auth",
+      "description": "Kimlik doğrulama işlemleri",
+      "item": [
+        {
+          "name": "Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.accessToken) {",
+                  "        pm.collectionVariables.set('accessToken', response.data.accessToken);",
+                  "    }",
+                  "    if (response.data && response.data.refreshToken) {",
+                  "        pm.collectionVariables.set('refreshToken', response.data.refreshToken);",
+                  "    }",
+                  "    if (response.data && response.data.user && response.data.user.id) {",
+                  "        pm.collectionVariables.set('userId', response.data.user.id);",
+                  "    }",
+                  "    pm.test('Registration successful', function() {",
+                  "        pm.expect(response.success).to.be.true;",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Test\",\n  \"lastName\": \"User\",\n  \"username\": \"testuser\",\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Yeni kullanıcı kaydı oluşturur.\n\nOtomatik olarak USER rolü atanır."
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.accessToken) {",
+                  "        pm.collectionVariables.set('accessToken', response.data.accessToken);",
+                  "    }",
+                  "    if (response.data && response.data.refreshToken) {",
+                  "        pm.collectionVariables.set('refreshToken', response.data.refreshToken);",
+                  "    }",
+                  "    if (response.data && response.data.user && response.data.user.id) {",
+                  "        pm.collectionVariables.set('userId', response.data.user.id);",
+                  "    }",
+                  "    pm.test('Login successful', function() {",
+                  "        pm.expect(response.success).to.be.true;",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Kullanıcı girişi yapar.\n\nToken'lar otomatik kaydedilir."
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.accessToken) {",
+                  "        pm.collectionVariables.set('accessToken', response.data.accessToken);",
+                  "    }",
+                  "    if (response.data && response.data.refreshToken) {",
+                  "        pm.collectionVariables.set('refreshToken', response.data.refreshToken);",
+                  "    }",
+                  "    pm.test('Token refreshed', function() {",
+                  "        pm.expect(response.success).to.be.true;",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/refresh",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "refresh"]
+            },
+            "description": "Access token'ı yeniler.\n\nRefresh token kullanarak yeni access token alır."
+          }
+        },
+        {
+          "name": "Get Me",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.id) {",
+                  "        pm.collectionVariables.set('userId', response.data.id);",
+                  "    }",
+                  "    pm.test('User info retrieved', function() {",
+                  "        pm.expect(response.success).to.be.true;",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "me"]
+            },
+            "description": "Giriş yapan kullanıcının bilgilerini getirir."
+          }
+        },
+        {
+          "name": "Get My Permissions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/permissions",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "permissions"]
+            },
+            "description": "Giriş yapan kullanıcının tüm yetkilerini ve rollerini getirir."
+          }
+        },
+        {
+          "name": "Logout",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    pm.test('Logout successful', function() {",
+                  "        pm.expect(pm.response.json().success).to.be.true;",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "logout"]
+            },
+            "description": "Mevcut oturumdan çıkış yapar."
+          }
+        },
+        {
+          "name": "Logout All",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    pm.collectionVariables.set('accessToken', '');",
+                  "    pm.collectionVariables.set('refreshToken', '');",
+                  "    pm.test('Logout all successful', function() {",
+                  "        pm.expect(pm.response.json().success).to.be.true;",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout-all",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "logout-all"]
+            },
+            "description": "Tüm oturumlardan çıkış yapar."
+          }
+        }
+      ]
+    },
+    {
+      "name": "👤 Users",
+      "description": "Kullanıcı yönetimi işlemleri\n\n**Gerekli Yetkiler:**\n- READ_ANY: Tüm kullanıcıları görme\n- READ_OWN: Kendi profilini görme\n- UPDATE_OWN/ANY: Güncelleme",
+      "item": [
+        {
+          "name": "Get All Users",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.length > 0) {",
+                  "        pm.collectionVariables.set('userId', response.data[0].id);",
+                  "    }",
+                  "    pm.test('Users retrieved', function() {",
+                  "        pm.expect(response.success).to.be.true;",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["users"]
+            },
+            "description": "Tüm kullanıcıları listeler.\n\n**Yetki:** users:read:any"
+          }
+        },
+        {
+          "name": "Get User By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}"]
+            },
+            "description": "ID ile kullanıcı getirir.\n\n**Yetki:** users:read:own veya users:read:any"
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Updated\",\n  \"lastName\": \"Name\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}"]
+            },
+            "description": "Kullanıcı bilgilerini günceller.\n\n**Yetki:** users:update:own veya users:update:any"
+          }
+        },
+        {
+          "name": "Get User Roles",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.roles && response.data.roles.length > 0) {",
+                  "        pm.collectionVariables.set('roleId', response.data.roles[0].id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}/roles",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}", "roles"]
+            },
+            "description": "Kullanıcının rollerini getirir.\n\n**Yetki:** roles:read"
+          }
+        },
+        {
+          "name": "Assign Role to User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roleId\": \"{{roleId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}/roles",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}", "roles"]
+            },
+            "description": "Kullanıcıya rol atar.\n\n**Yetki:** roles:assign"
+          }
+        },
+        {
+          "name": "Remove Role from User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}/roles/{{roleId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}", "roles", "{{roleId}}"]
+            },
+            "description": "Kullanıcıdan rol kaldırır.\n\n**Yetki:** roles:assign"
+          }
+        },
+        {
+          "name": "Get User Permissions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}/permissions",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}", "permissions"]
+            },
+            "description": "Kullanıcının tüm yetkilerini getirir.\n\n**Yetki:** roles:read"
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔑 Roles & Permissions",
+      "description": "Rol ve yetki yönetimi (CBAC)\n\n**Not:** Sadece ADMIN bu işlemleri yapabilir.",
+      "item": [
+        {
+          "name": "Get All Permissions (Public)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/roles/permissions",
+              "host": ["{{baseUrl}}"],
+              "path": ["roles", "permissions"]
+            },
+            "description": "Sistemdeki tüm mevcut permission'ları listeler.\n\n**Auth:** Gerekli değil (Public)"
+          }
+        },
+        {
+          "name": "Get All Roles",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.length > 0) {",
+                  "        pm.collectionVariables.set('roleId', response.data[0].id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/roles",
+              "host": ["{{baseUrl}}"],
+              "path": ["roles"]
+            },
+            "description": "Tüm rolleri listeler.\n\n**Yetki:** roles:read"
+          }
+        },
+        {
+          "name": "Get Role By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/roles/{{roleId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["roles", "{{roleId}}"]
+            },
+            "description": "Rol detayını getirir.\n\n**Yetki:** roles:read"
+          }
+        },
+        {
+          "name": "Create Role",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.id) {",
+                  "        pm.collectionVariables.set('roleId', response.data.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"CUSTOM_ROLE\",\n  \"permissions\": [\n    \"products:read\",\n    \"categories:read\",\n    \"comments:read\",\n    \"comments:create\"\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/roles",
+              "host": ["{{baseUrl}}"],
+              "path": ["roles"]
+            },
+            "description": "Yeni rol oluşturur.\n\n**Yetki:** roles:create"
+          }
+        },
+        {
+          "name": "Update Role",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"UPDATED_ROLE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/roles/{{roleId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["roles", "{{roleId}}"]
+            },
+            "description": "Rol adını günceller.\n\n**Yetki:** roles:update"
+          }
+        },
+        {
+          "name": "Delete Role",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/roles/{{roleId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["roles", "{{roleId}}"]
+            },
+            "description": "Rolü siler.\n\n**Not:** ADMIN, MODERATOR, USER rolleri silinemez.\n\n**Yetki:** roles:delete"
+          }
+        },
+        {
+          "name": "Add Permission to Role",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"permissionKey\": \"orders:read:own\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/roles/{{roleId}}/permissions",
+              "host": ["{{baseUrl}}"],
+              "path": ["roles", "{{roleId}}", "permissions"]
+            },
+            "description": "Role yeni permission ekler.\n\n**Yetki:** roles:update"
+          }
+        },
+        {
+          "name": "Remove Permission from Role",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/roles/{{roleId}}/permissions/orders:read:own",
+              "host": ["{{baseUrl}}"],
+              "path": ["roles", "{{roleId}}", "permissions", "orders:read:own"]
+            },
+            "description": "Role'den permission kaldırır.\n\n**Yetki:** roles:update"
+          }
+        }
+      ]
+    },
+    {
+      "name": "📁 Categories",
+      "description": "Kategori yönetimi\n\n**Public:** Listeleme ve görüntüleme\n**Protected:** Oluşturma, güncelleme, silme",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.length > 0) {",
+                  "        pm.collectionVariables.set('categoryId', response.data[0].id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories"]
+            },
+            "description": "Tüm kategorileri listeler.\n\n**Auth:** Gerekli değil (Public)"
+          }
+        },
+        {
+          "name": "Get Category By ID",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories/{{categoryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", "{{categoryId}}"]
+            },
+            "description": "ID ile kategori getirir.\n\n**Auth:** Gerekli değil (Public)"
+          }
+        },
+        {
+          "name": "Create Category",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.id) {",
+                  "        pm.collectionVariables.set('categoryId', response.data.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Protein Tozu\",\n  \"slug\": \"protein-tozu\",\n  \"order\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories"]
+            },
+            "description": "Yeni kategori oluşturur.\n\n**Yetki:** categories:create"
+          }
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Whey Protein\",\n  \"order\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/categories/{{categoryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", "{{categoryId}}"]
+            },
+            "description": "Kategori günceller.\n\n**Yetki:** categories:update"
+          }
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories/{{categoryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", "{{categoryId}}"]
+            },
+            "description": "Kategori siler.\n\n**Yetki:** categories:delete"
+          }
+        }
+      ]
+    },
+    {
+      "name": "📦 Products",
+      "description": "Ürün yönetimi\n\n**Public:** Listeleme ve görüntüleme (filtreleme destekli)\n**Protected:** Oluşturma, güncelleme, silme",
+      "item": [
+        {
+          "name": "Get All Products",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.length > 0) {",
+                  "        pm.collectionVariables.set('productId', response.data[0].id);",
+                  "        pm.collectionVariables.set('productSlug', response.data[0].slug);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"]
+            },
+            "description": "Tüm ürünleri listeler.\n\n**Auth:** Gerekli değil (Public)"
+          }
+        },
+        {
+          "name": "Get Products with Filters",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products?categoryId={{categoryId}}&min_price=100&max_price=500&min_rating=3&sort=price:asc&page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"],
+              "query": [
+                {
+                  "key": "categoryId",
+                  "value": "{{categoryId}}",
+                  "description": "Kategoriye göre filtre"
+                },
+                {
+                  "key": "min_price",
+                  "value": "100",
+                  "description": "Minimum fiyat"
+                },
+                {
+                  "key": "max_price",
+                  "value": "500",
+                  "description": "Maksimum fiyat"
+                },
+                {
+                  "key": "min_rating",
+                  "value": "3",
+                  "description": "Minimum puan"
+                },
+                {
+                  "key": "sort",
+                  "value": "price:asc",
+                  "description": "Sıralama: price:asc, price:desc, rating:asc, rating:desc, createdAt:asc, createdAt:desc"
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Sayfa numarası"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Sayfa başı ürün sayısı"
+                }
+              ]
+            },
+            "description": "Filtreleme ve sayfalama ile ürün listesi.\n\n**Filtreler:**\n- categoryId: Kategori ID\n- min_price/max_price: Fiyat aralığı\n- min_rating: Minimum puan\n- sort: price:asc, price:desc, rating:asc, rating:desc, createdAt:asc, createdAt:desc\n- page, limit: Sayfalama"
+          }
+        },
+        {
+          "name": "Get Product By ID",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "{{productId}}"]
+            },
+            "description": "ID ile ürün getirir.\n\n**Auth:** Gerekli değil (Public)"
+          }
+        },
+        {
+          "name": "Get Product By Slug",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/slug/{{productSlug}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "slug", "{{productSlug}}"]
+            },
+            "description": "Slug ile ürün getirir.\n\n**Auth:** Gerekli değil (Public)"
+          }
+        },
+        {
+          "name": "Create Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.id) {",
+                  "        pm.collectionVariables.set('productId', response.data.id);",
+                  "        pm.collectionVariables.set('productSlug', response.data.slug);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryId\": \"{{categoryId}}\",\n  \"name\": \"Whey Protein 2kg\",\n  \"slug\": \"whey-protein-2kg\",\n  \"shortExplanation\": \"Premium kalite whey protein\",\n  \"longExplanation\": \"Yüksek kaliteli whey protein konsantresi. Her serviste 24g protein içerir.\",\n  \"price\": 599.99,\n  \"stockQuantity\": 100\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"]
+            },
+            "description": "Yeni ürün oluşturur.\n\n**Yetki:** products:create"
+          }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Whey Protein 2.5kg\",\n  \"price\": 649.99,\n  \"stockQuantity\": 150\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "{{productId}}"]
+            },
+            "description": "Ürün günceller.\n\n**Yetki:** products:update"
+          }
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "{{productId}}"]
+            },
+            "description": "Ürün siler.\n\n**Yetki:** products:delete"
+          }
+        }
+      ]
+    },
+    {
+      "name": "📷 Product Photos",
+      "description": "Ürün fotoğrafı yönetimi\n\n**Özellikler:**\n- Otomatik sıralama\n- Birincil fotoğraf yönetimi\n- Cascade silme",
+      "item": [
+        {
+          "name": "Get Photo By ID",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/product-photos/{{photoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["product-photos", "{{photoId}}"]
+            },
+            "description": "ID ile fotoğraf getirir.\n\n**Auth:** Gerekli değil (Public)"
+          }
+        },
+        {
+          "name": "Create Product Photo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.id) {",
+                  "        pm.collectionVariables.set('photoId', response.data.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"url\": \"https://example.com/photo1.jpg\",\n  \"size\": 102400\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/product-photos",
+              "host": ["{{baseUrl}}"],
+              "path": ["product-photos"]
+            },
+            "description": "Ürüne fotoğraf ekler.\n\n**Not:** İlk fotoğraf otomatik birincil olur.\n\n**Yetki:** product-photos:create"
+          }
+        },
+        {
+          "name": "Update Product Photo",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isPrimary\": true,\n  \"order\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/product-photos/{{photoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["product-photos", "{{photoId}}"]
+            },
+            "description": "Fotoğraf günceller (sıra, birincil).\n\n**Yetki:** product-photos:update"
+          }
+        },
+        {
+          "name": "Delete Product Photo",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/product-photos/{{photoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["product-photos", "{{photoId}}"]
+            },
+            "description": "Fotoğraf siler.\n\n**Yetki:** product-photos:delete"
+          }
+        }
+      ]
+    },
+    {
+      "name": "💬 Comments",
+      "description": "Ürün yorumu yönetimi\n\n**Public:** Listeleme ve görüntüleme\n**Protected:** Oluşturma, güncelleme, silme\n\n**Ownership:** Kullanıcı sadece kendi yorumunu düzenleyebilir (MODERATOR hariç)",
+      "item": [
+        {
+          "name": "Get All Comments",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.length > 0) {",
+                  "        pm.collectionVariables.set('commentId', response.data[0].id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/comments",
+              "host": ["{{baseUrl}}"],
+              "path": ["comments"]
+            },
+            "description": "Tüm yorumları listeler.\n\n**Auth:** Gerekli değil (Public)"
+          }
+        },
+        {
+          "name": "Get Comments with Filters",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/comments?product_id={{productId}}&rating=5",
+              "host": ["{{baseUrl}}"],
+              "path": ["comments"],
+              "query": [
+                {
+                  "key": "product_id",
+                  "value": "{{productId}}",
+                  "description": "Ürüne göre filtre"
+                },
+                {
+                  "key": "rating",
+                  "value": "5",
+                  "description": "Puana göre filtre (1-5)"
+                }
+              ]
+            },
+            "description": "Filtreleme ile yorum listesi."
+          }
+        },
+        {
+          "name": "Get Comment By ID",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/comments/{{commentId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["comments", "{{commentId}}"]
+            },
+            "description": "ID ile yorum getirir.\n\n**Auth:** Gerekli değil (Public)"
+          }
+        },
+        {
+          "name": "Create Comment",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.id) {",
+                  "        pm.collectionVariables.set('commentId', response.data.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"title\": \"Harika ürün!\",\n  \"content\": \"Çok kaliteli bir ürün, tavsiye ederim.\",\n  \"rating\": 5\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/comments",
+              "host": ["{{baseUrl}}"],
+              "path": ["comments"]
+            },
+            "description": "Yeni yorum oluşturur.\n\n**Yetki:** comments:create"
+          }
+        },
+        {
+          "name": "Update Comment",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Güncellenmiş başlık\",\n  \"content\": \"Güncellenmiş içerik\",\n  \"rating\": 4\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/comments/{{commentId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["comments", "{{commentId}}"]
+            },
+            "description": "Yorum günceller.\n\n**Yetki:** comments:update:own veya comments:update:any"
+          }
+        },
+        {
+          "name": "Delete Comment",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/comments/{{commentId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["comments", "{{commentId}}"]
+            },
+            "description": "Yorum siler.\n\n**Yetki:** comments:delete:own veya comments:delete:any"
+          }
+        }
+      ]
+    },
+    {
+      "name": "🛒 Cart",
+      "description": "Sepet yönetimi\n\n**Not:** Kullanıcı sadece kendi sepetini yönetebilir.\n\n**Özellikler:**\n- Stok kontrolü\n- Aynı üründen birden fazla ekleme (miktar güncelleme)",
+      "item": [
+        {
+          "name": "Get Cart Items",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.length > 0) {",
+                  "        pm.collectionVariables.set('cartItemId', response.data[0].id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cart-items",
+              "host": ["{{baseUrl}}"],
+              "path": ["cart-items"]
+            },
+            "description": "Sepetteki ürünleri listeler.\n\n**Yetki:** carts:read:own"
+          }
+        },
+        {
+          "name": "Get Cart Item By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cart-items/{{cartItemId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["cart-items", "{{cartItemId}}"]
+            },
+            "description": "ID ile sepet öğesi getirir.\n\n**Yetki:** carts:read:own"
+          }
+        },
+        {
+          "name": "Add to Cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201 || pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.id) {",
+                  "        pm.collectionVariables.set('cartItemId', response.data.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cart-items",
+              "host": ["{{baseUrl}}"],
+              "path": ["cart-items"]
+            },
+            "description": "Sepete ürün ekler.\n\n**Not:** Stok kontrolü yapılır. Aynı ürün varsa miktar güncellenir.\n\n**Yetki:** carts:update:own"
+          }
+        },
+        {
+          "name": "Update Cart Item",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": 3\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cart-items/{{cartItemId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["cart-items", "{{cartItemId}}"]
+            },
+            "description": "Sepet öğesi miktarını günceller.\n\n**Yetki:** carts:update:own"
+          }
+        },
+        {
+          "name": "Remove from Cart",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cart-items/{{cartItemId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["cart-items", "{{cartItemId}}"]
+            },
+            "description": "Sepetten ürün siler.\n\n**Yetki:** carts:delete:own"
+          }
+        },
+        {
+          "name": "Clear Cart",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cart-items",
+              "host": ["{{baseUrl}}"],
+              "path": ["cart-items"]
+            },
+            "description": "Sepeti tamamen temizler.\n\n**Yetki:** carts:delete:own"
+          }
+        }
+      ]
+    },
+    {
+      "name": "📋 Orders",
+      "description": "Sipariş yönetimi\n\n**Özellikler:**\n- Sepetten sipariş oluşturma\n- Stok kontrolü ve güncelleme\n- Sipariş durumu yönetimi\n\n**Durumlar:** PENDING, PAID, SHIPPED, DELIVERED, CANCELLED",
+      "item": [
+        {
+          "name": "Get All Orders",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.length > 0) {",
+                  "        pm.collectionVariables.set('orderId', response.data[0].id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"]
+            },
+            "description": "Siparişleri listeler.\n\n**USER:** Kendi siparişleri\n**ADMIN/MODERATOR:** Tüm siparişler\n\n**Yetki:** orders:read:own veya orders:read:any"
+          }
+        },
+        {
+          "name": "Get Order By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/{{orderId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", "{{orderId}}"]
+            },
+            "description": "ID ile sipariş getirir.\n\n**Yetki:** orders:read:own veya orders:read:any"
+          }
+        },
+        {
+          "name": "Create Order (from Cart)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.data && response.data.id) {",
+                  "        pm.collectionVariables.set('orderId', response.data.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"]
+            },
+            "description": "Sepetten sipariş oluşturur.\n\n**İşlemler:**\n1. Stok kontrolü\n2. Sipariş ve kalemleri oluşturma\n3. Stok güncelleme\n4. Sepeti temizleme\n\n**Yetki:** orders:create:own"
+          }
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"PAID\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/{{orderId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", "{{orderId}}"]
+            },
+            "description": "Sipariş durumunu günceller.\n\n**Durumlar:** PENDING, PAID, SHIPPED, DELIVERED, CANCELLED\n\n**Yetki:** orders:update:own veya orders:update:any"
+          }
+        }
+      ]
+    }
+  ]
 }
-

@@ -1,7 +1,19 @@
 import prisma from '../config/prisma';
 import bcrypt from 'bcryptjs';
-import { $Enums } from '@prisma/client';
 import { UpdateUserInput, UserResponse } from '../types/user.types';
+
+// HELPER - Kullanıcının rol isimlerini getir
+const getUserRoleNames = async (userId: string): Promise<string[]> => {
+  const userRoles = await prisma.userRole.findMany({
+    where: { userId },
+    include: {
+      role: {
+        select: { name: true }
+      }
+    }
+  });
+  return userRoles.map(ur => ur.role.name);
+};
 
 // GET ALL - Tüm kullanıcıları getir
 export const getAllUsers = async (): Promise<UserResponse[]> => {
@@ -13,14 +25,30 @@ export const getAllUsers = async (): Promise<UserResponse[]> => {
       fullName: true,
       username: true,
       email: true,
-      role: true,
       createdAt: true,
-      updatedAt: true
+      updatedAt: true,
+      roles: {
+        include: {
+          role: {
+            select: { name: true }
+          }
+        }
+      }
     },
     orderBy: { createdAt: 'desc' }
   });
 
-  return users;
+  return users.map(user => ({
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    fullName: user.fullName,
+    username: user.username,
+    email: user.email,
+    roles: user.roles.map(ur => ur.role.name),
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt
+  }));
 };
 
 // GET BY ID - ID ile kullanıcı getir
@@ -34,7 +62,6 @@ export const getUserById = async (id: string): Promise<UserResponse> => {
       fullName: true,
       username: true,
       email: true,
-      role: true,
       createdAt: true,
       updatedAt: true
     }
@@ -44,7 +71,13 @@ export const getUserById = async (id: string): Promise<UserResponse> => {
     throw new Error('Kullanıcı bulunamadı');
   }
 
-  return user;
+  // Kullanıcının rollerini getir
+  const roles = await getUserRoleNames(id);
+
+  return {
+    ...user,
+    roles
+  };
 };
 
 // UPDATE - Kullanıcı güncelle
@@ -86,7 +119,6 @@ export const updateUser = async (id: string, input: UpdateUserInput): Promise<Us
     username?: string;
     email?: string;
     password?: string;
-    role?: $Enums.UserRole;
   } = { ...input };
   
   if (input.password) {
@@ -110,12 +142,17 @@ export const updateUser = async (id: string, input: UpdateUserInput): Promise<Us
       fullName: true,
       username: true,
       email: true,
-      role: true,
       createdAt: true,
       updatedAt: true
     }
   });
 
-  return updatedUser;
+  // Kullanıcının rollerini getir
+  const roles = await getUserRoleNames(id);
+
+  return {
+    ...updatedUser,
+    roles
+  };
 };
 

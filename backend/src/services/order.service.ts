@@ -125,7 +125,7 @@ export const createOrder = async (userId: string): Promise<OrderResponse> => {
   };
 };
 
-// GET ALL - Siparişleri listele
+// GET ALL - Kullanıcının siparişlerini listele
 export const getAllOrders = async (userId: string): Promise<OrderResponse[]> => {
   const orders = await prisma.order.findMany({
     where: { userId },
@@ -156,8 +156,45 @@ export const getAllOrders = async (userId: string): Promise<OrderResponse[]> => 
   }));
 };
 
-// GET BY ID - Sipariş getir
-export const getOrderById = async (id: string, userId: string): Promise<OrderResponse> => {
+// GET ALL ADMIN - Tüm siparişleri listele (admin/moderator)
+export const getAllOrdersAdmin = async (): Promise<OrderResponse[]> => {
+  const orders = await prisma.order.findMany({
+    include: {
+      orderItems: {
+        include: {
+          product: {
+            select: {
+              id: true,
+              name: true,
+              slug: true
+            }
+          }
+        }
+      },
+      user: {
+        select: {
+          id: true,
+          email: true,
+          fullName: true
+        }
+      }
+    },
+    orderBy: { createdAt: 'desc' }
+  });
+
+  return orders.map(order => ({
+    ...formatOrder(order),
+    status: order.status as OrderStatus,
+    orderItems: order.orderItems.map(item => ({
+      ...item,
+      unitPrice: Number(item.unitPrice),
+      product: item.product
+    }))
+  }));
+};
+
+// GET BY ID - Sipariş getir (ownership kontrolü middleware'de yapılıyor)
+export const getOrderById = async (id: string): Promise<OrderResponse> => {
   const order = await prisma.order.findUnique({
     where: { id },
     include: {
@@ -179,11 +216,6 @@ export const getOrderById = async (id: string, userId: string): Promise<OrderRes
     throw new Error('Sipariş bulunamadı');
   }
 
-  // Kullanıcı sadece kendi siparişini görebilir
-  if (order.userId !== userId) {
-    throw new Error('Bu siparişe erişim yetkiniz yok');
-  }
-
   return {
     ...formatOrder(order),
     status: order.status as OrderStatus,
@@ -195,10 +227,9 @@ export const getOrderById = async (id: string, userId: string): Promise<OrderRes
   };
 };
 
-// UPDATE - Sipariş durumunu güncelle
+// UPDATE - Sipariş durumunu güncelle (ownership kontrolü middleware'de yapılıyor)
 export const updateOrder = async (
   id: string,
-  userId: string,
   input: UpdateOrderInput
 ): Promise<OrderResponse> => {
   const existingOrder = await prisma.order.findUnique({
@@ -207,11 +238,6 @@ export const updateOrder = async (
 
   if (!existingOrder) {
     throw new Error('Sipariş bulunamadı');
-  }
-
-  // Kullanıcı sadece kendi siparişini güncelleyebilir
-  if (existingOrder.userId !== userId) {
-    throw new Error('Bu siparişi güncelleme yetkiniz yok');
   }
 
   const updatedOrder = await prisma.order.update({

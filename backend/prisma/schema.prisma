@@ -7,12 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserRole {
-  ADMIN
-  MODERATOR
-  USER
-}
-
 enum OrderStatus {
   PENDING
   PAID
@@ -20,6 +14,47 @@ enum OrderStatus {
   DELIVERED
   CANCELLED
 }
+
+// ==================== CBAC (Claims-Based Access Control) ====================
+
+model Role {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  permissions RolePermission[]
+  users       UserRole[]
+
+  @@map("roles")
+}
+
+model RolePermission {
+  id            String   @id @default(uuid())
+  roleId        String   @map("role_id")
+  permissionKey String   @map("permission_key")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, permissionKey])
+  @@map("roles_permissions")
+}
+
+model UserRole {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  roleId    String   @map("role_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roleId])
+  @@map("users_roles")
+}
+
+// ==================== USER ====================
 
 model User {
   id        String   @id @default(uuid())
@@ -29,10 +64,10 @@ model User {
   username  String   @unique
   email     String   @unique
   password  String
-  role      UserRole @default(USER) @map("role")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  roles     UserRole[]
   comments  ProductComment[]
   cartItems CartItem[]
   orders    Order[]

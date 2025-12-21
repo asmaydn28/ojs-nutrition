@@ -8,6 +8,8 @@ import {
   deleteProductController
 } from '../controllers/product.controller';
 import { authMiddleware } from '../middleware/auth.middleware';
+import { requirePermission } from '../middleware/permission.middleware';
+import { PERMISSIONS } from '../constants/permissions';
 
 const router: Router = Router();
     
@@ -22,15 +24,30 @@ router.get('/slug/:slug', getProductBySlugController);
 // GET /api/products/:id - ID ile ürün getir
 router.get('/:id', getProductByIdController);
 
-// PROTECTED ROUTES - Token gerektiren (Admin)--------------------------------
+// PROTECTED ROUTES - Token gerektiren (Admin/Moderator)--------------------------------
 
 // POST /api/products - Yeni ürün oluştur
-router.post('/', authMiddleware, createProductController);
+router.post(
+  '/',
+  authMiddleware,
+  requirePermission(PERMISSIONS.PRODUCTS.CREATE),
+  createProductController
+);
 
 // PATCH /api/products/:id - Ürün güncelle
-router.patch('/:id', authMiddleware, updateProductController);
+router.patch(
+  '/:id',
+  authMiddleware,
+  requirePermission(PERMISSIONS.PRODUCTS.UPDATE),
+  updateProductController
+);
 
 // DELETE /api/products/:id - Ürün sil
-router.delete('/:id', authMiddleware, deleteProductController);
+router.delete(
+  '/:id',
+  authMiddleware,
+  requirePermission(PERMISSIONS.PRODUCTS.DELETE),
+  deleteProductController
+);
 
 export default router;

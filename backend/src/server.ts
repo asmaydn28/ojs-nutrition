@@ -10,6 +10,7 @@ import productCommentRoutes from './routes/productComment.routes'
 import userRoutes from './routes/user.routes'
 import cartItemRoutes from './routes/cartItem.routes'
 import orderRoutes from './routes/order.routes'  
+import roleRoutes from './routes/role.routes'
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.use('/api/comments', productCommentRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/cart-items', cartItemRoutes);
 app.use('/api/orders', orderRoutes);    
+app.use('/api/roles', roleRoutes);    
 
 app.get('/health', (req: Request, res: Response) => {
     res.json({ 

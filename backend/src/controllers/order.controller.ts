@@ -2,9 +2,12 @@ import { Request, Response } from 'express';
 import {
   createOrder,
   getAllOrders,
+  getAllOrdersAdmin,
   getOrderById,
   updateOrder
 } from '../services/order.service';
+import { getUserPermissions } from '../services/permission.service';
+import { PERMISSIONS } from '../constants/permissions';
 
 // CREATE CONTROLLER - POST /api/orders
 export const createOrderController = async (req: Request, res: Response): Promise<void> => {
@@ -46,7 +49,13 @@ export const getAllOrdersController = async (req: Request, res: Response): Promi
       return;
     }
 
-    const orders = await getAllOrders(userId);
+    // READ_ANY yetkisi varsa tüm siparişleri getir
+    const permissions = await getUserPermissions(userId);
+    const canReadAll = permissions.includes(PERMISSIONS.ORDERS.READ_ANY);
+
+    const orders = canReadAll 
+      ? await getAllOrdersAdmin() 
+      : await getAllOrders(userId);
 
     res.status(200).json({
       success: true,
@@ -64,17 +73,9 @@ export const getAllOrdersController = async (req: Request, res: Response): Promi
 // GET BY ID CONTROLLER - GET /api/orders/:id
 export const getOrderByIdController = async (req: Request, res: Response): Promise<void> => {
   try {
-    const userId = req.user?.userId;
-    if (!userId) {
-      res.status(401).json({
-        success: false,
-        message: 'Kimlik doğrulama gerekli'
-      });
-      return;
-    }
-
     const { id } = req.params;
-    const order = await getOrderById(id, userId);
+    // Middleware zaten ownership kontrolü yaptı, direkt getir
+    const order = await getOrderById(id);
 
     res.status(200).json({
       success: true,
@@ -92,17 +93,9 @@ export const getOrderByIdController = async (req: Request, res: Response): Promi
 // UPDATE CONTROLLER - PATCH /api/orders/:id
 export const updateOrderController = async (req: Request, res: Response): Promise<void> => {
   try {
-    const userId = req.user?.userId;
-    if (!userId) {
-      res.status(401).json({
-        success: false,
-        message: 'Kimlik doğrulama gerekli'
-      });
-      return;
-    }
-
     const { id } = req.params;
-    const order = await updateOrder(id, userId, req.body);
+    // Middleware zaten ownership kontrolü yaptı, direkt güncelle
+    const order = await updateOrder(id, req.body);
 
     res.status(200).json({
       success: true,
