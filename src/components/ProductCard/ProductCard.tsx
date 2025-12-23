@@ -34,12 +34,12 @@ function ProductCard({ product }: ProductCardProps) {
           </div>
         )}
 
-        {/* Ürün görseli */}
-        <div className="w-[168px] h-[168px] overflow-hidden mb-4 group-hover:scale-105 duration-200 transition-transform flex items-center justify-center">
+        {/* Ürün görseli*/}
+        <div className="w-[168px] h-[168px] mb-4 group-hover:scale-105 duration-200 transition-transform overflow-hidden flex items-center justify-center">
           <img
             src={imageUrl}
             alt={name}
-            className="w-full h-full object-contain"
+            className="w-[168px] h-[168px] object-cover"
           />
         </div>
 

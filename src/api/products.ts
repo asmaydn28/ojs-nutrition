@@ -1,6 +1,5 @@
 import { API_BASE_URL, DEFAULT_LIMIT } from "./config";
 
-// API'den gelen ürün tipi (liste için)
 export interface APIProduct {
   slug: string;
   name: string;
@@ -16,7 +15,6 @@ export interface APIProduct {
   };
 }
 
-// Ürün listesi response tipi
 export interface ProductListResponse {
   count: number;
   next: string | null;
@@ -24,7 +22,6 @@ export interface ProductListResponse {
   results: APIProduct[];
 }
 
-// Ürün varyantı tipi
 export interface ProductVariant {
   id: string;
   size: {
@@ -43,7 +40,6 @@ export interface ProductVariant {
   is_available: boolean;
 }
 
-// Besin içeriği tipi
 export interface NutritionalContent {
   ingredients: Array<{ aroma: string | null; value: string }>;
   nutrition_facts: {
@@ -52,7 +48,6 @@ export interface NutritionalContent {
   };
 }
 
-// Ürün açıklaması tipi
 export interface ProductExplanation {
   usage: string;
   features: string;
@@ -60,7 +55,6 @@ export interface ProductExplanation {
   nutritional_content: NutritionalContent;
 }
 
-// Ürün detay response tipi (API'den gelen gerçek format)
 export interface ProductDetailResponse {
   id: string;
   slug: string;
@@ -73,10 +67,6 @@ export interface ProductDetailResponse {
   average_star: number;
 }
 
-/**
- * Çok satanlar listesini getirir
- * Postman: Products → List Best Sellers
- */
 export async function getBestSellers(): Promise<APIProduct[]> {
   const response = await fetch(`${API_BASE_URL}/products/best-sellers`);
   
@@ -85,22 +75,13 @@ export async function getBestSellers(): Promise<APIProduct[]> {
   }
   
   const json = await response.json();
-  // API { status: "success", data: [...] } formatında dönüyor
   return json.data || json.results || json;
 }
 
-/**
- * Tüm ürünleri sayfalı şekilde getirir
- * Postman: Products → Index
- * 
- * @param page - Sayfa numarası (1'den başlar)
- * @param limit - Sayfa başına ürün sayısı
- */
 export async function getAllProducts(
   page: number = 1,
   limit: number = DEFAULT_LIMIT
 ): Promise<ProductListResponse> {
-  // Offset formülü: (page - 1) * limit
   const offset = (page - 1) * limit;
   
   const response = await fetch(
@@ -112,19 +93,12 @@ export async function getAllProducts(
   }
   
   const json = await response.json();
-  // API { status: "success", data: {...} } veya doğrudan data dönebilir
   if (json.status === "success" && json.data) {
     return json.data;
   }
   return json;
 }
 
-/**
- * Tek bir ürünün detaylarını getirir
- * Postman: Products → Show
- * 
- * @param slug - Ürün slug'ı
- */
 export async function getProductBySlug(
   slug: string
 ): Promise<ProductDetailResponse> {
@@ -135,7 +109,6 @@ export async function getProductBySlug(
   }
   
   const json = await response.json();
-  // API { status: "success", data: {...} } formatında dönebilir
   if (json.status === "success" && json.data) {
     return json.data;
   }
@@ -148,12 +121,112 @@ export async function getProductBySlug(
  */
 export function getProductImageUrl(photoSrc: string | undefined): string {
   if (!photoSrc) {
-    return "/ProductCard/whey-protein.png"; // Fallback görsel
+    return "/ProductCard/whey-protein.png";
   }
   if (photoSrc.startsWith("http")) {
     return photoSrc;
   }
-  // API base URL'den /api/v1 kısmını çıkarıp media path'i ekle
   const baseUrl = API_BASE_URL.replace("/api/v1", "");
   return `${baseUrl}${photoSrc}`;
+}
+
+export interface APIComment {
+  stars?: string; 
+  comment?: string; 
+  title?: string; 
+  created_at?: string; 
+  first_name?: string;
+  last_name?: string; 
+  aroma?: string; 
+  id?: string;
+  productId?: string;
+  userId?: string;
+  content?: string | null;
+  rating?: number; 
+  createdAt?: string;
+  user?: {
+    id: string;
+    fullName: string;
+    username: string;
+  };
+}
+
+export interface ProductCommentsResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: APIComment[];
+}
+
+
+export async function getProductComments(
+  productSlug: string,
+  page: number = 1,
+  limit: number = 10
+): Promise<ProductCommentsResponse> {
+  const offset = (page - 1) * limit;
+  
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/products/${productSlug}/comments?limit=${limit}&offset=${offset}`
+    );
+    
+    if (!response.ok) {
+      console.warn(`Yorumlar getirilemedi (${response.status}): ${productSlug}`);
+      return {
+        count: 0,
+        next: null,
+        previous: null,
+        results: [],
+      };
+    }
+    
+    const json = await response.json();
+    
+    if (json.status === "success" && json.data) {
+      if (json.data.results && Array.isArray(json.data.results)) {
+        return json.data;
+      }
+      if (Array.isArray(json.data)) {
+        return {
+          count: json.data.length,
+          next: null,
+          previous: null,
+          results: json.data,
+        };
+      }
+      if (json.data && typeof json.data === 'object' && json.data.results) {
+        return json.data;
+      }
+    }
+    
+    if (Array.isArray(json)) {
+      return {
+        count: json.length,
+        next: null,
+        previous: null,
+        results: json,
+      };
+    }
+    
+    if (json && typeof json === 'object' && json.results && Array.isArray(json.results)) {
+      return json;
+    }
+    
+    console.warn("Beklenmeyen API response formatı:", json);
+    return {
+      count: 0,
+      next: null,
+      previous: null,
+      results: [],
+    };
+  } catch (error) {
+    console.error("Yorumlar çekilirken hata:", error);
+    return {
+      count: 0,
+      next: null,
+      previous: null,
+      results: [],
+    };
+  }
 }

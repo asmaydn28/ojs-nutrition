@@ -11,7 +11,7 @@ import AboutUs from "./pages/AboutUs/AboutUs";
 import Payment from "./pages/Payment/Payment";
 
 // API fonksiyonları
-import { getBestSellers, getAllProducts, getProductBySlug, DEFAULT_LIMIT } from "./api";
+import { getBestSellers, getAllProducts, getProductBySlug, getProductComments, DEFAULT_LIMIT } from "./api";
 import { calculateTotalPages } from "./utils/formatters";
 
 // HomePage loader - Çok satanları çeker
@@ -21,7 +21,6 @@ async function homePageLoader() {
 }
 
 // AllProducts loader - Tüm ürünleri sayfalı çeker
-// Formül: offset = (page - 1) * 12
 async function allProductsLoader({ request }: { request: Request }) {
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get("page") || "1", 10);
@@ -30,13 +29,33 @@ async function allProductsLoader({ request }: { request: Request }) {
   return { products, currentPage: page, totalPages };
 }
 
-// ProductDetails loader - Tek ürün detayını çeker
+// ProductDetails loader - Tek ürün detayını ve yorumlarını çeker
 async function productDetailsLoader({ params }: { params: { slug?: string } }) {
   if (!params.slug) {
     throw new Error("Ürün bulunamadı");
   }
-  const product = await getProductBySlug(params.slug);
-  return { product };
+  
+  try {
+    // Ürün ve yorumları paralel olarak çek
+    const [product, commentsData] = await Promise.all([
+      getProductBySlug(params.slug),
+      getProductComments(params.slug, 1, 100).catch((error) => {
+        // Yorumlar çekilemezse boş response döndür
+        console.warn("Yorumlar çekilemedi, boş liste döndürülüyor:", error);
+        return {
+          count: 0,
+          next: null,
+          previous: null,
+          results: [],
+        };
+      }),
+    ]);
+    
+    return { product, commentsData };
+  } catch (error) {
+    console.error("ProductDetails loader hatası:", error);
+    throw error;
+  }
 }
 
 const routes: RouteObject[] = [

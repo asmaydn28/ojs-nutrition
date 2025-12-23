@@ -1,27 +1,52 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import CommentCard from './CommentCard';
 import type { Comment, CommentsVariant } from './types';
 import { commentsData as defaultCommentsData } from './commentsData';
 
 interface CommentsProps {
   variant: CommentsVariant;
-  comments?: Comment[]; // Backend'den gelecek - şimdilik opsiyonel
-  commentsPerPage?: number; // Product variant için
+  comments?: Comment[];
+  commentsPerPage?: number;
+  totalComments?: number;
+  averageRating?: number;
 }
 
-function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
-  // Tüm hook'lar component'in en üstünde tanımlanmalı (React Hooks kuralları)
+function Comments({ variant, comments, commentsPerPage = 7, totalComments, averageRating }: CommentsProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [aboutUsCurrentPage, setAboutUsCurrentPage] = useState(1);
 
-  // Mock data - Backend entegrasyonunda kaldırılacak
   const defaultComments: Comment[] = comments || defaultCommentsData;
 
-  // useEffect hook'u da en üstte tanımlanmalı
+  const starDistribution = useMemo(() => {
+    if (variant !== 'product' || !defaultComments.length) {
+      return { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+    }
+    
+    const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+    defaultComments.forEach(comment => {
+      const stars = comment.starCount;
+      if (stars >= 1 && stars <= 5) {
+        distribution[stars as keyof typeof distribution]++;
+      }
+    });
+    
+    return distribution;
+  }, [variant, defaultComments]);
+
+  const starPercentages = useMemo(() => {
+    const total = defaultComments.length || 1;
+    return {
+      5: (starDistribution[5] / total) * 100,
+      4: (starDistribution[4] / total) * 100,
+      3: (starDistribution[3] / total) * 100,
+      2: (starDistribution[2] / total) * 100,
+      1: (starDistribution[1] / total) * 100,
+    };
+  }, [starDistribution, defaultComments.length]);
+
   useEffect(() => {
-    // Sadece homepage variant'ında event listener'ları ekle
     if (variant === 'homepage') {
       const handleNextClickEvent = () => {
         setSlideDirection('right');
@@ -55,7 +80,6 @@ function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
     }
   }, [variant, defaultComments.length]);
 
-  // Homepage variant - Carousel
   if (variant === 'homepage') {
     const getCurrentCards = () => {
       const cards = [];
@@ -90,17 +114,19 @@ function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
     );
   }
 
-  // Product variant - Pagination (Maksimum 10 sayfa)
   if (variant === 'product') {
-    const defaultComments: Comment[] = comments || defaultCommentsData;
-    
     const totalPages = Math.ceil(defaultComments.length / commentsPerPage);
-    const maxPagesToShow = 10; // Maksimum 10 sayfa göster
+    const maxPagesToShow = 10;
     const displayPages = Math.min(totalPages, maxPagesToShow);
     
     const startIndex = (currentPage - 1) * commentsPerPage;
     const endIndex = startIndex + commentsPerPage;
     const currentComments = defaultComments.slice(startIndex, endIndex);
+
+    const finalAverageRating = averageRating ?? (defaultComments.length > 0 
+      ? defaultComments.reduce((sum, c) => sum + c.starCount, 0) / defaultComments.length 
+      : 0);
+    const finalTotalComments = totalComments ?? defaultComments.length;
 
     const goToPage = (page: number) => {
       if (page >= 1 && page <= displayPages) {
@@ -122,10 +148,10 @@ function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
 
     return (
       <div className="max-w-7xl mx-auto">
-        {/* Toplam değerlendirme ve yorum sayıları */}
+        {/* Ortalama puan ve yıldız dağılımı */}
         <div className="grid sm:grid-cols-2 grid-cols-1">
           <div className="flex flex-col items-center text-center sm:justify-self-start mb-5 mx-5">
-            <div className="font-bold mb-2">4.8</div>
+            <div className="font-bold mb-2">{finalAverageRating.toFixed(1)}</div>
             <div className="flex mb-2">
               {[...Array(5)].map((_, i) => (
                 <svg
@@ -137,16 +163,16 @@ function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
                 >
                   <path
                     d="M12 2L15.09 8.26L22 9L17 14.14L18.18 21L12 17.77L5.82 21L7 14.14L2 9L8.91 8.26L12 2Z"
-                    fill={i < 5 ? "#FDD835" : "#E0E0E0"}
+                    fill={i < Math.round(finalAverageRating) ? "#FDD835" : "#E0E0E0"}
                   />
                 </svg>
               ))}
             </div>
-            <div className="mb-2">10869 YORUM</div>
+            <div className="mb-2">{finalTotalComments} YORUM</div>
           </div>
 
+          {/* Yıldız dağılımı */}
           <div className="space-y-2 mx-5">
-            {/* 5 Yıldız */}
             <div className="flex items-center gap-4">
               <div className="flex text-gray-600 text-sm w-16">
                 {[...Array(5)].map((_, i) => (
@@ -167,15 +193,14 @@ function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
               <div className="flex-1 bg-gray-200 h-3 relative">
                 <div
                   className="bg-gradient-to-r from-[#387EC7] to-[#1F23AA] h-3"
-                  style={{ width: "85%" }}
+                  style={{ width: `${starPercentages[5]}%` }}
                 />
               </div>
               <span className="text-gray-500 text-sm w-16 text-right">
-                (9284)
+                ({starDistribution[5]})
               </span>
             </div>
 
-            {/* 4 Yıldız */}
             <div className="flex items-center gap-4">
               <div className="flex text-gray-600 text-sm w-16">
                 {[...Array(5)].map((_, i) => (
@@ -196,15 +221,14 @@ function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
               <div className="flex-1 bg-gray-200 h-3 relative">
                 <div
                   className="bg-gradient-to-r from-[#387EC7] to-[#1F23AA] h-3"
-                  style={{ width: "12%" }}
+                  style={{ width: `${starPercentages[4]}%` }}
                 />
               </div>
               <span className="text-gray-500 text-sm w-16 text-right">
-                (1316)
+                ({starDistribution[4]})
               </span>
             </div>
 
-            {/* 3 Yıldız */}
             <div className="flex items-center gap-4">
               <div className="flex text-gray-600 text-sm w-16">
                 {[...Array(5)].map((_, i) => (
@@ -225,13 +249,12 @@ function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
               <div className="flex-1 bg-gray-200 h-3 relative">
                 <div
                   className="bg-gradient-to-r from-[#387EC7] to-[#1F23AA] h-3"
-                  style={{ width: "2%" }}
+                  style={{ width: `${starPercentages[3]}%` }}
                 />
               </div>
-              <span className="text-gray-500 text-sm w-16 text-right">(226)</span>
+              <span className="text-gray-500 text-sm w-16 text-right">({starDistribution[3]})</span>
             </div>
 
-            {/* 2 Yıldız */}
             <div className="flex items-center gap-4">
               <div className="flex text-gray-600 text-sm w-16">
                 {[...Array(5)].map((_, i) => (
@@ -252,13 +275,12 @@ function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
               <div className="flex-1 bg-gray-200 h-3 relative">
                 <div
                   className="bg-gradient-to-r from-[#387EC7] to-[#1F23AA] h-3"
-                  style={{ width: "0.3%" }}
+                  style={{ width: `${starPercentages[2]}%` }}
                 />
               </div>
-              <span className="text-gray-500 text-sm w-16 text-right">(32)</span>
+              <span className="text-gray-500 text-sm w-16 text-right">({starDistribution[2]})</span>
             </div>
 
-            {/* 1 Yıldız */}
             <div className="flex items-center gap-4">
               <div className="flex text-gray-600 text-sm w-16">
                 {[...Array(5)].map((_, i) => (
@@ -279,19 +301,19 @@ function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
               <div className="flex-1 bg-gray-200 h-3 relative">
                 <div
                   className="bg-gradient-to-r from-[#387EC7] to-[#1F23AA] h-3"
-                  style={{ width: "0.1%" }}
+                  style={{ width: `${starPercentages[1]}%` }}
                 />
               </div>
-              <span className="text-gray-500 text-sm w-16 text-right">(11)</span>
+              <span className="text-gray-500 text-sm w-16 text-right">({starDistribution[1]})</span>
             </div>
           </div>
         </div>
 
-        {/* Yorumlar bölümü */}
+        {/* Yorumlar listesi */}
         <div className="mt-12 mx-5">
           <div className="bg-gradient-to-r from-[#387EC7] to-[#1F23AA] rounded-[25px] h-[47px]
            w-[145px] text-white flex justify-center items-center font-bold">
-                YORUM(10869)
+                YORUM({finalTotalComments})
           </div>
           <div className="space-y-4">
             {currentComments.map((comment) => (
@@ -301,7 +323,6 @@ function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
 
           {/* Sayfalama */}
           <div className="flex items-center justify-center my-8 gap-2">
-            {/* Sol ok */}
             <button
               onClick={goToPreviousPage}
               disabled={currentPage === 1}
@@ -322,7 +343,6 @@ function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
               </svg>
             </button>
 
-          {/* Sayfa numaraları - Maksimum 10 sayfa */}
           {Array.from({ length: displayPages }, (_, i) => i + 1).map((page) => (
             <button
               key={page}
@@ -337,7 +357,6 @@ function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
             </button>
           ))}
 
-          {/* Sağ ok */}
           <button
             onClick={goToNextPage}
             disabled={currentPage === displayPages}
@@ -363,12 +382,10 @@ function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
     );
   }
 
-  // AboutUs variant - Liste (Responsive) with Pagination
   if (variant === 'aboutus') {
     const commentsPerPage = 10;
-    
     const totalPages = Math.ceil(defaultComments.length / commentsPerPage);
-    const maxPagesToShow = 10; // Maksimum 10 sayfa göster
+    const maxPagesToShow = 10;
     const displayPages = Math.min(totalPages, maxPagesToShow);
     
     const startIndex = (aboutUsCurrentPage - 1) * commentsPerPage;
@@ -401,10 +418,8 @@ function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
           ))}
         </div>
 
-        {/* Sayfalama - ProductDetails ile aynı stil */}
         {displayPages > 1 && (
           <div className="flex items-center justify-center my-8 gap-2 px-2 sm:px-4 md:px-0">
-            {/* Sol ok */}
             <button
               onClick={goToPreviousPage}
               disabled={aboutUsCurrentPage === 1}
@@ -425,7 +440,6 @@ function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
               </svg>
             </button>
 
-            {/* Sayfa numaraları - Maksimum 10 sayfa */}
             {Array.from({ length: displayPages }, (_, i) => i + 1).map((page) => (
               <button
                 key={page}
@@ -440,7 +454,6 @@ function Comments({ variant, comments, commentsPerPage = 7 }: CommentsProps) {
               </button>
             ))}
 
-            {/* Sağ ok */}
             <button
               onClick={goToNextPage}
               disabled={aboutUsCurrentPage === displayPages}
