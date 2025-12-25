@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Backend entegrasyonu için hazır interface'ler
 export interface OrderItem {
@@ -45,69 +46,9 @@ export interface Order {
 }
 
 function Orders() {
-  // Backend'den gelecek - şimdilik mock data
-  const [orders] = useState<Order[]>([
-    {
-      id: 1,
-      orderNumber: "290405",
-      date: "14 Aralık 2022",
-      status: "Teslim Edildi",
-      items: [
-        {
-          id: 1,
-          productId: 1,
-          name: "MELATONIN",
-          image: "/ProductCard/whey-protein.png",
-          quantity: 2,
-          price: 62,
-          size: "Boyut: 1 KUTU"
-        },
-        {
-          id: 2,
-          productId: 2,
-          name: "GÜNLÜK VİTAMİN PAKETİ",
-          image: "/ProductCard/whey-protein.png",
-          quantity: 1,
-          price: 449,
-          size: "Boyut: 1 Paket x 2 Adet"
-        },
-        {
-          id: 3,
-          productId: 3,
-          name: "BROMELAIN",
-          image: "/ProductCard/whey-protein.png",
-          quantity: 1,
-          price: 197,
-          size: "Boyut: 1 KUTU x 2 Adet"
-        }
-      ],
-      subtotal: 856,
-      shipping: 0,
-      tax: 8,
-      discount: 86,
-      discountText: "Yüzde 10 indirim!",
-      total: 770,
-      address: {
-        label: "Ev",
-        firstName: "Uğur",
-        lastName: "İLTER",
-        address: "Barbaros, Nidakule Ataşehir Batı, Begonya Sk. No: 1/2",
-        city: "İstanbul",
-        district: "Ataşehir",
-        phone: "+905551234567",
-        postalCode: "34746"
-      },
-      payment: {
-        method: "Kredi Kartı",
-        amount: 770,
-        maskedCardNumber: "**** **** **** **61"
-      },
-      shippingInfo: {
-        carrier: "hepsiJet",
-        trackingNumber: "HJ2192904051"
-      }
-    }
-  ]);
+  const navigate = useNavigate();
+  // Backend'den gelecek - şimdilik boş array (sipariş yoksa boş state gösterilecek)
+  const [orders] = useState<Order[]>([]);
 
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
@@ -341,8 +282,16 @@ function Orders() {
       <h2 className="text-2xl font-bold mb-6">Siparişlerim</h2>
 
       {orders.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-gray-500">Henüz siparişiniz bulunmamaktadır.</p>
+        <div className="flex flex-col items-center justify-center py-16">
+          <p className="text-[#222222] text-2xl font-normal mb-8 text-center">
+            Henüz herhangi bir sipariş oluşturmadınız.
+          </p>
+          <button
+            onClick={() => navigate("/urunler")}
+            className="bg-black text-white px-6 py-3 rounded-lg text-base font-normal hover:bg-gray-800 transition-colors"
+          >
+            Tüm ürünler
+          </button>
         </div>
       ) : (
         <div className="space-y-0">

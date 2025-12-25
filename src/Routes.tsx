@@ -1,4 +1,4 @@
-import { createBrowserRouter, type RouteObject } from "react-router-dom";
+import { createBrowserRouter, type RouteObject, redirect } from "react-router-dom";
 import HomePage from "./pages/HomePage/HomePage";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import AllProducts from "./pages/AllProducts/AllProducts";
@@ -13,6 +13,7 @@ import Payment from "./pages/Payment/Payment";
 // API fonksiyonları
 import { getBestSellers, getAllProducts, getProductBySlug, getProductComments, DEFAULT_LIMIT } from "./api";
 import { calculateTotalPages } from "./utils/formatters";
+import { useAuthStore } from "./store/auth";
 
 // HomePage loader - Çok satanları çeker
 async function homePageLoader() {
@@ -97,6 +98,13 @@ const routes: RouteObject[] = [
       {
         path: "/hesabım",
         element: <MyAccount />,
+        loader: () => {
+          const { isAuthenticated } = useAuthStore.getState();
+          if (!isAuthenticated) {
+            return redirect("/giris-yap");
+          }
+          return null;
+        },
       },
       {
         path: "/hakkımızda",

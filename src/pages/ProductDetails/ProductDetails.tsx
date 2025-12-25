@@ -1,8 +1,10 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { useState, useMemo } from "react";
 import type { ProductDetailResponse, ProductVariant, ProductCommentsResponse, APIComment } from "@/api/products";
 import { getProductImageUrl } from "@/api/products";
 import { useCartStore } from "@/store/cart";
+import { useAuthStore } from "@/store/auth";
+import { useToastContext } from "@/components/Toast/useToastContext";
 import StarRating from "@/components/StarRating/StarRating";
 import { AROMA_COLORS } from "@/utils/constants";
 
@@ -19,7 +21,6 @@ interface ProductDetailsLoaderData {
 function ProductDetails() {
   const { product, commentsData } = useLoaderData() as ProductDetailsLoaderData;
 
-  // API yorumlarını frontend formatına dönüştür
   const mappedComments: Comment[] = useMemo(() => {
     if (!commentsData || !commentsData.results || !Array.isArray(commentsData.results)) {
       return [];
@@ -33,14 +34,10 @@ function ProductDetails() {
           const date = new Date(dateValue);
           if (!isNaN(date.getTime())) {
             formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
-          } else {
-            console.warn("Geçersiz tarih formatı:", dateValue);
           }
-        } catch (error) {
-          console.error("Tarih formatlama hatası:", error, "Değer:", dateValue);
+        } catch {
+          // Tarih formatlama hatası - varsayılan değer kullanılıyor
         }
-      } else {
-        console.warn("Tarih bilgisi bulunamadı:", apiComment);
       }
       
       const id = Date.now() + index;
@@ -126,10 +123,19 @@ function ProductDetails() {
   const priceInfo = selectedVariant?.price;
   const productImage = getProductImageUrl(selectedVariant?.photo_src);
   const addItem = useCartStore((s) => s.addItem);
+  const { isAuthenticated } = useAuthStore();
+  const { showToast } = useToastContext();
+  const navigate = useNavigate();
 
-  // Sepete ekle
+  // Sepete ekleme - giriş yapmamış kullanıcıları giriş sayfasına yönlendir
   const handleAddToCart = () => {
     if (!selectedVariant) return;
+
+    if (!isAuthenticated) {
+      showToast("Lütfen giriş yapınız", "error");
+      navigate("/giris-yap");
+      return;
+    }
 
     const price = priceInfo?.discounted_price || priceInfo?.total_price || 0;
     
@@ -145,6 +151,8 @@ function ProductDetails() {
       },
       quantity
     );
+    
+    showToast("Ürün sepete eklendi", "success");
     setQuantity(1);
   };
 

@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useCartStore } from "../../store/cart";
+import { useAuthStore } from "@/store/auth";
+import { getAddresses } from "@/api/addresses";
 import type { Country } from "../MyAccount/MyAccount";
 import { FREE_SHIPPING_THRESHOLD, SHIPPING_COST, TAX_RATE, DISCOUNT_RATE } from "@/utils/constants";
 
 interface Address {
-  id: number;
+  id: string;
   label: string;
   address: string;
   city: string;
@@ -16,30 +18,54 @@ interface Address {
 function Payment() {
   const cartItems = useCartStore((s) => s.items);
   const cartTotal = useCartStore((s) => s.items.reduce((acc, i) => acc + i.quantity * i.price, 0));
+  const { accessToken, user } = useAuthStore();
+  const [addresses, setAddresses] = useState<Address[]>([]);
+  const [isLoadingAddresses, setIsLoadingAddresses] = useState(true);
+  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
 
-  // Mock addresses - Backend'den gelecek
-  const [addresses] = useState<Address[]>([
-    {
-      id: 1,
-      label: "Ev",
-      address: "Ahmet Mah. Mehmetoğlu Sk., No: 1 Daire: 2",
-      city: "İstanbul",
-      district: "Ataşehir",
-      phone: "+905551234567"
-    },
-    {
-      id: 2,
-      label: "Ofis",
-      address: "Ayşe Mah. Fatmaoğlu Cad., No: 4 D: 4",
-      city: "İstanbul",
-      district: "Ataşehir",
-      phone: "+905551234568"
+  // Kullanıcının kayıtlı adreslerini API'den çek
+  const loadAddresses = useCallback(async () => {
+    if (!accessToken) {
+      setIsLoadingAddresses(false);
+      return;
     }
-  ]);
 
-  const [selectedAddressId, setSelectedAddressId] = useState<number>(1);
+    setIsLoadingAddresses(true);
+    try {
+      const apiAddresses = await getAddresses(accessToken);
+      const mappedAddresses: Address[] = apiAddresses.map((apiAddr) => {
+        const addrRecord = apiAddr as unknown as Record<string, unknown>;
+        const addressParts = apiAddr.full_address.split(",").map((part: string) => part.trim());
+        
+        return {
+          id: apiAddr.id,
+          label: apiAddr.title,
+          address: addressParts[0] || apiAddr.full_address,
+          city: addressParts[2] || (addrRecord.region as { name?: string } | undefined)?.name || "",
+          district: addressParts[1] || (addrRecord.subregion as { name?: string } | undefined)?.name || "",
+          phone: apiAddr.phone_number,
+        };
+      });
+      
+      setAddresses(mappedAddresses);
+      if (mappedAddresses.length > 0 && !selectedAddressId) {
+        setSelectedAddressId(mappedAddresses[0].id);
+      }
+    } catch (err) {
+      if (err instanceof Error) {
+        console.error("Adresler yüklenemedi:", err.message);
+      }
+    } finally {
+      setIsLoadingAddresses(false);
+    }
+  }, [accessToken, selectedAddressId]);
+
+  useEffect(() => {
+    loadAddresses();
+  }, [loadAddresses]);
+
   const [showAddressForm, setShowAddressForm] = useState(false);
-  const [editingAddressId, setEditingAddressId] = useState<number | null>(null);
+  const [editingAddressId, setEditingAddressId] = useState<string | null>(null);
   const [selectedCountry, setSelectedCountry] = useState("TR");
   const [formData, setFormData] = useState({
     addressTitle: "",
@@ -59,7 +85,6 @@ function Payment() {
     });
   };
 
-  // TODO: Backend'den gelecek - Şimdilik mock data
   const countries: Country[] = [
     { code: "TR", name: "Türkiye", flag: "🇹🇷", prefix: "+90" },
     { code: "US", name: "Amerika", flag: "🇺🇸", prefix: "+1" },
@@ -305,10 +330,12 @@ function Payment() {
               {/* User Info - Right Aligned */}
               <div className="absolute top-3 sm:top-4 right-4 sm:right-6 md:right-8 lg:right-12 xl:right-16 2xl:right-20 text-right">
                 <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-[20px] font-semibold leading-tight text-[#272727]">
-                  İsim Soyisim
+                  {user?.first_name && user?.last_name 
+                    ? `${user.first_name} ${user.last_name}` 
+                    : "Kullanıcı"}
                 </div>
                 <div className="text-[10px] sm:text-xs md:text-sm lg:text-sm xl:text-[14px] font-medium leading-tight text-[#8A8B94]">
-                  isimsoyisim@mail.com
+                  {user?.email || "email@example.com"}
                 </div>
               </div>
             </div>
@@ -333,7 +360,12 @@ function Payment() {
                 {/* Address Cards */}
                 {!showAddressForm ? (
                   <div className="space-y-1.5 sm:space-y-2 md:space-y-3 ml-7 sm:ml-8 md:ml-9 lg:ml-11">
-                    {addresses.map((address) => (
+                    {isLoadingAddresses ? (
+                      <div className="text-sm text-gray-500 py-4">Adresler yükleniyor...</div>
+                    ) : addresses.length === 0 ? (
+                      <div className="text-sm text-gray-500 py-4">Kayıtlı adres bulunamadı. Lütfen yeni adres ekleyin.</div>
+                    ) : (
+                      addresses.map((address) => (
                       <div
                         key={address.id}
                         className={`relative border rounded-lg p-2.5 sm:p-3 md:p-4 cursor-pointer transition-all ${
@@ -378,7 +410,8 @@ function Payment() {
                           </div>
                         </div>
                       </div>
-                    ))}
+                      ))
+                    )}
 
                     {/* New Address Option */}
                     <div
@@ -403,9 +436,6 @@ function Payment() {
                 {!showAddressForm && (
                   <div className="mt-3 sm:mt-4 lg:mt-5 ml-7 sm:ml-8 md:ml-9 lg:ml-11">
                     <button
-                      onClick={() => {
-                        // TODO: Navigate to shipping step
-                      }}
                       className="w-full h-11 sm:h-12 md:h-14 bg-black rounded-lg text-white text-xs sm:text-sm md:text-base font-semibold leading-4 sm:leading-5 hover:bg-gray-800 transition-colors"
                     >
                       Kargo ile Devam Et

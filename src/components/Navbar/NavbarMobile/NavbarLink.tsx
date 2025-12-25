@@ -1,7 +1,9 @@
 import { X } from 'lucide-react';
 import MobileAccordionItem from './NavbarMobile';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuthStore } from '@/store/auth';
+import { useToastContext } from '@/components/Toast/useToastContext';
 
 interface NavbarDrawer {
   isOpen: boolean;
@@ -14,6 +16,17 @@ export default function MobileDrawer({ isOpen, onClose }: NavbarDrawer) {
   // Açık sekme anahtarı (örn: 'protein', 'spor' vs.)
   const [openKey, setOpenKey] = useState<string | null>(null);
   const toggle = (key: string) => setOpenKey(prev => (prev === key ? null : key));
+  const { isAuthenticated, logout } = useAuthStore();
+  const { showToast } = useToastContext();
+  const navigate = useNavigate();
+
+  // Çıkış yap ve kullanıcıyı ana sayfaya yönlendir
+  const handleLogout = () => {
+    logout();
+    showToast("Çıkış yapıldı. Görüşmek üzere!", "info");
+    onClose();
+    navigate('/');
+  };
 
   return (
     <>
@@ -325,12 +338,25 @@ export default function MobileDrawer({ isOpen, onClose }: NavbarDrawer) {
 
             {/* Alt gri alan */}
             <div className="mt-auto bg-gray-100 p-4">
-                <Link to="/hesabım" className="block py-2" onClick={onClose}>HESABIM</Link>
+                {isAuthenticated && (
+                  <Link to="/hesabım" className="block py-2" onClick={onClose}>HESABIM</Link>
+                )}
                 <Link to="/" className="block py-2" onClick={onClose}>MÜŞTERİ YORUMLARI</Link>
                 <Link to="/iletisim" className="block py-2" onClick={onClose}>İLETİŞİM</Link>
                 <div className="flex gap-2 mt-4">
-                    <Link to="/kayit-ol" onClick={onClose} className="flex-1 bg-black text-white text-center py-2 rounded hover:bg-gray-800 transition-colors">Üye Ol</Link>
-                    <Link to="/giris-yap" onClick={onClose} className="flex-1 bg-black text-white text-center py-2 rounded hover:bg-gray-800 transition-colors">Üye Girişi</Link>
+                  {!isAuthenticated ? (
+                    <>
+                      <Link to="/kayit-ol" onClick={onClose} className="flex-1 bg-black text-white text-center py-2 rounded hover:bg-gray-800 transition-colors">Üye Ol</Link>
+                      <Link to="/giris-yap" onClick={onClose} className="flex-1 bg-black text-white text-center py-2 rounded hover:bg-gray-800 transition-colors">Üye Girişi</Link>
+                    </>
+                  ) : (
+                    <button 
+                      onClick={handleLogout} 
+                      className="flex-1 bg-red-600 text-white text-center py-2 rounded hover:bg-red-700 transition-colors"
+                    >
+                      Çıkış Yap
+                    </button>
+                  )}
                 </div>
             </div>
           </div>

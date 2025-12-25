@@ -71,7 +71,7 @@ export async function getBestSellers(): Promise<APIProduct[]> {
   const response = await fetch(`${API_BASE_URL}/products/best-sellers`);
   
   if (!response.ok) {
-    throw new Error(`API Error: ${response.status}`);
+    throw new Error(`API hatası: ${response.status}`);
   }
   
   const json = await response.json();
@@ -89,7 +89,7 @@ export async function getAllProducts(
   );
   
   if (!response.ok) {
-    throw new Error(`API Error: ${response.status}`);
+    throw new Error(`API hatası: ${response.status}`);
   }
   
   const json = await response.json();
@@ -105,7 +105,7 @@ export async function getProductBySlug(
   const response = await fetch(`${API_BASE_URL}/products/${slug}`);
   
   if (!response.ok) {
-    throw new Error(`API Error: ${response.status}`);
+    throw new Error(`API hatası: ${response.status}`);
   }
   
   const json = await response.json();

@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { Country } from "../MyAccount";
+import { getAddresses, createAddress, updateAddress, deleteAddress } from "@/api/addresses";
+import { useAuthStore } from "@/store/auth";
 
 interface AddressesProps {
   countries: Country[];
 }
 
 interface Address {
-  id: number;
+  id: string;
   label: string;
   firstName: string;
   lastName: string;
@@ -17,10 +19,14 @@ interface Address {
 }
 
 function Addresses({ countries }: AddressesProps) {
+  const { accessToken } = useAuthStore();
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selectedCountry, setSelectedCountry] = useState("TR");
   const [showForm, setShowForm] = useState(false);
-  const [editingAddressId, setEditingAddressId] = useState<number | null>(null);
+  const [editingAddressId, setEditingAddressId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     addressTitle: "",
     firstName: "",
@@ -30,6 +36,44 @@ function Addresses({ countries }: AddressesProps) {
     district: "",
     phone: ""
   });
+
+  // API'den adresleri yükle
+  const loadAddresses = useCallback(async () => {
+    if (!accessToken) {
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const apiAddresses = await getAddresses(accessToken);
+      const mappedAddresses: Address[] = apiAddresses.map((apiAddr) => {
+        const apiAddrRecord = apiAddr as unknown as Record<string, unknown>;
+        const addressParts = apiAddr.full_address.split(",").map((part: string) => part.trim());
+        
+        return {
+          id: apiAddr.id,
+          label: apiAddr.title,
+          firstName: (apiAddrRecord.first_name as string) || "",
+          lastName: (apiAddrRecord.last_name as string) || "",
+          address: addressParts[0] || apiAddr.full_address,
+          city: addressParts[2] || (apiAddrRecord.region as { name?: string } | undefined)?.name || "",
+          district: addressParts[1] || (apiAddrRecord.subregion as { name?: string } | undefined)?.name || "",
+          phone: apiAddr.phone_number,
+        };
+      });
+      
+      setAddresses(mappedAddresses);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Adresler yüklenirken bir hata oluştu");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [accessToken]);
+
+  useEffect(() => {
+    loadAddresses();
+  }, [loadAddresses]);
 
   const handleCountryChange = (country: string) => {
     setSelectedCountry(country);
@@ -43,70 +87,106 @@ function Addresses({ countries }: AddressesProps) {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Adres kaydetme veya güncelleme
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Backend entegrasyonunda burada API çağrısı yapılacak
-    if (editingAddressId) {
-      // Düzenleme modu
-      setAddresses(addresses.map(addr => 
-        addr.id === editingAddressId 
-          ? {
-              ...addr,
-              label: formData.addressTitle,
-              firstName: formData.firstName,
-              lastName: formData.lastName,
-              address: formData.address,
-              city: formData.city,
-              district: formData.district,
-              phone: formData.phone
-            }
-          : addr
-      ));
-      setEditingAddressId(null);
-    } else {
-      // Yeni adres ekleme
-      const newAddress: Address = {
-        id: addresses.length + 1,
-        label: formData.addressTitle,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        address: formData.address,
-        city: formData.city,
-        district: formData.district,
-        phone: formData.phone
-      };
-      setAddresses([...addresses, newAddress]);
+    if (!accessToken) {
+      setError("Giriş yapmanız gerekiyor.");
+      return;
     }
-    
-    setFormData({
-      addressTitle: "",
-      firstName: "",
-      lastName: "",
-      address: "",
-      city: "",
-      district: "",
-      phone: ""
-    });
-    setShowForm(false);
+
+    setIsSaving(true);
+    setError("");
+
+    try {
+      const phoneWithPrefix = `${selectedCountryData?.prefix || "+90"}${formData.phone}`;
+      const fullAddress = `${formData.address}, ${formData.district}, ${formData.city}`;
+
+      const addressData = {
+        title: formData.addressTitle,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        full_address: fullAddress,
+        phone_number: phoneWithPrefix,
+        country_id: 226,
+        region_id: 3495,
+        subregion_id: 39395,
+      };
+
+      if (editingAddressId) {
+        await updateAddress(accessToken, editingAddressId, addressData);
+      } else {
+        await createAddress(accessToken, addressData);
+      }
+
+      await loadAddresses();
+
+      setFormData({
+        addressTitle: "",
+        firstName: "",
+        lastName: "",
+        address: "",
+        city: "",
+        district: "",
+        phone: "",
+      });
+      setShowForm(false);
+      setEditingAddressId(null);
+    } catch (err) {
+      console.error("Adres kaydetme hatası:", err);
+      setError(err instanceof Error ? err.message : "Adres kaydedilirken bir hata oluştu");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleEdit = (address: Address) => {
+    // full_address'i parse et: "adres, ilçe, şehir" formatından
+    const addressParts = address.address.split(",").map((part) => part.trim());
+    const parsedAddress = addressParts[0] || address.address;
+    const parsedDistrict = addressParts[1] || address.district;
+    const parsedCity = addressParts[2] || address.city;
+
+    // Telefon numarasından prefix'i çıkar
+    let phoneNumber = address.phone;
+    if (phoneNumber.startsWith("+")) {
+      const prefixMatch = countries.find((c) => phoneNumber.startsWith(c.prefix));
+      if (prefixMatch) {
+        phoneNumber = phoneNumber.replace(prefixMatch.prefix, "");
+        setSelectedCountry(prefixMatch.code);
+      }
+    }
+
     setFormData({
       addressTitle: address.label,
       firstName: address.firstName,
       lastName: address.lastName,
-      address: address.address,
-      city: address.city,
-      district: address.district,
-      phone: address.phone
+      address: parsedAddress,
+      city: parsedCity,
+      district: parsedDistrict,
+      phone: phoneNumber,
     });
     setEditingAddressId(address.id);
     setShowForm(true);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: string) => {
+    if (!accessToken) {
+      setError("Giriş yapmanız gerekiyor.");
+      return;
+    }
 
-    setAddresses(addresses.filter(addr => addr.id !== id));
+    if (!confirm("Bu adresi silmek istediğinize emin misiniz?")) {
+      return;
+    }
+
+    try {
+      await deleteAddress(accessToken, id);
+      // Adresleri yeniden yükle
+      await loadAddresses();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Adres silinirken bir hata oluştu");
+    }
   };
 
   const handleNewAddress = () => {
@@ -139,6 +219,14 @@ function Addresses({ countries }: AddressesProps) {
 
   const selectedCountryData = countries.find(country => country.code === selectedCountry);
   const hasAddresses = addresses.length > 0;
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-gray-500">Yükleniyor...</div>
+      </div>
+    );
+  }
 
   // Form component'ini ayrı bir fonksiyon olarak tanımla
   const renderForm = () => (
@@ -301,9 +389,10 @@ function Addresses({ countries }: AddressesProps) {
         </button>
         <button
           type="submit"
-          className="w-[101.28px] h-[55px] bg-black text-white text-[18.125px] font-semibold rounded hover:bg-gray-800 focus:outline-none transition-colors"
+          disabled={isSaving}
+          className="w-[101.28px] h-[55px] bg-black text-white text-[18.125px] font-semibold rounded hover:bg-gray-800 focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Kaydet
+          {isSaving ? "Kaydediliyor..." : "Kaydet"}
         </button>
       </div>
     </form>
@@ -311,6 +400,11 @@ function Addresses({ countries }: AddressesProps) {
 
   return (
     <div>
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+          {error}
+        </div>
+      )}
       {!hasAddresses && !showForm ? (
         <>
           {/* Başlık */}
