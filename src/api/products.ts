@@ -126,7 +126,8 @@ export function getProductImageUrl(photoSrc: string | undefined): string {
   if (photoSrc.startsWith("http")) {
     return photoSrc;
   }
-  const baseUrl = API_BASE_URL.replace("/api/v1", "");
+  // Resimler her zaman doğrudan API sunucusundan gelir
+  const baseUrl = "https://fe1111.projects.academy.onlyjs.com";
   return `${baseUrl}${photoSrc}`;
 }
 
