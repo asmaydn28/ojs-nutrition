@@ -178,7 +178,7 @@ export async function getUserProfile(token: string): Promise<UserProfile> {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      "Authorization": `Bearer ${token}`,
     },
   });
 
@@ -187,7 +187,7 @@ export async function getUserProfile(token: string): Promise<UserProfile> {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`,
       },
     });
   }
@@ -216,7 +216,7 @@ export async function updateUserProfile(
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      "Authorization": `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   });

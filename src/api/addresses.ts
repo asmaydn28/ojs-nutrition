@@ -37,7 +37,7 @@ export async function getAddresses(token: string, limit: number = 10, offset: nu
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      "Authorization": `Bearer ${token}`,
     },
   });
 
@@ -67,7 +67,7 @@ export async function createAddress(token: string, data: CreateAddressRequest): 
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      "Authorization": `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   });
@@ -106,7 +106,7 @@ export async function updateAddress(
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      "Authorization": `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   });
@@ -135,7 +135,7 @@ export async function deleteAddress(token: string, addressId: string): Promise<v
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      "Authorization": `Bearer ${token}`,
     },
   });
 
