@@ -1,21 +1,26 @@
-import FoodDropdown from "./NavbarCenter/FoodDropdown.tsx";
-import HealthDropdown from "./NavbarCenter/HealthDropdown.tsx";
-import ProteinDropdown from "./NavbarCenter/ProteinDropdown.tsx";
-import SportsDropdown from "./NavbarCenter/SportsDropdown.tsx";
-import VitaminDropdown from "./NavbarCenter/VitaminDropdown.tsx";
-import AccessoryDropdown from "./NavbarCenter/AccessoryDropdown.tsx";
+import { useEffect } from 'react';
 import NavbarBottom from "./NavbarBottom/NavbarBottom.tsx";
 import SearchInput from "./NavbarTop/SearchInput.tsx";
 import Dropdown from "./NavbarTop/Dropdowns";
 import CartButton from "./NavbarTop/CartButton";
+import CategoryDropdown from "./NavbarCenter/CategoryDropdown.tsx";
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
 import NavbarLink from "./NavbarMobile/NavbarLink.tsx";
+import { useCategoriesStore } from '@/store/categories';
 
 function Navbar() {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  // Kategori store'dan verileri al
+  const { categories, fetchCategories } = useCategoriesStore();
+
+  // Component mount olduğunda kategorileri çek
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
   return (
     <header className="fixed top-0 left-0 w-full bg-white font-inter z-50">
@@ -48,12 +53,17 @@ function Navbar() {
       <nav className="w-full bg-[#222222] hidden md:flex">
         <div className="max-w-[1200px] mx-auto flex items-center justify-between px-8 h-[45px]">
           <ul className="flex gap-6 text-white text-sm font-semibold">
-            <li className="hover:text-[#ED2727] transition cursor-pointer"><ProteinDropdown /></li>
-            <li className="hover:text-[#ED2727] transition cursor-pointer"><SportsDropdown /></li>
-            <li className="hover:text-[#ED2727] transition cursor-pointer"><HealthDropdown /></li>
-            <li className="hover:text-[#ED2727] transition cursor-pointer"><FoodDropdown /></li>
-            <li className="hover:text-[#ED2727] transition cursor-pointer"><VitaminDropdown /></li>
-            <li className="hover:text-[#ED2727] transition cursor-pointer"><AccessoryDropdown /></li>
+            {categories.map((category) => (
+              <li key={category.id} className="hover:text-[#ED2727] transition cursor-pointer">
+                <CategoryDropdown category={category} />
+              </li>
+            ))}
+            {/* TÜM ÜRÜNLER - Statik link */}
+            <li className="hover:text-[#ED2727] transition cursor-pointer">
+              <Link to="/urunler" className="px-4 py-2 block">
+                TÜM ÜRÜNLER
+              </Link>
+            </li>
           </ul>
         </div>
       </nav>
