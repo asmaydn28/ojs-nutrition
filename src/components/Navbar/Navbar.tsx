@@ -4,6 +4,7 @@ import SearchInput from "./NavbarTop/SearchInput.tsx";
 import Dropdown from "./NavbarTop/Dropdowns";
 import CartButton from "./NavbarTop/CartButton";
 import CategoryDropdown from "./NavbarCenter/CategoryDropdown.tsx";
+import MobileSearchInput from "./NavbarTop/MobileSearchInput.tsx";
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
@@ -78,38 +79,7 @@ function Navbar() {
       )}
 
       {/* Mobile Search Bar */}
-      <div className="md:hidden bg-black py-3 px-4">
-        <div className="max-w-[1200px] mx-auto">
-          {/* Form Container */}
-          <div className="relative h-[36px] w-full">
-            {/* Input Background */}
-            <div className="absolute inset-0 bg-[#F3F3F3] rounded-[24px]"></div>
-            
-            {/* Search Icon */}
-            <div className="absolute left-[6px] top-1/2 -translate-y-1/2 w-[20px] h-[20px] flex items-center justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-[20px] h-[20px]"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <circle cx="11" cy="11" r="7" stroke="#2B0000" strokeWidth="2" fill="none"/>
-                <path d="M21 21l-6 -6" stroke="#2B0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-
-            {/* Text Container */}
-            <div className="absolute left-[32px] right-[32px] top-[9px] h-[18px] flex items-center">
-              {/* Input Field */}
-              <input
-                type="text"
-                placeholder="ARADIĞINIZ ÜRÜNÜ YAZINIZ."
-                className="w-full h-full bg-transparent font-inter font-normal text-[12.9062px] leading-[16px] text-[#333333] placeholder:text-[#333333] focus:outline-none"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      <MobileSearchInput />
 
       {/* Mobile Drawer Menu */}
       {isMobileMenuOpen && (

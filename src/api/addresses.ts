@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "./config";
+import { useAuthStore } from "@/store/auth";
 
 export interface APIAddress {
   id: string;
@@ -32,6 +33,14 @@ export interface UpdateAddressRequest {
   phone_number?: string;
 }
 
+/* 401 hatası kontrolü - token süresi dolduysa otomatik logout */
+function handleUnauthorized(status: number): void {
+  if (status === 401) {
+    useAuthStore.getState().logout();
+    throw new Error('Oturumunuz sona erdi. Lütfen tekrar giriş yapın.');
+  }
+}
+
 export async function getAddresses(token: string, limit: number = 10, offset: number = 0): Promise<APIAddress[]> {
   const response = await fetch(`${API_BASE_URL}/users/addresses?limit=${limit}&offset=${offset}`, {
     method: "GET",
@@ -40,6 +49,8 @@ export async function getAddresses(token: string, limit: number = 10, offset: nu
       "Authorization": `Bearer ${token}`,
     },
   });
+
+  handleUnauthorized(response.status);
 
   if (!response.ok) {
     throw new Error(`Adresler alınırken bir hata oluştu (${response.status})`);
@@ -71,6 +82,8 @@ export async function createAddress(token: string, data: CreateAddressRequest): 
     },
     body: JSON.stringify(data),
   });
+
+  handleUnauthorized(response.status);
 
   const json = await response.json();
 
@@ -111,6 +124,8 @@ export async function updateAddress(
     body: JSON.stringify(data),
   });
 
+  handleUnauthorized(response.status);
+
   if (!response.ok) {
     const error = await response.json().catch(() => ({ message: "Adres güncellenirken bir hata oluştu" }));
     let errorMessage = error.message || `Adres güncellenirken bir hata oluştu (${response.status})`;
@@ -139,8 +154,9 @@ export async function deleteAddress(token: string, addressId: string): Promise<v
     },
   });
 
+  handleUnauthorized(response.status);
+
   if (!response.ok) {
     throw new Error(`Adres silinirken bir hata oluştu (${response.status})`);
   }
 }
-

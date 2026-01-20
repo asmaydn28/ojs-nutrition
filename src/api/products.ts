@@ -99,6 +99,30 @@ export async function getAllProducts(
   return json;
 }
 
+/* Ürün arama - search parametresi ile API'den ürün arar */
+export async function searchProducts(
+  query: string,
+  limit: number = 10
+): Promise<ProductListResponse> {
+  if (!query.trim()) {
+    return { count: 0, next: null, previous: null, results: [] };
+  }
+
+  const response = await fetch(
+    `${API_BASE_URL}/products?search=${encodeURIComponent(query)}&limit=${limit}`
+  );
+  
+  if (!response.ok) {
+    throw new Error(`API hatası: ${response.status}`);
+  }
+  
+  const json = await response.json();
+  if (json.status === "success" && json.data) {
+    return json.data;
+  }
+  return json;
+}
+
 export async function getProductBySlug(
   slug: string
 ): Promise<ProductDetailResponse> {
@@ -115,10 +139,7 @@ export async function getProductBySlug(
   return json;
 }
 
-/**
- * Ürün fotoğrafı için tam URL oluşturur
- * API'den gelen photo_src değeri relative path olabilir
- */
+/* Ürün fotoğrafı için tam URL oluşturur */
 export function getProductImageUrl(photoSrc: string | undefined): string {
   if (!photoSrc) {
     return "/ProductCard/whey-protein.png";

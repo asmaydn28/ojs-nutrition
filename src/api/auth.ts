@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "./config";
+import { useAuthStore } from "@/store/auth";
 
 export interface RegisterRequest {
   email: string;
@@ -13,7 +14,6 @@ export interface LoginRequest {
   password: string;
 }
 
-// Auth response interface
 export interface AuthResponse {
   access_token?: string;
   refresh_token?: string;
@@ -44,7 +44,14 @@ export interface UserProfile {
   phone_number?: string;
 }
 
-// Kullanıcı kaydı - hata mesajları Türkçeleştirilmiş ve kullanıcı dostu
+/* 401 hatası kontrolü - token süresi dolduysa otomatik logout */
+function handleUnauthorized(status: number): void {
+  if (status === 401) {
+    useAuthStore.getState().logout();
+    throw new Error('Oturumunuz sona erdi. Lütfen tekrar giriş yapın.');
+  }
+}
+
 export async function register(data: RegisterRequest): Promise<AuthResponse> {
   const response = await fetch(`${API_BASE_URL}/auth/register`, {
     method: "POST",
@@ -62,10 +69,8 @@ export async function register(data: RegisterRequest): Promise<AuthResponse> {
   if (!response.ok) {
     let errorMessage = `Kayıt işlemi başarısız oldu (${response.status})`;
     
-    // API hata mesajlarını Türkçeleştir ve teknik terimleri kaldır
     if (json.reason && typeof json.reason === 'object') {
       const reasonMessages = Object.entries(json.reason).map(([key, value]) => {
-        // Alan isimlerini Türkçeleştir
         const fieldName = 
           key === 'username' || key === 'email' ? 'E-posta adresi' :
           key === 'password' ? 'Şifre' :
@@ -75,7 +80,6 @@ export async function register(data: RegisterRequest): Promise<AuthResponse> {
         
         let message = Array.isArray(value) ? value.join(", ") : String(value);
         
-        // Mesajları Türkçeleştir ve teknik terimleri kaldır
         if (message.includes('already exists') || message.includes('Username already exists')) {
           message = 'zaten kullanılıyor';
         } else if (message.includes('required')) {
@@ -166,6 +170,7 @@ export async function refreshToken(refreshTokenValue: string): Promise<AuthRespo
   });
 
   if (!response.ok) {
+    handleUnauthorized(response.status);
     throw new Error(`Token yenileme başarısız oldu (${response.status})`);
   }
 
@@ -182,6 +187,8 @@ export async function getUserProfile(token: string): Promise<UserProfile> {
     },
   });
 
+  handleUnauthorized(response.status);
+
   if (!response.ok && response.status === 404) {
     response = await fetch(`${API_BASE_URL}/users/profile`, {
       method: "GET",
@@ -190,6 +197,7 @@ export async function getUserProfile(token: string): Promise<UserProfile> {
         "Authorization": `Bearer ${token}`,
       },
     });
+    handleUnauthorized(response.status);
   }
 
   if (!response.ok) {
@@ -221,6 +229,8 @@ export async function updateUserProfile(
     body: JSON.stringify(data),
   });
 
+  handleUnauthorized(response.status);
+
   if (!response.ok) {
     const json = await response.json().catch(() => ({ message: "Profil güncellenirken bir hata oluştu" }));
     throw new Error(json.message || `Profil güncellenirken bir hata oluştu (${response.status})`);
@@ -229,4 +239,5 @@ export async function updateUserProfile(
   const json = await response.json();
   return json.status === "success" && json.data ? json.data : json;
 }
+
 
